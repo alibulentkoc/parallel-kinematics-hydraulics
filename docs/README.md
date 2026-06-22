@@ -8,6 +8,11 @@ machine.
 
 Read in order, or jump to what you need.
 
+> ▶ **[Interactive demos](demos/index.html)** — self-contained SVG explorers for
+> kinematics, cylinder asymmetry, the valve flow law, and PID tuning. Each one is
+> linked from the chapter it belongs to, and runs straight from the page (no
+> install).
+
 | # | Document | What it covers |
 |---|----------|----------------|
 | 1 | [Kinematics & the Math of Motion](01-kinematics-and-motion.md) | How platform position is determined and turned into cylinder lengths: inverse/forward kinematics, the Jacobian, velocity & force relationships, manipulability, and singularities. With full derivations and a worked "locate-and-move" example. |

@@ -27,6 +27,13 @@ Two configurations:
 - **3-DOF (the final machine):** three cylinders, platform pose `(x, y, θ)` —
   position *and* orientation. A planar **3-RPR**.
 
+![2-RPR parallel geometry: two base anchors B1, B2, two legs L1, L2, and the platform point P](img/2-rpr-geometry.svg)
+
+> ▶ **Interactive:** [**Kinematics Explorer**](demos/kinematics-explorer.html) —
+> drag the platform and watch the leg lengths, the Jacobian determinant,
+> manipulability, and the singularity update live over a real dexterity heatmap.
+> It's the rest of this chapter, made tangible.
+
 ---
 
 ## 1.2 Inverse kinematics — pose → leg lengths (the easy direction)
@@ -184,6 +191,10 @@ band along the bottom of the on-screen heatmap *is* this equation.
 
 For 3-DOF, `w` comes from the singular values of the 3×3 Jacobian (it can't be a
 one-liner), but it means the same thing: `w → 0` signals a singularity.
+
+> ▶ **Interactive:** in the [Kinematics Explorer](demos/kinematics-explorer.html),
+> drag the platform straight down toward the base line and watch `det(J)` and `w`
+> collapse to zero — the equation above, live.
 
 > **In the code:** `manipulability()`. The heatmap in `viz/heatmap.js` samples it
 > across the workspace; `viz.test.js` asserts "heatmap shows base-line dead zone."

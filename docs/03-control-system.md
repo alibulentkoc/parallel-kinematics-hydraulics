@@ -172,6 +172,11 @@ The trade-off is fundamental: **fast response and low overshoot pull in opposite
 directions**, and good tuning is the narrow band that satisfies both. That's why
 the assignment demands settling time *and* overshoot limits simultaneously.
 
+> ▶ **Interactive:** [**PID Tuning**](demos/pid-tuning.html) — drag Kp, Ki, and Kd
+> and watch the step response redraw instantly, with live overshoot and settling
+> readouts. Try the *too slow → too hot → well tuned* presets to feel the
+> trade-off this section describes.
+
 ---
 
 **Next:** [Electrical & Control Wiring →](04-electrical-and-control-wiring.md) —

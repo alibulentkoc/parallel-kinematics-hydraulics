@@ -39,6 +39,11 @@ A_rod = π · (0.040² − 0.022²) / 4     = 8.77 × 10⁻⁴ m²   (877 mm²)
 
 (The test `hydraulics.test.js` asserts "asymmetry ~ 1.43" against exactly this.)
 
+> ▶ **Interactive:** [**Cylinder Asymmetry**](demos/cylinder-asymmetry.html) — drag
+> bore and rod diameters and watch the cap/rod areas (drawn to scale), φ, and the
+> resulting force and speed difference between extend and retract. Animate the
+> piston to feel the speed gap.
+
 ---
 
 ## 2.2 Force — pressure acting on area
@@ -117,6 +122,10 @@ Q = u · Q_rated · √( ΔP / ΔP_rated )
 - `ΔP` — actual pressure drop across the valve right now.
 - The **√** is the key nonlinearity: halve the pressure drop and you get only
   ~71% of the flow, not 50%.
+
+> ▶ **Interactive:** [**Valve Flow Law**](demos/orifice-flow.html) — move the
+> command and pressure-drop sliders and watch the square-root curve against a naive
+> linear valve. The gap between the two is the nonlinearity in one picture.
 
 **Valve types modelled** (selectable in the dashboards):
 
