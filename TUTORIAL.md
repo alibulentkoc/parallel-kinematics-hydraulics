@@ -426,6 +426,12 @@ You've now touched every idea the testbed teaches: parallel kinematics, the
 hydraulic peculiarities of real cylinders, PID tuning, fault diagnosis,
 trajectory tracking, and singularities. To go deeper:
 
+- **Read the [engineering handbook](docs/README.md)** for the full theory behind
+  what you just did: the [mathematics of motion](docs/01-kinematics-and-motion.md)
+  (derivations + worked examples), [hydraulic design calculations](docs/02-hydraulic-design.md),
+  the [control system](docs/03-control-system.md), the [electrical & control
+  wiring](docs/04-electrical-and-control-wiring.md) that maps the simulator to real
+  hardware, and a [complete worked design](docs/05-design-worked-example.md).
 - Re-run each assignment and try to make the self-check pass with the *fewest*
   changes — it forces you to reason about cause and effect.
 - In the Instructor Console, invent a "broken machine" with fault injection and

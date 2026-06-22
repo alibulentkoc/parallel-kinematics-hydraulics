@@ -21,6 +21,12 @@ runs on a fixed timestep. **247/247 tests passing.**
 that teaches electrohydraulic parallel kinematics by walking you through the
 simulator lesson by lesson (no instructor required).
 
+**Want the engineering depth?** The [`docs/` handbook](docs/README.md) covers the
+[math of motion](docs/01-kinematics-and-motion.md), [hydraulic design &
+calculations](docs/02-hydraulic-design.md), the [control system](docs/03-control-system.md),
+[electrical & control wiring](docs/04-electrical-and-control-wiring.md), and a
+[complete worked design](docs/05-design-worked-example.md).
+
 Modules delivered:
 1. Math utilities      — src/math/        (39 tests)
 2. Kinematics engine   — src/kinematics/  (17 tests)
