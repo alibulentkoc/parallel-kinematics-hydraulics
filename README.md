@@ -17,6 +17,10 @@ runs on a fixed timestep. **247/247 tests passing.**
     npx serve                # or: python3 -m http.server
     # then open index.html for links to instructor / student / grading consoles + demo
 
+**New to the tool? Start with [TUTORIAL.md](TUTORIAL.md)** — a self-guided course
+that teaches electrohydraulic parallel kinematics by walking you through the
+simulator lesson by lesson (no instructor required).
+
 Modules delivered:
 1. Math utilities      — src/math/        (39 tests)
 2. Kinematics engine   — src/kinematics/  (17 tests)
