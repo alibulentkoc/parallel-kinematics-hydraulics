@@ -1,0 +1,10 @@
+{
+  "name": "pkm-sim",
+  "version": "0.1.0",
+  "description": "Electrohydraulic Parallel Kinematics Simulator & Instructor Testbed",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node test/math.test.js && node test/kinematics.test.js && node test/hydraulics.test.js && node test/controller.test.js && node test/faults.test.js && node test/logger.test.js && node test/viz.test.js && node test/presets.test.js && node test/student.test.js && node test/grading.test.js"
+  }
+}

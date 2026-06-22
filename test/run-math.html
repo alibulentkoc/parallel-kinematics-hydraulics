@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>PKM Sim — Math module tests</title>
+<style>
+  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 1.5rem; }
+  #out { white-space: pre-wrap; }
+  .ok { color: #1a7f37; }
+  .bad { color: #cf222e; }
+</style>
+<h1>Math module tests</h1>
+<div id="out">Running…</div>
+<script type="module">
+  // Capture console output to the page so it works when opened via file:// too.
+  const out = document.getElementById("out");
+  const log = (msg, cls = "") =>
+    (out.innerHTML += `<span class="${cls}">${msg}</span>\n`);
+  const origLog = console.log,
+    origErr = console.error;
+  console.log = (m) => { origLog(m); log(String(m), /passed|✓/.test(m) ? "ok" : ""); };
+  console.error = (m) => { origErr(m); log(String(m), "bad"); };
+  out.textContent = "";
+  await import("./math.test.js");
+</script>

@@ -1,0 +1,23 @@
+# dependencies (none required at runtime; kept out if ever added)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-store/
+
+# build / artifacts
+dist/
+build/
+*.zip
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# logs exported by the simulator at runtime
+pkm_run.csv
+pkm_run.json
+submission_*.json

@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>PKM Sim — Kinematics tests</title>
+<style>
+  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 1.5rem; }
+  #out { white-space: pre-wrap; }
+  .ok { color: #1a7f37; }
+  .bad { color: #cf222e; }
+</style>
+<h1>Kinematics engine tests</h1>
+<div id="out">Running…</div>
+<script type="module">
+  const out = document.getElementById("out");
+  const log = (m, cls = "") => (out.innerHTML += `<span class="${cls}">${m}</span>\n`);
+  console.log = (m) => log(String(m), /passed|✓/.test(m) ? "ok" : "");
+  console.error = (m) => log(String(m), "bad");
+  out.textContent = "";
+  await import("./kinematics.test.js");
+</script>

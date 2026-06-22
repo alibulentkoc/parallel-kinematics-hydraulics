@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PKM Electrohydraulic Testbed</title>
+<style>
+  :root{--bg:#0e1217;--panel:#151b22;--rule:#2c3a47;--ink:#cdd6df;--ink-dim:#8a97a3;--ink-faint:#5b6975;--accent:#39c5e0;--ok:#3fe0a0;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.5;max-width:760px;margin:0 auto;padding:32px 20px 60px}
+  h1{font-size:15px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 4px} h1 b{color:var(--accent)}
+  .sub{color:var(--ink-faint);font-size:12px;margin-bottom:24px}
+  h2{font-size:10px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase;margin:26px 0 10px}
+  a.card{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+    padding:13px 15px;margin:8px 0;transition:border-color .15s}
+  a.card:hover{border-color:var(--accent)}
+  a.card b{color:var(--accent);font-size:13px} a.card .d{color:var(--ink-dim);font-size:12px;margin-top:3px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  code{color:var(--ok);font-size:12px} .note{color:var(--ink-faint);font-size:11px;margin-top:18px}
+</style>
+</head>
+<body>
+  <h1><b>PKM</b> Electrohydraulic Parallel Kinematics Testbed</h1>
+  <div class="sub">Planar 2-DOF / 3-DOF electrohydraulic parallel manipulator — instructor &amp; student simulation.</div>
+
+  <h2>Applications</h2>
+  <a class="card" href="instructor.html"><b>Instructor Console →</b><div class="d">Full authority: presets, live parameters, fault injection, validation checklist, answer-key comparison, log export.</div></a>
+  <a class="card" href="student.html"><b>Student Workbench →</b><div class="d">Locked geometry, assignment objectives, tuning controls, formative self-check, canonical submission export.</div></a>
+  <a class="card" href="grade.html"><b>Grading Console →</b><div class="d">Drop in a student submission (+ optional answer key); rubric-scored report. Grades sim &amp; hardware logs identically.</div></a>
+  <a class="card" href="viz-demo.html"><b>Visualization Demo →</b><div class="d">Minimal harness: draggable target, manipulability heatmap, pressure-lit legs, strip charts.</div></a>
+
+  <h2>Test runners (no build step)</h2>
+  <div class="grid">
+    <a class="card" href="test/run-math.html"><b>math</b></a>
+    <a class="card" href="test/run-kinematics.html"><b>kinematics</b></a>
+    <a class="card" href="test/run-hydraulics.html"><b>hydraulics</b></a>
+    <a class="card" href="test/run-controller.html"><b>controller + sim</b></a>
+    <a class="card" href="test/run-faults.html"><b>faults</b></a>
+    <a class="card" href="test/run-logger.html"><b>logger + twin</b></a>
+    <a class="card" href="test/run-viz.html"><b>visualization</b></a>
+    <a class="card" href="test/run-presets.html"><b>presets</b></a>
+    <a class="card" href="test/run-student.html"><b>student</b></a>
+    <a class="card" href="test/run-grading.html"><b>grading</b></a>
+  </div>
+
+  <p class="note">Headless: <code>npm test</code> (Node 18+) runs all ten suites.<br>
+  If opening from <code>file://</code> blocks ES modules, serve the folder: <code>npx serve</code> or <code>python3 -m http.server</code>, then open <code>/index.html</code>.</p>
+</body>
+</html>

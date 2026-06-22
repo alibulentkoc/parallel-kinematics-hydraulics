@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PKM Testbed — Student Workbench</title>
+<style>
+  :root{
+    --bg:#0e1217;--panel:#151b22;--panel-2:#1b232c;--grid:#22303c;--rule:#2c3a47;
+    --ink:#cdd6df;--ink-dim:#8a97a3;--ink-faint:#5b6975;
+    --accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--limit:#ff8c42;--fault:#ff5470;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:12px;line-height:1.45}
+  header{display:flex;align-items:baseline;gap:14px;padding:10px 16px;border-bottom:1px solid var(--rule);background:linear-gradient(180deg,#11171e,#0e1217)}
+  header h1{font-size:12px;letter-spacing:.18em;margin:0;text-transform:uppercase;font-weight:600}
+  header h1 b{color:var(--accent)} .tag{color:var(--ink-faint);font-size:11px}
+  .status{margin-left:auto;display:flex;gap:12px}
+  .pill{padding:2px 9px;border:1px solid var(--rule);border-radius:2px;color:var(--ink-dim);font-size:11px}
+  .pill.lvl-ok{color:var(--ok)} .pill.lvl-warn{color:var(--warn)} .pill.lvl-limit{color:var(--limit)} .pill.lvl-fault{color:var(--fault)}
+  input#sid{background:var(--panel-2);color:var(--ink);border:1px solid var(--rule);border-radius:2px;font-family:var(--mono);font-size:11px;padding:2px 6px;width:120px}
+
+  .grid{display:grid;grid-template-columns:1.5fr 310px;gap:1px;background:var(--rule);height:calc(100vh - 47px)}
+  .stage{background:var(--panel);display:flex;flex-direction:column;min-width:0}
+  #ws{flex:1;width:100%;display:block;cursor:crosshair}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;padding:8px 12px;border-top:1px solid var(--rule);background:var(--panel-2);align-items:center}
+  aside{background:var(--panel);overflow:auto}
+  .sec{padding:9px 12px;border-bottom:1px solid var(--rule)}
+  .sec h2{font-size:10px;letter-spacing:.12em;color:var(--ink-faint);margin:0 0 7px;text-transform:uppercase}
+  label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:3px 0}
+  label.f span{color:var(--ink-dim);font-size:11px}
+  input[type=number],select{background:var(--panel-2);color:var(--ink);border:1px solid var(--rule);border-radius:2px;font-family:var(--mono);font-size:11px;padding:2px 4px;width:84px;text-align:right}
+  select{width:100%;text-align:left}
+  button{background:var(--panel-2);color:var(--ink);border:1px solid var(--rule);border-radius:2px;font-family:var(--mono);font-size:11px;padding:4px 9px;cursor:pointer}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  button.go{border-color:#1e3b30;color:var(--ok)} button.go:hover{background:#14231c}
+  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .obj{color:var(--ink);font-size:11px} .deliv{color:var(--ink-faint);font-size:10px;margin-top:5px}
+  .checks div{display:flex;gap:6px;align-items:flex-start;padding:2px 0;font-size:11px}
+  .ck{flex:0 0 14px} .ck.pass{color:var(--ok)} .ck.fail{color:var(--ink-faint)}
+  .hint{color:var(--warn);font-size:10px}
+  table{width:100%;border-collapse:collapse;font-size:11px} td,th{text-align:right;padding:1px 4px;font-variant-numeric:tabular-nums}
+  th{color:var(--ink-faint);font-weight:500;font-size:10px;text-transform:uppercase} td:first-child,th:first-child{text-align:left;color:var(--ink-dim)}
+  .triad td.cmd{color:var(--accent)} .triad td.act{color:var(--ok)}
+  canvas.chart{width:100%;height:74px;display:block;margin-top:5px;border-radius:2px}
+  .note{color:var(--ink-faint);font-size:10px} .lock{color:var(--ink-faint);font-size:10px}
+</style>
+</head>
+<body>
+<header>
+  <h1><b>PKM</b> Student Workbench</h1><span class="tag">2-DOF midterm · 3-DOF final</span>
+  <div class="status">
+    <span class="note">ID</span><input id="sid" placeholder="your name / id" value="student">
+    <span class="pill" id="manipPill">w —</span>
+    <span class="pill lvl-ok" id="faultPill">OK</span>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="stage">
+    <canvas id="ws"></canvas>
+    <div class="bar">
+      <button id="runBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+      <button id="centerBtn">Recenter</button>
+      <select id="inputMode" style="width:130px">
+        <option value="hold">drag / hold</option><option value="circle">circle</option><option value="figure8">figure-8</option>
+      </select>
+      <span class="lock">⏷ geometry is fixed by the assignment</span>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sec">
+      <h2>Assignment</h2>
+      <select id="task"></select>
+      <p class="obj" id="obj"></p>
+      <p class="deliv" id="deliv"></p>
+    </div>
+
+    <div class="sec">
+      <h2>Submission</h2>
+      <div class="row">
+        <button class="go" id="runSub">Run submission</button>
+        <button id="dlSub" disabled>Download submission</button>
+      </div>
+      <div class="checks" id="selfcheck" style="margin-top:7px"><span class="note">Run the submission to self-check against the objective.</span></div>
+    </div>
+
+    <div class="sec">
+      <h2>Controls</h2>
+      <label class="f"><span>mode</span><select id="cmode" style="width:120px"><option value="jointspace">joint-space</option><option value="taskspace">task-space</option></select></label>
+      <label class="f"><span>Kp</span><input type="number" id="kp" step="1" value="40"></label>
+      <label class="f"><span>Ki</span><input type="number" id="ki" step="0.5" value="0"></label>
+      <label class="f"><span>Kd</span><input type="number" id="kd" step="0.01" value="0"></label>
+      <label class="f"><span>Kp task</span><input type="number" id="kpt" step="1" value="10"></label>
+      <label class="f"><span>feedforward</span><input type="checkbox" id="ff"></label>
+      <label class="f"><span>valve</span><select id="valve" style="width:120px"><option value="proportional">proportional</option><option value="pwm">pwm</option><option value="bangbang">bang-bang</option></select></label>
+    </div>
+
+    <div class="sec">
+      <h2>Target</h2>
+      <div id="tgtFields" class="row"></div>
+      <p class="note">Or drag in the workspace. Green = safe, amber = near limit, red = unreachable.</p>
+    </div>
+
+    <div class="sec">
+      <h2>Pose — cmd / act / err</h2><table class="triad" id="poseTbl"></table>
+    </div>
+    <div class="sec">
+      <h2>Pose error (m)</h2><canvas class="chart" id="cErr"></canvas>
+      <h2 style="margin-top:8px">Control u</h2><canvas class="chart" id="cU"></canvas>
+    </div>
+  </aside>
+</div>
+
+<script type="module">
+import { buildSimulation } from "./src/sim/index.js";
+import { Logger, TwinTrace } from "./src/logger/index.js";
+import { makeFaultEngine } from "./src/faults/index.js";
+import { WorkspaceRenderer, StripChart, RenderLoop, THEME, severityColor } from "./src/viz/index.js";
+import { PresetManager } from "./src/presets/index.js";
+import { listAssignments, getAssignment, selfCheck, makeSubmission } from "./src/student/index.js";
+
+const $=(id)=>document.getElementById(id);
+const pm=new PresetManager();
+let task, preset, sim, wr, logger, loop, lastSubmission=null;
+let ctrlCfg={mode:"jointspace",Kp:40,Ki:0,Kd:0,KpTask:10,enableFF:false,integLimit:0.5};
+
+const errChart=new StripChart({series:[{key:"e",label:"|err|",color:THEME.accent}],window:8});
+const uChart=new StripChart({series:[],window:8,symmetric:true});
+const legColors=(n)=>Array.from({length:n},(_,i)=>[THEME.accent,THEME.ok,"#c792ea"][i%3]);
+
+function readCtrl(){
+  ctrlCfg={mode:$("cmode").value,Kp:+$("kp").value,Ki:+$("ki").value,Kd:+$("kd").value,KpTask:+$("kpt").value,enableFF:$("ff").checked,integLimit:0.5};
+  if(sim) sim.ctrl.setConfig(ctrlCfg);
+}
+function applyValve(model){ sim.hyd.valves.forEach(v=>{v.model=model;v.deadband=model==="bangbang"?0.05:0;v.hysteresis=0.02;v.reset();}); }
+
+function buildSim(){
+  if(loop) loop.stop();
+  sim=buildSimulation({geometry:preset.geometry,hydraulics:structuredClone(preset.hydraulics),controller:ctrlCfg});
+  sim.faultEngine=makeFaultEngine(preset.faultConfig);
+  logger=new Logger({sampleEvery:2,maxRows:30000});
+  applyValve($("valve").value);
+  const cols=legColors(sim.n);
+  uChart.series=cols.map((c,i)=>({key:"u"+i,label:"u"+(i+1),color:c}));
+  errChart.reset();uChart.reset();
+  if(!wr) wr=new WorkspaceRenderer($("ws"),sim.kin,{reliefPressure:sim.hyd.cfg.reliefPressure,manipWarn:sim.faultEngine.cfg.manipWarn});
+  else wr.setKinematics(sim.kin);
+  wr.opts.reliefPressure=sim.hyd.cfg.reliefPressure; wr.opts.manipWarn=sim.faultEngine.cfg.manipWarn;
+  wr.onTargetDrag=(p)=>{sim.setMode("hold");$("inputMode").value="hold";sim.setTarget(p);syncTargetFields();};
+  loop=new RenderLoop(sim,render,{speed:1}); loop.start(); $("runBtn").textContent="Pause";
+}
+
+function loadTask(id){
+  task=getAssignment(id); preset=pm.apply(task.presetId);
+  $("obj").textContent=task.objective; $("deliv").textContent="Deliverable: "+task.deliverable;
+  $("selfcheck").innerHTML='<span class="note">Run the submission to self-check.</span>';
+  $("dlSub").disabled=true; lastSubmission=null;
+  $("kpt").parentElement.style.display = task.dof===3 ? "flex":"flex";
+  buildSim();
+  const sc=task.scenario;
+  if(sc.mode==="circle"){ sim.setMode("circle",sc.params); }
+  else { sim.setMode("step"); sim.setTarget(sc.target); }
+  $("inputMode").value = sc.mode==="circle"?"circle":"hold";
+  buildTargetFields();
+}
+
+function buildTargetFields(){
+  const keys=sim.dof===3?["x","y","theta"]:["x","y"];
+  const tp=sim.gen.setpoint;
+  $("tgtFields").innerHTML=keys.map(k=>`<label class="note" style="display:inline-flex;gap:3px;align-items:center">${k}<input type="number" data-k="${k}" step="0.02" value="${(tp[k]??0).toFixed(2)}" style="width:62px"></label>`).join("");
+  $("tgtFields").querySelectorAll("input").forEach(inp=>inp.onchange=()=>{
+    const p={}; $("tgtFields").querySelectorAll("input").forEach(i=>p[i.dataset.k]=+i.value);
+    sim.setMode("step"); $("inputMode").value="hold"; sim.setTarget(p);
+  });
+}
+function syncTargetFields(){
+  const tp=sim.gen.setpoint;
+  $("tgtFields").querySelectorAll("input").forEach(i=>{ i.value=(tp[i.dataset.k]??0).toFixed(3); });
+}
+
+function render(snap){
+  wr.draw(snap); logger.capture(snap);
+  $("manipPill").textContent="w "+snap.manip.toFixed(3);
+  const lvl=(snap.faults&&snap.faults[0])?snap.faults[0].severity:"ok";
+  $("faultPill").className="pill lvl-"+lvl; $("faultPill").textContent=lvl==="ok"?"OK":lvl.toUpperCase();
+  const keys=snap.dof===3?["x","y","theta"]:["x","y"];
+  $("poseTbl").innerHTML="<tr><th>axis</th><th>cmd</th><th>act</th><th>err</th></tr>"+keys.map((k,i)=>
+    `<tr><td>${k}</td><td class="cmd">${snap.targetPose[k].toFixed(3)}</td><td class="act">${snap.poseAct[k].toFixed(3)}</td><td>${snap.poseErr[i].toFixed(4)}</td></tr>`).join("");
+  errChart.push(snap.t,[snap.poseErrNorm]); uChart.push(snap.t,snap.u.slice());
+  drawChart(errChart,"cErr"); drawChart(uChart,"cU");
+}
+function drawChart(ch,id){const cv=$(id);const dpr=window.devicePixelRatio||1;const w=cv.clientWidth,h=cv.clientHeight;
+  if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext("2d");ctx.save();ctx.scale(dpr,dpr);ch.draw(ctx,{x:0,y:0,w,h});ctx.restore();}
+
+// Run the assignment scenario deterministically and self-check.
+function runSubmission(){
+  readCtrl();
+  const s=buildSimulation({geometry:preset.geometry,hydraulics:structuredClone(preset.hydraulics),controller:ctrlCfg});
+  s.faultEngine=makeFaultEngine(preset.faultConfig);
+  s.hyd.valves.forEach(v=>{v.model=$("valve").value;v.deadband=$("valve").value==="bangbang"?0.05:0;v.reset();});
+  const lg=new Logger({sampleEvery:4,maxRows:1e6});
+  const sc=task.scenario;
+  if(sc.mode==="circle") s.setMode("circle",sc.params); else { s.setMode("step"); s.setTarget(sc.target); }
+  for(let i=0;i<Math.round(sc.seconds/s.dt);i++) lg.capture(s.step());
+  const trace=TwinTrace.parse(lg.toJSON());
+  const results=selfCheck(task, trace);
+  $("selfcheck").innerHTML=results.map(r=>`<div><span class="ck ${r.pass?"pass":"fail"}">${r.pass?"✓":"○"}</span><div>${r.label}${!r.pass&&r.hint?` <span class="hint">— ${r.hint}</span>`:""}</div></div>`).join("");
+  lastSubmission=makeSubmission({studentId:$("sid").value||"student", taskId:task.id, controller:ctrlCfg, valve:$("valve").value, selfCheck:results.map(r=>({id:r.id,pass:r.pass}))}, lg);
+  $("dlSub").disabled=false;
+}
+function downloadSubmission(){
+  if(!lastSubmission) return;
+  const b=new Blob([JSON.stringify(lastSubmission)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(b);
+  a.download=`submission_${lastSubmission.meta.taskId}_${(lastSubmission.meta.studentId||"student").replace(/\s+/g,"_")}.json`; a.click();
+}
+
+// wiring
+listAssignments().forEach(a=>{const o=document.createElement("option");o.value=a.id;o.textContent=`[${a.level==="midterm"?"M":"F"}] ${a.id} — ${a.title}`;$("task").appendChild(o);});
+$("task").onchange=(e)=>loadTask(e.target.value);
+["cmode","kp","ki","kd","kpt","ff"].forEach(id=>$(id).onchange=readCtrl);
+$("valve").onchange=(e)=>applyValve(e.target.value);
+$("runBtn").onclick=()=>{loop.toggle();$("runBtn").textContent=loop.running?"Pause":"Run";};
+$("resetBtn").onclick=()=>{sim.reset();errChart.reset();uChart.reset();logger.reset();};
+$("centerBtn").onclick=()=>{sim.setMode("step");$("inputMode").value="hold";sim.setTarget(sim.kin.home());syncTargetFields();};
+$("inputMode").onchange=(e)=>{const m=e.target.value,dof=sim.dof;
+  if(m==="hold"){sim.setMode("hold");sim.setTarget(sim.kin.home());syncTargetFields();}
+  else if(m==="circle")sim.setMode("circle",dof===3?{cx:0,cy:0,r:0.16,omega:1.3}:{cx:0,cy:0.55,r:0.16,omega:1.3});
+  else if(m==="figure8")sim.setMode("figure8",dof===3?{cx:0,cy:0,ax:0.2,ay:0.13,omega:1.1}:{cx:0,cy:0.55,ax:0.2,ay:0.13,omega:1.1});};
+$("runSub").onclick=runSubmission;
+$("dlSub").onclick=downloadSubmission;
+window.addEventListener("resize",()=>wr&&wr.resize());
+
+loadTask("M1");
+</script>
+</body>
+</html>
