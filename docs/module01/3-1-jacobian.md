@@ -115,7 +115,9 @@ singular.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the platform and watch **det(J)** and **w** in the state panel, with the
 formula \(2by/(L_1L_2)\) showing your live numbers. Confirm the worked example near
@@ -123,23 +125,21 @@ formula \(2by/(L_1L_2)\) showing your live numbers. Confirm the worked example n
 exactly as the formula predicts, and the heatmap is just this number painted across
 the plane.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The analytic Jacobian is in
-[`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js):
-
-```js
-const b = 0.6;
-function jacobian(x, y) {
-  const L1 = Math.hypot(x + b, y), L2 = Math.hypot(x - b, y);
-  return [ [(x + b) / L1, y / L1],     // û1ᵀ
-           [(x - b) / L2, y / L2] ];   // û2ᵀ
-}
-const detJ = (x, y) => 2 * b * y / (Math.hypot(x+b,y) * Math.hypot(x-b,y));
+```python
+from math import hypot
+b = 0.6
+def jacobian(x, y):
+    L1, L2 = hypot(x + b, y), hypot(x - b, y)
+    return [[(x + b)/L1, y/L1], [(x - b)/L2, y/L2]]   # rows = unit leg vectors
+def det(J): return J[0][0]*J[1][1] - J[0][1]*J[1][0]
+J = jacobian(0.10, 0.70)
+print("det(J) =", round(det(J), 4))      # 0.9864 (also equals 2*b*y/(L1*L2))
 ```
 
-[`kinematics.test.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/test/kinematics.test.js)
-checks this analytic Jacobian against a finite-difference one to \(10^{-5}\).
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

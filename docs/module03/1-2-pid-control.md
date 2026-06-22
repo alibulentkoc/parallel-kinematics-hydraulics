@@ -86,28 +86,31 @@ three jobs — you just tuned a controller by reasoning, not luck.
 
 ## 7. Interactive Demonstration
 
-[Open the PID Tuning demo ↗](../demos/pid-tuning.html){ target=_blank }
+<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
 
 Use the presets first: **too slow** (low \(K_p\)) creeps; **too hot** (high \(K_p\))
 overshoots and rings; **well tuned** combines moderate \(K_p\) with a little \(K_i\)
 and \(K_d\) for a fast, clean settle. Then drag each gain alone and watch which part
 of the curve it changes — rise, overshoot, or steady offset.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The PID is in
-[`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js):
-
-```js
-update(e, dt, meas) {
-  this.integ = clamp(this.integ + e * dt, -this.iMax, this.iMax); // anti-windup
-  const deriv = -(meas - this.prevMeas) / dt;                      // d on measurement
-  this.prevMeas = meas;
-  return this.Kp * e + this.Ki * this.integ + this.Kd * deriv;
-}
+```python
+class PID:                       # derivative-on-measurement + anti-windup
+    def __init__(self, Kp, Ki, Kd, i_max=1.0):
+        self.Kp, self.Ki, self.Kd, self.i_max = Kp, Ki, Kd, i_max
+        self.integ = self.prev = 0.0
+    def update(self, e, meas, dt):
+        self.integ = max(-self.i_max, min(self.i_max, self.integ + e*dt))
+        deriv = -(meas - self.prev)/dt; self.prev = meas
+        return self.Kp*e + self.Ki*self.integ + self.Kd*deriv
+print(round(PID(3, 1.5, 0.4).update(0.03, 0.87, 0.02), 4))
 ```
 
-`controller.test.js` checks the anti-windup clamp and the feedforward path.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The PID is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
 
 ## 9. Knowledge Check
 

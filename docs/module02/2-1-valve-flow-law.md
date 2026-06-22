@@ -82,28 +82,28 @@ That gap is the whole point of the lesson.
 
 ## 7. Interactive Demonstration
 
-[Open the Valve Flow Law demo ↗](../demos/orifice-flow.html){ target=_blank }
+<iframe src="../../demos/orifice-flow.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/orifice-flow.html){ target=_blank }
 
 Set \(u = 0.7\), \(Q_\text{rated} = 15\), and slide ΔP to 0.5 — confirm the flow
 reads ~7.4 L/min on the blue (real) curve while the grey dashed (linear) line sits
 lower at ~5.25. Sweep ΔP across its range and watch the square-root curve bow above
 the straight line everywhere but the rated point.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The flow law is in
-[`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js):
-
-```js
-function valveFlow(u, dP, Qrated = 2.5e-4, dPrated = 3.5e6) {
-  return u * Qrated * Math.sqrt(Math.max(0, dP / dPrated));
-}
-// u=0.7, ΔP = half rated:
-console.log(valveFlow(0.7, 1.75e6) * 60000); // ≈ 7.4 L/min
+```python
+from math import sqrt
+def valve_flow(u, dP, Qrated=2.5e-4, dPrated=3.5e6):
+    return u * Qrated * sqrt(max(0.0, dP / dPrated))
+real   = valve_flow(0.7, 3.5e6/2) * 60000     # square-root law
+linear = 0.7 * 15 * 0.5                        # naive linear guess
+print(f"real = {real:.1f} L/min   linear = {linear:.2f} L/min")   # 7.4 vs 5.25
 ```
 
-`valve.js` also implements `pwm` and `bangbang` valve types; `hydraulics.test.js`
-checks the square-root scaling.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The flow law is in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
 
 ## 9. Knowledge Check
 

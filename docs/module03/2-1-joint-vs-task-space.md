@@ -88,25 +88,29 @@ Same target, same cylinders — different fidelity to the actual path.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 The explorer shows the IK that joint-space control uses (pose → leg lengths) and the
 Jacobian that task-space control needs. Drag the platform and watch both update:
 joint space consumes the leg lengths; task space consumes the Jacobian.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Both modes live in
-[`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js):
-
-```js
-// joint space: one PID per leg on length error
-legs.forEach((leg, i) => leg.u = pid[i].update(Lstar[i] - L[i]));
-
-// task space: pose error mapped through the Jacobian to leg commands
-const poseErr = sub(poseTarget, fk(L));
-const u = pidTask.update( matVec(J, poseErr) );
+```python
+from math import hypot
+b = 0.6
+def ik(x, y): return hypot(x + b, y), hypot(x - b, y)
+# joint space: convert the target pose to per-leg setpoints, each chased by its own PID
+target = (0.10, 0.70)
+L1_star, L2_star = ik(*target)
+print(f"leg setpoints: L1*={L1_star:.3f}, L2*={L2_star:.3f}")
+# task space instead regulates the pose directly via the Jacobian (see Lesson 3.1).
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Both modes live in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
 
 ## 9. Knowledge Check
 

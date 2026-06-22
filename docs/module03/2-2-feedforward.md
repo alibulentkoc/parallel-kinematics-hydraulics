@@ -79,29 +79,28 @@ Same loop, same gains — anticipation removed the tracking lag.
 
 ## 7. Interactive Demonstration
 
-[Open the PID Tuning demo ↗](../demos/pid-tuning.html){ target=_blank }
+<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
 
 The demo tracks a *step* (the hardest case for feedback, since the setpoint jumps).
 Notice how much the response lags the instant the target moves — that lag is exactly
 what feedforward removes for a *smooth* trajectory. Imagine the dashed target line
 ramping instead of jumping: feedforward would let the curve ride along it.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Feedforward is the optional term in
-[`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js),
-fed by
-[`src/control/trajectory.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/trajectory.js):
-
-```js
-const { pos, vel } = trajectory.sample(t);   // planned setpoint + velocity
-const uFF = Kff * vel;                        // anticipate the motion
-const uFB = pid.update(pos - measured);       // correct the remainder
-const u   = uFF + uFB;
+```python
+from math import pi
+A_cap = pi * 0.040**2 / 4
+v_target = 0.10                 # m/s of a moving (ramp) setpoint
+Q_ff = v_target * A_cap         # feedforward: pre-command the flow the motion needs
+print(f"feedforward flow = {Q_ff*60000:.1f} L/min  (sent before any error appears)")
+# command u = u_ff + PID(e): feedback only trims the small remainder.
 ```
 
-`controller.test.js` checks that adding feedforward reduces tracking error on a
-moving setpoint.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Feedforward is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), fed by [`trajectory.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/trajectory.js).
 
 ## 9. Knowledge Check
 

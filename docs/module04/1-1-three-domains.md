@@ -95,14 +95,18 @@ The interactive demos live in the *control* domain (pure numbers, like the
 simulator). This lesson is the reminder that on hardware, each of those numbers is a
 voltage on a wire — the demos show the logic; the wiring carries it.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The simulator deliberately stays in the control domain (numbers), which is what makes
-the sim-to-hardware mapping clean. The full mapping table is in the handbook:
-[Electrical & Control Wiring](../04-electrical-and-control-wiring.md). The command and
-sensor scaling would wrap the existing
-[`controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js)
-I/O.
+```python
+u = 0.7                          # control domain: a number in [-1, 1]
+V = 10 * u                       # signal domain: scaled to +-10 V for the driver
+print(f"command u={u} -> driver {V:+.1f} V")
+k = 10 / 0.6                     # sensor: 0-10 V over a 0-0.6 m stroke
+print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
+```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
 
 ## 9. Knowledge Check
 

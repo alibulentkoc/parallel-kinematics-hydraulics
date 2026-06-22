@@ -77,31 +77,27 @@ overshoot, it would fail — correctly exposing a sim-to-real gap to investigate
 
 ## 7. Interactive Demonstration
 
-[Open the PID Tuning demo ↗](../demos/pid-tuning.html){ target=_blank }
+<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
 
 The overshoot and settling-time readouts in this demo are the very metrics the grader
 computes. Tune until you'd pass a "≤ 15% overshoot, ≤ 1.0 s settling" rubric — you're
 doing, by hand, exactly what the automated grader does to a recorded log.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Grading and the rubric are in
-[`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/tree/main/src/grading),
-using metrics from
-[`src/student/metrics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/student/metrics.js):
-
-```js
-// grader.js — same function for any canonical log
-function grade(log, rubric) {
-  const m = metrics(log);                 // overshoot, settling, tracking, faults
-  return rubric.criteria
-    .reduce((sum, c) => sum + c.weight * c.score(m[c.metric]), 0);
-}
-// grade(simLog, rubric) === grade(hwLog, rubric) for matching runs
+```python
+def grade(overshoot, settling, max_os=0.15, max_ts=1.0):
+    return "PASS" if (overshoot <= max_os and settling <= max_ts) else "FAIL"
+# the SAME rubric judges a sim log or a hardware log -- only the log matters
+print("sim run:   ", grade(0.12, 0.80))
+print("hw  run:   ", grade(0.13, 0.85))
+print("ringing hw:", grade(0.20, 1.40))
 ```
 
-`grader.test.js` and `rubric.test.js` verify the scoring is deterministic from the
-log alone.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
 
 ## 9. Knowledge Check
 

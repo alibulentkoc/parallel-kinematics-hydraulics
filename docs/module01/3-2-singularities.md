@@ -96,28 +96,29 @@ The machine doesn't fail suddenly; it *warns* (the amber band) before it fails.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the platform slowly straight down and watch the status pill march **OK →
 NEAR SINGULAR → SINGULAR** while \(w\) falls toward zero, matching the table above.
 Then explore sideways: notice the singular band hugs the base line everywhere. This
 is the same warning the instructor and student dashboards raise during a real run.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Singularity detection lives in the fault engine, which thresholds the manipulability
-the kinematics report ([`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js)):
-
-```js
-function classify(w, warn = 0.12, fault = 0.04) {
-  if (w < fault) return "SINGULAR";       // det(J) ≈ 0
-  if (w < warn)  return "NEAR_SINGULAR";  // warning band
-  return "OK";
-}
+```python
+from math import hypot
+b = 0.6
+def manip(x, y):                # manipulability = |det J| = 2*b*y/(L1*L2)
+    L1, L2 = hypot(x + b, y), hypot(x - b, y)
+    return abs(2*b*y/(L1*L2))
+for y in [0.7, 0.4, 0.2, 0.05]:
+    print(f"y={y:>4}:  manip = {manip(0.10, y):.4f}")   # collapses toward 0
 ```
 
-The kinematics tests confirm the broken-diamond preset is singular at \(\theta = 0\)
-and recovers off-axis.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Detected as a fault in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
 
 ## 9. Knowledge Check
 

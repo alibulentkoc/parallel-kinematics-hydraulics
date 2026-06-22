@@ -85,22 +85,20 @@ The demos render live values that, in the full simulator, are exactly the channe
 the logger records each cycle. Picture each number you see being appended to a row in
 the canonical log — that stream of rows is what the next lesson grades.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Logging, schema validation, and replay are in
-[`src/logger/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/tree/main/src/logger):
-
-```js
-// logger.js — one validated record per cycle
-const record = { t, target, pose, L, p, u, faults };
-schema.validate(record);     // schema.js enforces fields + units
-log.push(record);
-
-// trace.js — replay a recorded run for analysis or grading
-for (const r of trace.load(file)) analyze(r);
+```python
+from math import hypot
+b = 0.6
+def ik(x, y): return [hypot(x + b, y), hypot(x - b, y)]
+# one canonical record per cycle -- same fields for simulator and hardware
+record = {"t": 0.42, "target": (0.10, 0.70), "pose": (0.098, 0.701),
+          "L": ik(0.098, 0.701), "faults": []}
+print(record)
 ```
 
-`schema.test.js` rejects records with missing or wrong-typed fields.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Logging, schema and replay are in [`src/logger/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/logger).
 
 ## 9. Knowledge Check
 

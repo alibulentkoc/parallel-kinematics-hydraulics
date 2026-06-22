@@ -123,7 +123,9 @@ of the module replaces each narrated step with a calculation you can run.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the green platform around the workspace. Watch the two leg lengths
 \(L_1, L_2\) update, see the dexterity heatmap, and notice the status flip toward
@@ -132,27 +134,18 @@ understand the numbers yet — just build the feel: *every platform position
 corresponds to a specific pair of leg lengths, and some regions are "healthier"
 than others.*
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-This course is backed by a tested codebase. The geometry you just dragged is
-implemented in [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js),
-and proven correct in [`test/kinematics.test.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/test/kinematics.test.js).
-
-A first taste — inverse kinematics is just the distance from each anchor to the
-platform:
-
-```js
-// pose (x, y) -> leg lengths (L1, L2). Anchors at (-b, 0) and (+b, 0).
-const b = 0.6;
-function ik(x, y) {
-  const L1 = Math.hypot(x + b, y);
-  const L2 = Math.hypot(x - b, y);
-  return [L1, L2];
-}
-console.log(ik(0.0, 0.70)); // ~[0.922, 0.922] — symmetric platform
+```python
+from math import hypot
+b = 0.6                         # half base-width
+def ik(x, y):                   # pose -> leg lengths (the easy direction)
+    return hypot(x + b, y), hypot(x - b, y)
+print(ik(0.10, 0.70))           # -> (0.990, 0.860)
 ```
 
-You'll meet this exact function, made rigorous, in Lesson 2.1.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The production engine implements this in [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

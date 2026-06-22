@@ -96,7 +96,9 @@ undoes inverse kinematics**, which is the round-trip the test suite verifies to
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 The explorer runs IK as you drag, but you can verify FK by reading the numbers:
 position the platform so \(L_1 \approx 0.99\) and \(L_2 \approx 0.86\), and confirm
@@ -104,23 +106,20 @@ the displayed \((x, y)\) matches the worked example. Notice that pushing the
 platform toward the base line makes the two circles meet at a shallow angle — the
 geometric warning sign of a singularity (Lesson 3.2).
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The closed form is [`fk()` in `src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js):
-
-```js
-const b = 0.6;
-function fk(L1, L2) {
-  const x = (L1 * L1 - L2 * L2) / (4 * b);
-  const arg = L1 * L1 - (x + b) ** 2;
-  if (arg < 0) return { ok: false, pose: null };  // circles don't meet
-  return { ok: true, pose: { x, y: Math.sqrt(arg) } };
-}
-console.log(fk(0.990, 0.860)); // { ok:true, pose:{ x:0.10, y:0.70 } }
+```python
+from math import sqrt
+b = 0.6
+def fk(L1, L2):                 # leg lengths -> pose (upper half-plane)
+    x = (L1**2 - L2**2) / (4*b)
+    y = sqrt(max(0.0, L1**2 - (x + b)**2))
+    return x, y
+print(fk(0.990, 0.860))         # -> (0.100, 0.700)
 ```
 
-The 3-DOF Newton solver is in
-[`kinematics3dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics3dof.js).
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js); the 3-DOF case uses Newton iteration in [`kinematics3dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics3dof.js).
 
 ## 9. Knowledge Check
 

@@ -85,30 +85,29 @@ graceful handling.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the platform slowly toward the top of the view and watch the crosshair turn
 red the moment a leg would exceed 1.0 m — the workspace boundary made visible. Then
 shrink the **stroke** slider and watch the reachable region (and the bright dexterity
 zone) shrink with it.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Reachability is checked in
-[`src/kinematics/kinematics-base.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics-base.js):
-
-```js
-const Lclosed = 0.4, stroke = 0.6;
-const Lmin = Lclosed, Lmax = Lclosed + stroke; // [0.4, 1.0]
-function reachable(L1, L2, y) {
-  const okLen = (L) => L >= Lmin && L <= Lmax;
-  return y >= 0 && okLen(L1) && okLen(L2);
-}
+```python
+from math import hypot
+b, L_CLOSED, STROKE = 0.6, 0.4, 0.6
+def ik(x, y): return hypot(x + b, y), hypot(x - b, y)
+def reachable(x, y):
+    return all(L_CLOSED <= L <= L_CLOSED + STROKE for L in ik(x, y))
+for p in [(0.0, 0.70), (0.10, 0.70), (0.0, 1.2)]:
+    print(p, "->", "reachable" if reachable(*p) else "OUT OF RANGE")
 ```
 
-The test [`kinematics.test.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/test/kinematics.test.js)
-asserts a far target reports `stroke-max` and that forward kinematics "never emits
-NaN."
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Stroke limits live in the presets and [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

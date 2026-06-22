@@ -84,25 +84,26 @@ And on the command side, \(u = -0.4\) becomes \(V = 10 \times (-0.4) = -4\ \text
 
 ## 7. Interactive Demonstration
 
-[Open the Cylinder Asymmetry demo ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
 
 The demo's extend/retract animation is what the *driver* commands and the *sensor*
 measures on real hardware: the driver sets the direction and speed of the piston you
 see, and a real transducer would report exactly the stroke the animation shows.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The valve types (proportional, PWM, bang-bang) the driver realizes are in
-[`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js);
-the leg-length the sensor provides is consumed throughout
-[`src/control/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/tree/main/src/control):
-
-```js
-// driver: command sign selects direction, magnitude selects opening
-const direction = Math.sign(u), opening = Math.abs(u);
-// sensor: voltage → length (linear)
-const L = Lclosed + Vsensor / k;
+```python
+# sensor: voltage -> length (linear);  driver: command -> direction + opening
+k = 10 / 0.6                     # 0-10 V over 0-0.6 m  ->  16.7 V/m
+print(f"sensor 7.5 V -> L = {0.4 + 7.5/k:.3f} m")     # 0.849 m
+u = -0.4
+print(f"command u={u} -> {'retract' if u < 0 else 'extend'} at {abs(u)*100:.0f}% opening, {10*u:+.1f} V")
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
 
 ## 9. Knowledge Check
 

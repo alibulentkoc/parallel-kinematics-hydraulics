@@ -73,25 +73,35 @@ sacrificing speed.
 
 ## 7. Interactive Demonstration
 
-[Open the PID Tuning demo ↗](../demos/pid-tuning.html){ target=_blank }
+<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
 
 Watch the **overshoot** and **settling time** readouts as you move the gains. Try to
 beat the "well tuned" preset: find gains with overshoot under 20% *and* the shortest
 settling time you can. Notice you can't drive both to zero — that impossibility *is*
 the trade-off.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The response metrics the demo shows are the same ones the grader computes from a
-recorded trace, in
-[`src/student/metrics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/student/metrics.js):
-
-```js
-// from a recorded position trace vs target:
-const overshoot = (peak - target) / target;          // fraction
-const settle    = lastTimeOutsideBand(trace, 0.02);   // ±2% settling time
-const ssError   = Math.abs(trace.at(-1) - target);
+```python
+def step_response(Kp, Ki, Kd, sp=1.0, dt=0.01, n=800, c=3.0):
+    integ = prev = y = v = 0.0; traj = []
+    for _ in range(n):
+        e = sp - y
+        integ = max(-2, min(2, integ + e*dt))
+        deriv = -(y - prev)/dt; prev = y
+        u = Kp*e + Ki*integ + Kd*deriv
+        v += (u - c*v)*dt; y += v*dt; traj.append(y)
+    peak = max(traj); overshoot = max(0.0, (peak - sp)/sp)
+    out = [i for i, val in enumerate(traj) if abs(val - sp) > 0.02]
+    return overshoot, (out[-1]+1)*dt if out else 0.0
+for name, g in {"too slow": (3,0,0), "too hot": (60,0,0), "well tuned": (30,0,8)}.items():
+    os, ts = step_response(*g); print(f"{name:10s}: overshoot={os*100:5.1f}%  settling={ts:.2f}s")
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Response metrics match [`src/student/metrics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/student/metrics.js).
 
 ## 9. Knowledge Check
 

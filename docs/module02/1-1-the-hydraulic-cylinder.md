@@ -91,25 +91,26 @@ of this module.
 
 ## 7. Interactive Demonstration
 
-[Open the Cylinder Asymmetry demo ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
 
 Set the bore to 40 mm and the flow to 15 L/min and confirm the extend speed reads
 ~0.20 m/s. Slide the pressure up and down and watch the *force* change while the
 *speed* stays fixed — pressure and flow really are independent levers.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The cylinder model lives in
-[`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js):
-
-```js
-const bore = 0.040;                 // m
-const Acap = Math.PI * bore ** 2 / 4;       // 1.257e-3 m²
-const force = (p) => p * Acap;              // F = pA
-const speed = (Q) => Q / Acap;              // v = Q/A
-console.log(force(16e6) / 1000);            // ≈ 20.1 kN
-console.log(speed(2.5e-4));                 // ≈ 0.199 m/s
+```python
+from math import pi
+bore = 0.040
+A_cap = pi * bore**2 / 4               # 1.257e-3 m^2
+print(f"force @16 MPa = {16e6 * A_cap / 1e3:.1f} kN")   # F = pA  -> 20.1 kN
+print(f"speed @15 L/min = {(2.5e-4) / A_cap:.2f} m/s")  # v = Q/A -> 0.20 m/s
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The cylinder model is in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

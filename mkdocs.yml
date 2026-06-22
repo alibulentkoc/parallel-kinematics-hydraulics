@@ -7,6 +7,7 @@ docs_dir: docs
 
 theme:
   name: material
+  font: false
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
@@ -55,8 +56,9 @@ markdown_extensions:
       alternate_style: true
 
 extra_javascript:
+  - javascripts/mermaid/mermaid.min.js
   - assets/mathjax.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+  - javascripts/mathjax/tex-mml-svg.js
 
 plugins:
   - search
@@ -111,4 +113,5 @@ nav:
       - "Electrical & Control Wiring": 04-electrical-and-control-wiring.md
       - "Worked Design Example": 05-design-worked-example.md
   - "Interactive Demos": demos/index.html
+  - "Python & Notebooks": notebooks/index.md
   - "Roadmap": roadmap.md

@@ -87,26 +87,25 @@ That repetition — not any single perfect command — is what makes the loop ac
 
 ## 7. Interactive Demonstration
 
-[Open the PID Tuning demo ↗](../demos/pid-tuning.html){ target=_blank }
+<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
 
 The demo shows the loop chasing a step setpoint. For now, just watch the response
 curve climb toward the dashed target line and settle there — that climb *is*
 feedback shrinking the error. The next lessons explain the three terms that shape
 how it climbs.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The control loop is in
-[`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js)
-and stepped at fixed rate by
-[`src/control/simulation.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/simulation.js):
-
-```js
-// every control cycle:
-const e = setpoint - measured;   // sense + compare
-const u = controller.update(e);  // correct
-plant.apply(u);                  // actuate  → measured changes, repeat
+```python
+r, y = 0.90, 0.87               # setpoint and measured length
+e = r - y                       # the error the loop drives to zero
+print(f"error = {e:+.3f} m  ->  positive means too short, so extend")
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The loop is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), stepped by [`simulation.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/simulation.js).
 
 ## 9. Knowledge Check
 

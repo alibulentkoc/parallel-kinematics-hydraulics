@@ -98,30 +98,30 @@ controller would chase.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the platform and read \(L_1, L_2\) directly. Try to **reproduce the worked
 example**: park near \((0, 0.70)\) and confirm \(L_1 = L_2 \approx 0.922\); then
 move to \((0.10, 0.70)\) and watch \(L_1\) grow to ~0.990 while \(L_2\) shrinks to
 ~0.860. The equation panel shows the distance formula with your live numbers.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The method is [`ik()` in `src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js):
-
-```js
-const b = 0.6;
-function ik(x, y) {
-  return [Math.hypot(x + b, y), Math.hypot(x - b, y)];
-}
-// move (0,0.70) -> (0.10,0.70)
-const a = ik(0.0, 0.70);  // [0.922, 0.922]
-const c = ik(0.10, 0.70); // [0.990, 0.860]
-console.log(c[0] - a[0], c[1] - a[1]); // +0.068, -0.062
+```python
+from math import hypot
+b = 0.6
+def ik(x, y):
+    return hypot(x + b, y), hypot(x - b, y)
+before = ik(0.0, 0.70)          # (0.922, 0.922)
+after  = ik(0.10, 0.70)         # (0.990, 0.860)
+print(f"d L1 = {1000*(after[0]-before[0]):+.0f} mm,  d L2 = {1000*(after[1]-before[1]):+.0f} mm")
+# -> +68 mm, -62 mm: one leg extends, one retracts
 ```
 
-The test [`kinematics.test.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/test/kinematics.test.js)
-checks IK against forward kinematics with a round-trip error below \(10^{-9}\).
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The method is [`ik()` in `src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

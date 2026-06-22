@@ -88,27 +88,30 @@ independent layers caught one dangerous condition.*
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag toward the base line and watch the status escalate **OK → NEAR SINGULAR →
 SINGULAR**. That escalation is the software half of the safety chain. On hardware, the
 same thresholds would arm the physical interlocks described above.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The fault detectors and their warn/limit/fault classification are in
-[`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js),
-with injection for practice in
-[`src/faults/injection.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/injection.js):
-
-```js
-// each detector is a threshold → severity
-if (pressure > relief)      raise("OVER_PRESSURE", "limit");
-if (L > Lmax || L < Lmin)   raise("OVER_TRAVEL",  "fault");
-if (manipulability < wCrit) raise("NEAR_SINGULAR","warn");
+```python
+L_CLOSED, STROKE, RELIEF = 0.4, 0.6, 21e6
+def guards(p, L, manip):         # independent safety thresholds -> safe state
+    out = []
+    if p > RELIEF: out.append("OVER_PRESSURE")
+    if not (L_CLOSED <= L <= L_CLOSED + STROKE): out.append("OVER_TRAVEL")
+    if manip < 0.05: out.append("NEAR_SINGULAR")
+    return out or ["ok"]
+print(guards(22e6, 0.9, 0.30))   # ['OVER_PRESSURE']
+print(guards(10e6, 0.9, 0.02))   # ['NEAR_SINGULAR']
 ```
 
-`faults.test.js` exercises all eleven detectors.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The eleven detectors are in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
 
 ## 9. Knowledge Check
 

@@ -87,22 +87,27 @@ example in the handbook walks through.
 
 ## 7. Interactive Demonstration
 
-[Open the Cylinder Asymmetry demo ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
 
 Read the four bars — extend/retract force and extend/retract speed — at the default
 settings and confirm the table above. Then raise the pressure slider until the
 retract-force bar reaches 16 kN, and note the pressure you needed.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The four quantities come straight from the areas in
-[`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js):
-
-```js
-const p = 16e6, Q = 2.5e-4;
-const Fext = p * Acap, Fret = p * Arod;        // 20.1 kN, 14.0 kN
-const vext = Q / Acap, vret = Q / Arod;        // 0.20, 0.28 m/s
+```python
+from math import pi
+D, d, p, Q = 0.040, 0.022, 16e6, 2.5e-4
+A_cap = pi * D**2 / 4
+A_rod = pi * (D**2 - d**2) / 4
+print(f"F_ext={p*A_cap/1e3:.1f} kN  F_ret={p*A_rod/1e3:.1f} kN")   # 20.1, 14.0
+print(f"v_ext={Q/A_cap:.2f} m/s  v_ret={Q/A_rod:.2f} m/s")        # 0.20, 0.29
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

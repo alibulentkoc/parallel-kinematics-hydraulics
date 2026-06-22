@@ -111,25 +111,29 @@ coordinated motion from Lesson 1.1, now in numbers.
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 Use the **base half-spacing** slider to change \(b\) and watch the whole reachable
 region and dexterity field redraw. Then drag the platform and read \(L_1, L_2\) and
 the strokes \(s_1, s_2\) live — confirm the worked example above by dragging near
 \((0.1, 0.7)\).
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The geometry and its defaults live in
-[`src/kinematics/kinematics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics.js)
-(the `defaultGeometry2DOF`). Leg length is the same distance you computed:
-
-```js
-const b = 0.6, Lclosed = 0.4;
-const Bi = [[-b, 0], [b, 0]];
-const legLength = (P, i) => Math.hypot(P[0] - Bi[i][0], P[1] - Bi[i][1]);
-const stroke    = (P, i) => legLength(P, i) - Lclosed;
+```python
+from math import hypot
+b = 0.6
+B1, B2 = (-b, 0.0), (+b, 0.0)   # the two base anchors
+def ik(x, y):
+    return hypot(x - B1[0], y - B1[1]), hypot(x - B2[0], y - B2[1])
+L1, L2 = ik(0.10, 0.70)
+print(f"L1={L1:.3f} m, L2={L2:.3f} m")   # 0.990, 0.860
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

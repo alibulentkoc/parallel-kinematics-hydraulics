@@ -95,23 +95,28 @@ its diameter is a design lever on how lopsided the cylinder behaves.
 
 ## 7. Interactive Demonstration
 
-[Open the Cylinder Asymmetry demo ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
 
 Set bore 40 mm, rod 22 mm and read φ = 1.43. Now drag the rod slider toward 28 mm
 and watch φ climb toward ~1.96 while the cap and rod area circles redraw to scale —
 the worked example, live.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-φ is computed in
-[`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js):
-
-```js
-const D = 0.040, d = 0.022;
-const Acap = Math.PI * D ** 2 / 4;
-const Arod = Math.PI * (D ** 2 - d ** 2) / 4;
-const phi  = Acap / Arod;          // 1.43
+```python
+from math import pi
+D, d = 0.040, 0.022
+A_cap = pi * D**2 / 4
+A_rod = pi * (D**2 - d**2) / 4
+print(f"A_cap={A_cap*1e6:.0f} mm^2, A_rod={A_rod*1e6:.0f} mm^2, phi={A_cap/A_rod:.2f}")
+# thicker 28 mm rod:
+print("phi (28 mm rod) =", round((pi*D**2/4)/(pi*(D**2-0.028**2)/4), 2))   # 1.96
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. phi is computed in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

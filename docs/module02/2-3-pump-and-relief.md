@@ -98,27 +98,28 @@ is the speed ceiling.
 
 ## 7. Interactive Demonstration
 
-[Open the Valve Flow Law demo ↗](../demos/orifice-flow.html){ target=_blank }
+<iframe src="../../demos/orifice-flow.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/orifice-flow.html){ target=_blank }
 
 The pump sets the *total* flow available; the valve demo shows how a single leg's
 flow depends on command and pressure drop. Picture several of these running at once
 sharing the 36 L/min supply — when their demands sum past the pump's output,
 everyone slows together.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-Pump, relief, and power are modelled in
-[`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js)
-(`defaultHydraulics`):
-
-```js
-const supply = 16e6, relief = 21e6, pumpMaxFlow = 6e-4; // 36 L/min
-const Phyd = supply * pumpMaxFlow;             // 9.6 kW
-// flow demand is summed across legs and clamped to pumpMaxFlow (pump saturation)
+```python
+from math import pi
+supply, pump_max_flow = 16e6, 6e-4         # 36 L/min
+print(f"hydraulic power = {supply * pump_max_flow / 1e3:.1f} kW")   # 9.6 kW
+A_rod = pi * (0.040**2 - 0.022**2) / 4
+demand = 2 * 0.28 * A_rod                   # two legs retracting at 0.28 m/s
+print(f"2-leg demand = {demand*60000:.1f} L/min (pump supplies {pump_max_flow*60000:.0f})")
 ```
 
-`hydraulics.test.js` checks pump saturation and that pressure is clamped at the
-relief setting.
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Pump, relief and power defaults are in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

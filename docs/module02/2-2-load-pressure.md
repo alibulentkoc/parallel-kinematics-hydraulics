@@ -94,25 +94,28 @@ only the pose changed.*
 
 ## 7. Interactive Demonstration
 
-[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+
+[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
 
 While this demo shows manipulability rather than pressure directly, the connection
 is exact: the dark (low-\(w\)) regions are precisely where \(J^{-\mathsf T}\) — and
 therefore the required leg force and pressure — blow up. Drag toward the base line
 and read the collapsing manipulability as a pressure-danger map.
 
-## 8. Code Pointer
+## 8. Code & Computation
 
-The force-to-pressure path is in
-[`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js),
-using the Jacobian from
-[`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/tree/main/src/kinematics):
-
-```js
-// f = J⁻ᵀ (M a − F_ext);  p_i = f_i / A_i
-const f = solveJtransposeInverse(J, scale(accel, M).minus(Fext));
-const p = f.map((fi, i) => fi / (extending[i] ? Acap : Arod));
+```python
+from math import pi
+# leg force -> pressure through the piston area:  p = f / A
+A_cap = pi * 0.040**2 / 4
+f = 130.0                       # N along the leg (from J^-T * load, pose-dependent)
+print(f"pressure = {f / A_cap / 1e6:.3f} MPa")     # ~0.10 MPa at a healthy pose
+# near a singularity J^-T blows up, so f -- and this pressure -- diverge.
 ```
+
+!!! tip "Run it yourself"
+    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 
