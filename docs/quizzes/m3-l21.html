@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.2.1 — Joint-Space vs Task-Space — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.2.1 — Joint-Space vs Task-Space",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Joint-space control regulates:",
+      "options": [
+        "The platform pose directly",
+        "Each leg's length with its own PID",
+        "Only pressure",
+        "The pump flow"
+      ],
+      "answer": 1,
+      "explain": "Joint space converts the target to leg lengths (IK) and gives each leg its own PID."
+    },
+    {
+      "type": "mc",
+      "q": "Task-space control needs which Module 1 tool every cycle?",
+      "options": [
+        "Only inverse kinematics",
+        "The Jacobian and forward kinematics",
+        "Nothing from Module 1",
+        "The relief valve"
+      ],
+      "answer": 1,
+      "explain": "It maps a pose error to leg commands via the Jacobian and reads pose via forward kinematics."
+    },
+    {
+      "type": "tf",
+      "q": "Independent per-leg PIDs can each be 'on target' while the platform pose is slightly off.",
+      "answer": true,
+      "explain": "Small length errors combine into a pose error that no single leg loop is correcting."
+    },
+    {
+      "type": "open",
+      "q": "For drawing a straight line across the workspace, which mode is more faithful and why?",
+      "model": "Task space, because it regulates the platform pose directly using the Jacobian, correcting path error as it goes — rather than hoping decoupled leg loops combine into the right path."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

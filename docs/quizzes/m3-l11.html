@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.1.1 — Why Feedback — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.1.1 — Why Feedback",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "What is the control error e?",
+      "options": [
+        "Setpoint plus measurement",
+        "Setpoint minus measured output (r − y)",
+        "Measurement minus command",
+        "Always zero"
+      ],
+      "answer": 1,
+      "explain": "e = r − y: the gap between where you want to be and where you actually are."
+    },
+    {
+      "type": "mc",
+      "q": "Open-loop control means:",
+      "options": [
+        "Measuring and correcting continuously",
+        "Commanding without using the measured result",
+        "Using two sensors",
+        "Running at a fixed rate"
+      ],
+      "answer": 1,
+      "explain": "Open-loop commands and hopes; it never checks the actual outcome, so errors accumulate."
+    },
+    {
+      "type": "tf",
+      "q": "Accuracy comes from continuous correction, not a single perfect command.",
+      "answer": true,
+      "explain": "The loop repeats sense→compare→correct→actuate; repetition drives the error to zero."
+    },
+    {
+      "type": "open",
+      "q": "Give one system where open-loop is fine and one where it's dangerous, and what makes the difference.",
+      "model": "Open-loop is fine for a predictable, low-stakes system (a toaster timer). It's dangerous when disturbances are large or errors are costly (a hydraulic platform under varying load), where only feedback keeps it accurate and safe."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

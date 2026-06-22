@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>4.1.1 — The Three Domains — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "4.1.1 — The Three Domains",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The three wiring domains of the machine are:",
+      "options": [
+        "Input, output, memory",
+        "Control, signal, power",
+        "Hydraulic, pneumatic, electric",
+        "Sensor, actuator, frame"
+      ],
+      "answer": 1,
+      "explain": "Control (logic), signal (drive/sense), and power (hydraulics/high current)."
+    },
+    {
+      "type": "mc",
+      "q": "A normalized command u = 0.7 maps to a ±10 V driver signal as:",
+      "options": [
+        "0.7 V",
+        "7 V",
+        "70 V",
+        "10 V"
+      ],
+      "answer": 1,
+      "explain": "V = 10·u = 10 × 0.7 = 7 V."
+    },
+    {
+      "type": "tf",
+      "q": "A logic-level controller command can drive a valve solenoid directly.",
+      "answer": false,
+      "explain": "It needs a signal-domain valve driver to supply the solenoid current."
+    },
+    {
+      "type": "open",
+      "q": "Why does keeping the simulator in the 'control domain' (pure numbers) make the hardware mapping clean?",
+      "model": "Because each simulator quantity is just a number, mapping it to hardware is a simple, well-defined scaling (command→voltage, voltage→length) at a clear domain boundary, rather than tangling logic with electrical detail."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

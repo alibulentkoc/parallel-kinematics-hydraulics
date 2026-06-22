@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.1.2 — Area Asymmetry φ — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.1.2 — Area Asymmetry φ",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Why is the rod-side area smaller than the cap-side area?",
+      "options": [
+        "The rod adds area",
+        "The rod passes through the chamber, leaving only a ring",
+        "Oil compresses on that side",
+        "The barrel is narrower there"
+      ],
+      "answer": 1,
+      "explain": "The rod occupies the centre, so oil only presses on the annulus around it."
+    },
+    {
+      "type": "mc",
+      "q": "For bore 40 mm and rod 22 mm, the asymmetry ratio φ is about:",
+      "options": [
+        "0.70",
+        "1.00",
+        "1.43",
+        "2.86"
+      ],
+      "answer": 2,
+      "explain": "φ = D²/(D²−d²) = 1600/(1600−484) = 1.43."
+    },
+    {
+      "type": "tf",
+      "q": "For a single-rod cylinder, φ can be less than 1.",
+      "answer": false,
+      "explain": "The rod can only remove area, so A_rod < A_cap and φ > 1 always."
+    },
+    {
+      "type": "open",
+      "q": "What does a larger rod diameter do to φ and to the cylinder's behaviour?",
+      "model": "A thicker rod shrinks the rod-side area, so φ grows — the cylinder becomes more lopsided: even stronger and slower extending, even weaker and faster retracting."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

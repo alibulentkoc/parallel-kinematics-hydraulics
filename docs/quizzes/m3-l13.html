@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.1.3 — The Tuning Trade-off — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.1.3 — The Tuning Trade-off",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The core tuning trade-off is between:",
+      "options": [
+        "Cost and weight",
+        "Fast response and low overshoot",
+        "Sensors and actuators",
+        "Pressure and flow"
+      ],
+      "answer": 1,
+      "explain": "Higher gains rise faster but overshoot more; tuning balances speed against stability."
+    },
+    {
+      "type": "mc",
+      "q": "A response that rises fast but rings for a long time has:",
+      "options": [
+        "A short settling time",
+        "A long settling time",
+        "Zero overshoot",
+        "No steady-state error"
+      ],
+      "answer": 1,
+      "explain": "Ringing keeps it outside the ±2% band for a long time — a long settling time despite the fast rise."
+    },
+    {
+      "type": "tf",
+      "q": "There is one universally best set of PID gains for every task.",
+      "answer": false,
+      "explain": "'Best' depends on the requirement (settling time and overshoot limits); there is no universal optimum."
+    },
+    {
+      "type": "open",
+      "q": "Your spec is 'settle within 1.0 s with ≤ 15% overshoot.' Which metric tells you if you've met each half?",
+      "model": "Settling time must be ≤ 1.0 s, and peak overshoot must be ≤ 15%. Both are computed from the step-response trace; you tune until both pass simultaneously."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

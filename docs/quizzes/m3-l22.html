@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.2.2 — Feedforward & Trajectory Tracking — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.2.2 — Feedforward & Trajectory Tracking",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Feedforward improves tracking by:",
+      "options": [
+        "Reacting after an error appears",
+        "Anticipating the planned motion and pre-commanding it",
+        "Increasing Kp",
+        "Removing the sensor"
+      ],
+      "answer": 1,
+      "explain": "Feedforward uses the known trajectory to send most of the command before error develops."
+    },
+    {
+      "type": "mc",
+      "q": "Feedforward helps most with:",
+      "options": [
+        "A stationary setpoint",
+        "A moving setpoint (trajectory)",
+        "A broken sensor",
+        "A constant disturbance"
+      ],
+      "answer": 1,
+      "explain": "It removes the lag feedback suffers when chasing a moving target; for a stationary target there's nothing to anticipate."
+    },
+    {
+      "type": "tf",
+      "q": "Feedforward alone, without feedback, can correct for unexpected disturbances.",
+      "answer": false,
+      "explain": "Feedforward is open-loop; it can't sense or correct disturbances or model errors — it must be paired with feedback."
+    },
+    {
+      "type": "open",
+      "q": "Why does pure feedback always lag a moving setpoint?",
+      "model": "Feedback only acts once an error exists, so it must first fall behind the moving target before it commands a correction, settling to a constant lag. Feedforward pre-commands the motion, eliminating that lag."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

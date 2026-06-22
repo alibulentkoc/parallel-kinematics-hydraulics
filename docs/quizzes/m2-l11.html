@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.1.1 — The Hydraulic Cylinder — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.1.1 — The Hydraulic Cylinder",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "What sets the FORCE a hydraulic cylinder delivers?",
+      "options": [
+        "Flow times area",
+        "Pressure times piston area (F = pA)",
+        "Pressure divided by flow",
+        "Stroke length"
+      ],
+      "answer": 1,
+      "explain": "Force is pressure acting on the piston area: F = pA. Flow sets speed, not force."
+    },
+    {
+      "type": "mc",
+      "q": "A 40 mm bore cylinder is fed 15 L/min. The extend speed is about:",
+      "options": [
+        "0.02 m/s",
+        "0.20 m/s",
+        "2.0 m/s",
+        "20 m/s"
+      ],
+      "answer": 1,
+      "explain": "v = Q/A = (2.5e-4)/(1.257e-3) ≈ 0.20 m/s. Speed needs flow and area only."
+    },
+    {
+      "type": "tf",
+      "q": "Pressure and flow are independent levers: one sets force, the other sets speed.",
+      "answer": true,
+      "explain": "Pressure→force, flow→speed. A cylinder can be fast and weak or slow and strong."
+    },
+    {
+      "type": "open",
+      "q": "Why must you convert L/min to m³/s and mm² to m² before using F = pA and v = Q/A?",
+      "model": "The formulas give SI results (newtons, m/s) only when every quantity is in SI base units; mixing L/min or mm² gives answers off by large powers of ten."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

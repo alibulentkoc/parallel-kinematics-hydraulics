@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>4.1.2 — Sensors & Valve Drivers — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "4.1.2 — Sensors & Valve Drivers",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "A position transducer's job is to:",
+      "options": [
+        "Supply solenoid current",
+        "Turn cylinder stroke into a voltage the controller reads as length",
+        "Cap the pressure",
+        "Generate the trajectory"
+      ],
+      "answer": 1,
+      "explain": "It's the machine's eye: stroke → voltage → length (linear scaling)."
+    },
+    {
+      "type": "mc",
+      "q": "For a 0–10 V transducer over a 0–0.6 m stroke, a 7.5 V reading (L_closed = 0.4 m) gives a length of about:",
+      "options": [
+        "0.45 m",
+        "0.85 m",
+        "0.75 m",
+        "1.0 m"
+      ],
+      "answer": 1,
+      "explain": "k = 10/0.6 = 16.7 V/m; L = 0.4 + 7.5/16.7 = 0.85 m."
+    },
+    {
+      "type": "tf",
+      "q": "The sign of the valve command u selects the spool direction (extend vs retract).",
+      "answer": true,
+      "explain": "Magnitude sets the opening; sign sets the direction."
+    },
+    {
+      "type": "open",
+      "q": "What goes wrong if the sensor calibration constant k is set incorrectly?",
+      "model": "Every length reading is wrong, so the loop confidently controls the platform to the wrong position — the controller can be perfectly tuned and still be accurate to a false target."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

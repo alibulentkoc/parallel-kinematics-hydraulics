@@ -4,10 +4,10 @@ This course is built as a true sibling of a lesson-based curriculum: **Module �
 Unit → Lesson**, each lesson with a reading, visuals, an interactive demo, a code
 pointer, and a formative knowledge check.
 
-**Module 1 — Kinematics is authored in full.** Modules 2–4 are mapped below and
-draw on material that already exists in the [reference handbook](01-kinematics-and-motion.md)
-and the [interactive demos](demos/index.html); they are being expanded into the
-same per-lesson format.
+**All four modules are now authored in full** — 23 lessons across kinematics,
+hydraulics, control, and the hardware digital twin, each with visuals, an
+interactive demo or code pointer, and a knowledge check. The [reference
+handbook](handbook.md) and [interactive demos](demos/index.html) back them up.
 
 ## ✅ Module 1 — Kinematics *(complete)*
 
@@ -22,47 +22,47 @@ same per-lesson format.
     - [3.1 The Jacobian & Manipulability](module01/3-1-jacobian.md) · demo
     - [3.2 Singularities](module01/3-2-singularities.md) · demo
 
-## 🔜 Module 2 — Hydraulic Actuation
+## ✅ Module 2 — Hydraulic Actuation *(complete)*
 
 Reference: [Hydraulic Design & Calculations](02-hydraulic-design.md) · demos:
 [Cylinder Asymmetry](demos/cylinder-asymmetry.html), [Valve Flow Law](demos/orifice-flow.html)
 
 - **Unit 1 — Cylinders & Asymmetry**
-    - 1.1 The Hydraulic Cylinder
-    - 1.2 Area Asymmetry φ · demo
-    - 1.3 Force and Speed
+    - [1.1 The Hydraulic Cylinder](module02/1-1-the-hydraulic-cylinder.md)
+    - [1.2 Area Asymmetry φ](module02/1-2-area-asymmetry.md) · demo
+    - [1.3 Force and Speed](module02/1-3-force-and-speed.md)
 - **Unit 2 — Valves, Flow & Pressure**
-    - 2.1 The Valve Flow Law · demo
-    - 2.2 Load Pressure & the Jacobian
-    - 2.3 Pump & Relief Sizing
+    - [2.1 The Valve Flow Law](module02/2-1-valve-flow-law.md) · demo
+    - [2.2 Load Pressure & the Jacobian](module02/2-2-load-pressure.md)
+    - [2.3 Pump & Relief Sizing](module02/2-3-pump-and-relief.md)
 
-## 🔜 Module 3 — Closed-Loop Control
+## ✅ Module 3 — Closed-Loop Control *(complete)*
 
 Reference: [The Control System](03-control-system.md) · demo: [PID Tuning](demos/pid-tuning.html)
 
 - **Unit 1 — The Feedback Loop**
-    - 1.1 Why Feedback
-    - 1.2 PID Control · demo
-    - 1.3 The Tuning Trade-off · demo
+    - [1.1 Why Feedback](module03/1-1-why-feedback.md)
+    - [1.2 PID Control](module03/1-2-pid-control.md) · demo
+    - [1.3 The Tuning Trade-off](module03/1-3-tuning-tradeoff.md) · demo
 - **Unit 2 — Controlling a Parallel Machine**
-    - 2.1 Joint-Space vs Task-Space
-    - 2.2 Feedforward & Trajectory Tracking
+    - [2.1 Joint-Space vs Task-Space](module03/2-1-joint-vs-task-space.md)
+    - [2.2 Feedforward & Trajectory Tracking](module03/2-2-feedforward.md)
 
-## 🔜 Module 4 — From Simulator to Hardware
+## ✅ Module 4 — From Simulator to Hardware *(complete)*
 
 Reference: [Electrical & Control Wiring](04-electrical-and-control-wiring.md),
 [Worked Design Example](05-design-worked-example.md)
 
 - **Unit 1 — Electrical & Control Wiring**
-    - 1.1 The Three Domains (Power, Signal, Control)
-    - 1.2 Sensors & Valve Drivers
-    - 1.3 The Closed-Loop Wiring & Safety Chain
+    - [1.1 The Three Domains](module04/1-1-three-domains.md)
+    - [1.2 Sensors & Valve Drivers](module04/1-2-sensors-and-drivers.md)
+    - [1.3 The Closed-Loop Wiring & Safety Chain](module04/1-3-wiring-and-safety.md)
 - **Unit 2 — The Digital Twin**
-    - 2.1 Logging & the Canonical Schema
-    - 2.2 Grading Simulator and Hardware Identically
+    - [2.1 Logging & the Canonical Schema](module04/2-1-logging-and-schema.md)
+    - [2.2 Grading Simulator and Hardware Identically](module04/2-2-grading-sim-and-hardware.md)
 
 ---
 
-*The handbook chapters above are complete engineering references today; the
-per-lesson Module 2–4 pages will follow Module 1's template, each with its own demo
-and knowledge check.*
+*The [handbook chapters](handbook.md) are the continuous engineering reference; the
+23 module lessons are the guided, step-by-step path. Together they cover the machine
+from geometry to a hardware-ready digital twin.*

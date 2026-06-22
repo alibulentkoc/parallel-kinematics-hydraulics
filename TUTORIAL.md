@@ -426,7 +426,7 @@ You've now touched every idea the testbed teaches: parallel kinematics, the
 hydraulic peculiarities of real cylinders, PID tuning, fault diagnosis,
 trajectory tracking, and singularities. To go deeper:
 
-- **Read the [engineering handbook](docs/README.md)** for the full theory behind
+- **Read the [engineering handbook](docs/handbook.md)** for the full theory behind
   what you just did: the [mathematics of motion](docs/01-kinematics-and-motion.md)
   (derivations + worked examples), [hydraulic design calculations](docs/02-hydraulic-design.md),
   the [control system](docs/03-control-system.md), the [electrical & control

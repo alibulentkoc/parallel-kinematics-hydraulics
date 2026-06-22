@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>4.2.1 — Logging & the Canonical Schema — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "4.2.1 — Logging & the Canonical Schema",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The point of a canonical log schema is that:",
+      "options": [
+        "It makes logs smaller",
+        "Simulator and hardware emit the same format, so one toolset reads both",
+        "It replaces the controller",
+        "It speeds up the pump"
+      ],
+      "answer": 1,
+      "explain": "A shared format means plotting, metrics, and grading work identically for either source."
+    },
+    {
+      "type": "mc",
+      "q": "Why is a fixed timestep important for the log?",
+      "options": [
+        "It saves memory",
+        "It gives uniform sampling so metrics like settling time are well-defined",
+        "It makes the pump quieter",
+        "It isn't important"
+      ],
+      "answer": 1,
+      "explain": "Uniformly sampled records make time-based metrics unambiguous and comparable."
+    },
+    {
+      "type": "tf",
+      "q": "Schema validation catches malformed records before they corrupt analysis.",
+      "answer": true,
+      "explain": "Enforcing fields and units rejects bad records immediately rather than silently poisoning results."
+    },
+    {
+      "type": "open",
+      "q": "What would go wrong with settling-time if records were logged at irregular intervals?",
+      "model": "Settling time is measured in time; with irregular sampling you can't reliably tell when the response entered and stayed within the band, making the metric ambiguous. A fixed timestep gives evenly spaced samples that pin it down."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

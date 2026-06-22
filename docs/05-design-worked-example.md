@@ -26,7 +26,7 @@ region**, away from the `y = 0` singularity.
 - **Base half-spacing `b = 0.6 m`** (1.2 m between anchors). Wide enough that the
   legs meet the platform at healthy angles across the workspace.
 - **Cylinder stroke 0.6 m, closed length 0.4 m** → leg length range **0.4–1.0 m**.
-- **Centre the workspace around `y ≈ 0.7 m`.** From [§1.8](01-kinematics-and-motion.md#18-worked-example--locating-the-platform-and-moving-the-cylinders),
+- **Centre the workspace around `y ≈ 0.7 m`.** From [§1.8](01-kinematics-and-motion.md#18-worked-example-locating-the-platform-and-moving-the-cylinders),
   at `(0, 0.7)` each leg is 0.922 m (mid-stroke ✓) and manipulability is high
   (`w ≈ 0.99`). Keeping the work area near here keeps you far from singularities.
 

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.2.1 — The Valve Flow Law — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.2.1 — The Valve Flow Law",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "In Q = u·Q_rated·√(ΔP/ΔP_rated), how does flow depend on the pressure drop?",
+      "options": [
+        "Linearly",
+        "With the square root",
+        "With the square",
+        "Not at all"
+      ],
+      "answer": 1,
+      "explain": "Flow scales with the square root of the pressure drop — the orifice law."
+    },
+    {
+      "type": "mc",
+      "q": "Command u = 0.7, Q_rated = 15 L/min, ΔP at half rated. The flow is about:",
+      "options": [
+        "5.25 L/min",
+        "7.4 L/min",
+        "10.5 L/min",
+        "15 L/min"
+      ],
+      "answer": 1,
+      "explain": "Q = 0.7·15·√0.5 = 0.7·15·0.707 ≈ 7.4 L/min — more than the naive linear 5.25."
+    },
+    {
+      "type": "tf",
+      "q": "Halving the pressure drop halves the flow.",
+      "answer": false,
+      "explain": "√0.5 ≈ 0.71, so flow falls to about 71%, not 50%."
+    },
+    {
+      "type": "open",
+      "q": "Why does the same valve command produce a slower cylinder when the load is heavy?",
+      "model": "A heavy load raises the load pressure, leaving a smaller pressure drop ΔP across the valve; since flow scales with √ΔP, the same command passes less flow and the cylinder moves slower."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

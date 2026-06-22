@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.2.3 — Pump & Relief Sizing — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.2.3 — Pump & Relief Sizing",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "A hydraulic pump must be sized to supply:",
+      "options": [
+        "One cylinder's flow",
+        "The worst-case SUM of all simultaneous cylinder flows",
+        "The relief pressure",
+        "The payload weight"
+      ],
+      "answer": 1,
+      "explain": "All moving cylinders share one supply, so the pump must cover their combined worst-case demand."
+    },
+    {
+      "type": "mc",
+      "q": "At 16 MPa and 36 L/min (6e-4 m³/s), the hydraulic power is about:",
+      "options": [
+        "0.96 kW",
+        "9.6 kW",
+        "96 kW",
+        "960 kW"
+      ],
+      "answer": 1,
+      "explain": "P = pQ = 16e6 × 6e-4 = 9600 W ≈ 9.6 kW."
+    },
+    {
+      "type": "tf",
+      "q": "The relief valve should be set at or below the supply pressure.",
+      "answer": false,
+      "explain": "It must sit ABOVE working pressure (between supply and burst) or it would dump oil during normal operation."
+    },
+    {
+      "type": "open",
+      "q": "What happens when the cylinders' total flow demand exceeds the pump's output?",
+      "model": "The pump saturates: it can't supply more flow, so the platform slows down. It's a graceful flow limit, not a failure or a control bug."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

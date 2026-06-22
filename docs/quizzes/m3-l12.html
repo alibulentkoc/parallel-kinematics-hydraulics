@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.1.2 — PID Control — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.1.2 — PID Control",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Which PID term removes steady-state error?",
+      "options": [
+        "Proportional (Kp)",
+        "Integral (Ki)",
+        "Derivative (Kd)",
+        "None"
+      ],
+      "answer": 1,
+      "explain": "The integral accumulates leftover error over time and drives it to zero."
+    },
+    {
+      "type": "mc",
+      "q": "Raising Kp to try to eliminate a steady offset will:",
+      "options": [
+        "Remove the offset completely",
+        "Reduce but never remove it, and add overshoot",
+        "Have no effect",
+        "Cause windup"
+      ],
+      "answer": 1,
+      "explain": "Proportional action shrinks but never eliminates the offset; only the integral removes it."
+    },
+    {
+      "type": "tf",
+      "q": "Taking the derivative on the measurement (not the error) avoids spikes when the setpoint jumps.",
+      "answer": true,
+      "explain": "A setpoint step makes de/dt spike; differentiating the measurement avoids that kick."
+    },
+    {
+      "type": "open",
+      "q": "What does anti-windup protect against?",
+      "model": "When the actuator saturates, the integral term keeps growing unchecked; when control is restored it overshoots badly. Clamping the integral (anti-windup) prevents this runaway accumulation."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

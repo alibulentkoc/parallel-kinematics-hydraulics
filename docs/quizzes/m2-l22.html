@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.2.2 — Load Pressure & the Jacobian — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.2.2 — Load Pressure & the Jacobian",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "How does a platform load become individual leg forces?",
+      "options": [
+        "Equally split among legs",
+        "Through the Jacobian transpose: f = J⁻ᵀ(Ma − F_ext)",
+        "Through the valve flow law",
+        "It doesn't — load is irrelevant"
+      ],
+      "answer": 1,
+      "explain": "The Jacobian transpose maps the platform wrench to leg forces, and it depends on pose."
+    },
+    {
+      "type": "mc",
+      "q": "A leg force becomes a cylinder pressure via:",
+      "options": [
+        "p = f·A",
+        "p = f/A",
+        "p = f + A",
+        "p = √f"
+      ],
+      "answer": 1,
+      "explain": "Pressure is force per unit area: p_i = f_i / A_i (cap or rod area as appropriate)."
+    },
+    {
+      "type": "tf",
+      "q": "The pressure needed to hold a fixed load is the same everywhere in the workspace.",
+      "answer": false,
+      "explain": "It depends on pose through the Jacobian; near a singularity the demanded pressure diverges."
+    },
+    {
+      "type": "open",
+      "q": "Why can a parallel machine be reachable at a pose yet unable to hold a load there?",
+      "model": "Reachability only checks that leg lengths are within stroke. Holding a load also requires finite leg forces; near a singularity (det J → 0) J⁻ᵀ blows up, so the required force and pressure diverge even though the pose is reachable."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

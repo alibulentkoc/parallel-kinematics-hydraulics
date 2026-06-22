@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>4.2.2 — Grading Sim & Hardware Identically — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "4.2.2 — Grading Sim & Hardware Identically",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The grader produces a transferable score because it depends only on:",
+      "options": [
+        "Which machine ran",
+        "The canonical log and the rubric",
+        "The student's name",
+        "The pump pressure"
+      ],
+      "answer": 1,
+      "explain": "Judging the log alone (not the venue) makes sim and hardware grades comparable."
+    },
+    {
+      "type": "mc",
+      "q": "For sim and hardware grades to be equivalent you need:",
+      "options": [
+        "Different rubrics for each",
+        "The same grader and the same rubric for both",
+        "Only a hardware run",
+        "No metrics"
+      ],
+      "answer": 1,
+      "explain": "One grader + one rubric + the shared log format yields one objective score for either source."
+    },
+    {
+      "type": "tf",
+      "q": "Passing in simulation guarantees a solution passes on hardware with no possible gap.",
+      "answer": false,
+      "explain": "It strongly predicts success, but idealizations (noise, deadband, leaks) mean a hardware run can still reveal gaps."
+    },
+    {
+      "type": "open",
+      "q": "How does grading both sim and hardware with the SAME rubric turn a sim-to-real gap into useful information?",
+      "model": "If a solution passes in sim but the identically-graded hardware run fails, the difference is measured objectively and points exactly to where reality diverged from the model (e.g. higher overshoot from valve deadband), turning a hidden surprise into actionable feedback."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

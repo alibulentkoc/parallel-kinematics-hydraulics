@@ -123,7 +123,7 @@ snaps onto the commanded circle.
 
 The controller's output is the normalized command **u ∈ [−1, +1]**. In the
 simulator this feeds straight into the valve flow law of
-[Hydraulics §2.4](02-hydraulic-design.md#24-the-valve--controlling-the-flow). On
+[Hydraulics §2.4](02-hydraulic-design.md#24-the-valve-controlling-the-flow). On
 real hardware, `u` becomes an electrical signal to the valve driver:
 
 ```
