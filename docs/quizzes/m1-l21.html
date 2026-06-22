@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.1 — Inverse Kinematics — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.1 — Inverse Kinematics",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Inverse kinematics for a leg computes…",
+      "options": [
+        "The angle of the leg",
+        "The distance from the leg's anchor to the platform",
+        "The oil pressure in the cylinder",
+        "The platform's velocity"
+      ],
+      "answer": 1,
+      "explain": "L_i = ‖P − B_i‖ — a single distance per leg."
+    },
+    {
+      "type": "mc",
+      "q": "Moving the platform 100 mm sideways typically requires…",
+      "options": [
+        "Both legs to extend equally",
+        "Both legs to retract equally",
+        "One leg to extend and the other to retract",
+        "No change in leg lengths"
+      ],
+      "answer": 2,
+      "explain": "A sideways slide lengthens one leg and shortens the other — coordinated push/pull."
+    },
+    {
+      "type": "tf",
+      "q": "Inverse kinematics will return a leg length even for an unreachable target.",
+      "answer": true,
+      "explain": "IK is just a distance formula; it doesn't check feasibility. Reachability is a separate test (Lesson 2.3)."
+    },
+    {
+      "type": "open",
+      "q": "Why is IK called the 'easy' direction for a parallel machine?",
+      "model": "Each leg length depends only on the platform position and that leg's own fixed anchor — one independent distance per leg, closed-form and fast, with no chain of joint angles to unwind."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>1.1 — What Is a Parallel Kinematics Machine? — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "1.1 — What Is a Parallel Kinematics Machine?",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "What most distinguishes a parallel machine from a serial robot arm?",
+      "options": [
+        "It uses electric motors instead of hydraulics",
+        "Several legs connect the platform to the base and act together",
+        "It can only move in one dimension",
+        "It has no sensors"
+      ],
+      "answer": 1,
+      "explain": "Parallel machines share the load across multiple legs acting simultaneously, rather than stacking joints in a chain."
+    },
+    {
+      "type": "mc",
+      "q": "For a parallel machine, which direction is the EASY calculation?",
+      "options": [
+        "Forward kinematics (leg lengths → pose)",
+        "Inverse kinematics (pose → leg lengths)",
+        "Both are equally hard",
+        "Neither can be computed"
+      ],
+      "answer": 1,
+      "explain": "Each leg length is just a distance from its anchor to the platform — a direct, closed-form calculation."
+    },
+    {
+      "type": "tf",
+      "q": "Every point in the plane is reachable by the platform.",
+      "answer": false,
+      "explain": "Cylinders have a fixed stroke, so only a finite workspace is reachable (Lesson 2.3)."
+    },
+    {
+      "type": "open",
+      "q": "In your own words, what does 'coordination' mean for a parallel machine?",
+      "model": "No single leg moves the platform on its own — every platform motion is the combined result of all legs changing length together, so you can't reason about one leg in isolation."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

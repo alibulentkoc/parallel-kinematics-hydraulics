@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>1.2 — The 2-RPR Geometry & Pose — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "1.2 — The 2-RPR Geometry & Pose",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "In our convention, b is…",
+      "options": [
+        "The full distance between the two anchors",
+        "Half the distance between the two anchors",
+        "The cylinder bore diameter",
+        "The platform height"
+      ],
+      "answer": 1,
+      "explain": "Anchors sit at (−b,0) and (+b,0), so they are 2b apart; b is the half-spacing."
+    },
+    {
+      "type": "mc",
+      "q": "A cylinder's stroke s_i relates to its length L_i how?",
+      "options": [
+        "s_i = L_i + L_closed",
+        "s_i = L_i − L_closed",
+        "s_i = L_i × L_closed",
+        "They are unrelated"
+      ],
+      "answer": 1,
+      "explain": "Stroke is piston travel beyond the closed length: s_i = L_i − L_closed."
+    },
+    {
+      "type": "mc",
+      "q": "With b = 0.6, the leg length at platform (0, 0.7) is…",
+      "options": [
+        "0.70 m",
+        "0.85 m",
+        "0.922 m",
+        "1.20 m"
+      ],
+      "answer": 2,
+      "explain": "L = √(0.6² + 0.7²) = √0.85 = 0.922 m, and by symmetry both legs are equal."
+    },
+    {
+      "type": "open",
+      "q": "Why does the platform sit above the base line (y > 0) and not below?",
+      "model": "The below-base solution corresponds to the legs folding the wrong way through the base; physically the platform is held above, so we take the upper (positive-y) configuration."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

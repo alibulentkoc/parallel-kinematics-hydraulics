@@ -1,0 +1,159 @@
+!!! abstract "You are here"
+    **Module 1 — Kinematics** · **Unit 2 — Solving the Motion** · **Lesson 2.3 — Reachability & the Workspace**
+
+# Lesson 2.3 — Reachability & the Workspace
+
+> **Module 1 · Unit 2 · Lesson 2.3**
+> Inverse kinematics will hand you a leg length for *any* target — even an
+> impossible one. This lesson is about telling the possible from the impossible:
+> the machine's reachable **workspace**, and how to guard against commands that
+> would break the math.
+
+---
+
+## 1. Why This Matters
+
+A controller that chases an impossible target wastes effort, slams into stroke
+limits, or — worst — produces `NaN` and corrupts everything downstream. Knowing the
+**workspace** (the set of reachable poses) lets the machine refuse impossible
+commands gracefully, hold at the boundary, and tell the operator *why* it stopped.
+
+## 2. Physical Intuition
+
+Each cylinder can only be between its shortest and longest length. So each leg
+confines the platform to an **annulus** — a ring between a minimum-radius circle and
+a maximum-radius circle around its anchor. The platform must satisfy *both* legs at
+once, so the reachable region is the **overlap of the two rings**. Anywhere outside
+that overlap, at least one cylinder would have to be impossibly short or long.
+
+## 3. Mathematical Foundations
+
+A pose \(P\) is **reachable** when every leg length lands inside its stroke band and
+the platform is above the base line:
+
+\[
+L_\text{closed} \le L_i(P) \le L_\text{closed} + \text{stroke} \quad \text{for each } i,
+\qquad y \ge 0.
+\]
+
+Two failure modes have names you'll see as faults:
+
+- **stroke-max:** \(L_i > L_\text{closed} + \text{stroke}\) — target too far; the
+  cylinder can't extend that far.
+- **stroke-min:** \(L_i < L_\text{closed}\) — target too close; the cylinder can't
+  retract that far.
+
+And the forward-kinematics guard from Lesson 2.2 — a negative square-root argument —
+catches length pairs whose circles don't intersect at all. Together these keep the
+machine in the land of real, finite numbers.
+
+## 4. Visual Explanation
+
+```mermaid
+flowchart TB
+    A1["Leg 1 annulus<br/>(ring around B1)"] --> O["Workspace =<br/>overlap of both rings,<br/>y ≥ 0"]
+    A2["Leg 2 annulus<br/>(ring around B2)"] --> O
+    O --> R{"target inside?"}
+    R -->|yes| OK["reachable — go"]
+    R -->|no| NO["UNREACHABLE —<br/>hold at boundary"]
+```
+
+In the Kinematics Explorer the boundary is drawn for you: drag the target past the
+edge and the crosshair turns **red** (unreachable); near the base line it turns
+**amber** (reachable but nearly singular — Lesson 3.2).
+
+## 5. Engineering Example
+
+Workspace shape is a design driver. A short stroke gives a thin, shallow workspace;
+a longer stroke deepens it but needs bigger, heavier, more expensive cylinders. When
+you size a machine you choose stroke and base spacing so the *task's* working
+region sits comfortably inside the reachable set — with margin, so the platform
+never operates right at a stroke limit where it has no headroom to correct.
+
+## 6. Worked Example
+
+Default machine: \(b = 0.6\), \(L_\text{closed} = 0.4\), stroke 0.6, so each leg
+must satisfy \(0.4 \le L_i \le 1.0\).
+
+**Target \((0, 0.7)\):** \(L_1 = L_2 = 0.922\) m — both inside \([0.4, 1.0]\).
+**Reachable.** ✓
+
+**Target \((0, 1.05)\):** \(L_1 = L_2 = \sqrt{0.6^2 + 1.05^2} = \sqrt{1.4625} =
+1.209\) m — **greater than 1.0**. Both legs hit *stroke-max*. **Unreachable** —
+this is exactly the target the "Workspace limits" assignment commands to show
+graceful handling.
+
+## 7. Interactive Demonstration
+
+[Open the Kinematics Explorer ↗](../demos/kinematics-explorer.html){ target=_blank }
+
+Drag the platform slowly toward the top of the view and watch the crosshair turn
+red the moment a leg would exceed 1.0 m — the workspace boundary made visible. Then
+shrink the **stroke** slider and watch the reachable region (and the bright dexterity
+zone) shrink with it.
+
+## 8. Code Pointer
+
+Reachability is checked in
+[`src/kinematics/kinematics-base.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics-base.js):
+
+```js
+const Lclosed = 0.4, stroke = 0.6;
+const Lmin = Lclosed, Lmax = Lclosed + stroke; // [0.4, 1.0]
+function reachable(L1, L2, y) {
+  const okLen = (L) => L >= Lmin && L <= Lmax;
+  return y >= 0 && okLen(L1) && okLen(L2);
+}
+```
+
+The test [`kinematics.test.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/test/kinematics.test.js)
+asserts a far target reports `stroke-max` and that forward kinematics "never emits
+NaN."
+
+## 9. Knowledge Check
+
+[Open the Lesson 2.3 check ↗](../quizzes/m1-l23.html){ target=_blank }
+
+## 10. Challenge Problem
+
+With the default limits (\(0.4 \le L \le 1.0\), \(b = 0.6\)), find the **highest**
+point straight above the origin (\(x = 0\)) the platform can reach, and the
+**lowest**. (Hint: at \(x = 0\), \(L_1 = L_2 = \sqrt{b^2 + y^2}\); solve for the \(y\)
+that makes \(L = 1.0\) and \(L = 0.4\).) What does the lower bound tell you about
+why you can't sit exactly on the base line?
+
+## 11. Common Mistakes
+
+- **Trusting IK output blindly.** It returns a number for impossible targets too;
+  always test reachability before acting.
+- **Forgetting the minimum length.** Targets too *close* to an anchor are
+  unreachable just as surely as ones too far.
+- **Operating at the boundary.** Even reachable poses right at a stroke limit leave
+  the controller no room to correct — keep a margin.
+
+## 12. Key Takeaways
+
+- The **workspace** is the overlap of each leg's reachable annulus, with \(y \ge 0\).
+- A pose is reachable when **every** leg length is within \([L_\text{closed},
+  L_\text{closed} + \text{stroke}]\).
+- Failure modes: **stroke-max** (too far), **stroke-min** (too close), and the FK
+  **no-intersection** guard — all of which prevent `NaN`.
+- Workspace shape is a **design trade-off** between stroke (reach) and cylinder
+  size/cost.
+
+## AI Learning Companion
+
+**Tutor**
+```
+Explain why the reachable workspace of a 2-RPR machine is the intersection of two
+annuli (rings). What sets the inner and outer radius of each ring?
+```
+**Practice**
+```
+Give me 5 reachability problems for a 2-RPR machine with leg limits 0.4–1.0 m and
+b = 0.6 m: a target, decide reachable or not, and name the failure mode if not.
+```
+
+---
+
+*Next lesson: [3.1 — The Jacobian & Manipulability](3-1-jacobian.md), where we move from positions to motion and dexterity.*

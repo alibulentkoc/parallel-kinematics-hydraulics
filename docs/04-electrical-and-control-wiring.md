@@ -223,7 +223,7 @@ the simulator corresponds to a physical wire:
 | logged CSV row | one control cycle | the controller's data-acquisition record | logged |
 
 Because the data format is identical, a log captured from a **real rig** drops
-straight into the [Grading Console](../grade.html) and the digital-twin tools — the
+straight into the <a href="../app/grade.html" target="_blank">Grading Console</a> and the digital-twin tools — the
 same analysis runs on simulated and physical data, which is the whole point of the
 "twin" design.
 

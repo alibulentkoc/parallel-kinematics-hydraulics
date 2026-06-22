@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.1 — The Jacobian & Manipulability — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.1 — The Jacobian & Manipulability",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The rows of the 2-RPR Jacobian are…",
+      "options": [
+        "The leg lengths",
+        "The unit leg direction vectors û_i",
+        "The anchor positions",
+        "The platform velocity"
+      ],
+      "answer": 1,
+      "explain": "Differentiating L_i² gives L̇_i = û_i·Ṗ, so each Jacobian row is the unit leg vector."
+    },
+    {
+      "type": "mc",
+      "q": "Manipulability det(J) = 2by/(L1·L2) is proportional to…",
+      "options": [
+        "The platform's x-position",
+        "The platform's height y",
+        "The oil pressure",
+        "The base spacing only"
+      ],
+      "answer": 1,
+      "explain": "With b fixed, det(J) scales with y — the machine is most dexterous high up."
+    },
+    {
+      "type": "mc",
+      "q": "To find the leg FORCES needed for a desired platform force F, you use…",
+      "options": [
+        "f = J·F",
+        "f = J⁻ᵀ·F",
+        "f = F/J",
+        "f = F + J"
+      ],
+      "answer": 1,
+      "explain": "From virtual work, F = Jᵀf, so f = J⁻ᵀF."
+    },
+    {
+      "type": "open",
+      "q": "Why must the Jacobian be recomputed as the platform moves?",
+      "model": "The unit leg directions û_i change with the platform position, so J is pose-dependent — there is no single fixed Jacobian for the machine; it must be evaluated at each pose."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

@@ -21,3 +21,6 @@ Thumbs.db
 pkm_run.csv
 pkm_run.json
 submission_*.json
+
+# MkDocs build output
+/site/

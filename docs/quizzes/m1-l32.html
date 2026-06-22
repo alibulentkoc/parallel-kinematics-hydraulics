@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3.2 — Singularities — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "3.2 — Singularities",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "A kinematic singularity is a pose where…",
+      "options": [
+        "The pump runs out of oil",
+        "det(J) = 0 and the machine loses a degree of freedom",
+        "The platform is at the origin",
+        "Two cylinders have equal length"
+      ],
+      "answer": 1,
+      "explain": "At det(J)=0 the Jacobian is non-invertible; the machine can't move in some direction and forces diverge."
+    },
+    {
+      "type": "mc",
+      "q": "For the 2-RPR machine, the singular locus is…",
+      "options": [
+        "The base line y = 0",
+        "The vertical line x = 0",
+        "A circle of radius b",
+        "There is none"
+      ],
+      "answer": 0,
+      "explain": "det(J) = 2by/(L1L2) = 0 exactly when y = 0 — the base line."
+    },
+    {
+      "type": "tf",
+      "q": "Near a singularity, the required leg forces and pressures tend to grow very large.",
+      "answer": true,
+      "explain": "Force needs J⁻ᵀ, which blows up as det(J)→0 — the legs glow red where manipulability collapses."
+    },
+    {
+      "type": "open",
+      "q": "Why does the 'broken diamond' 3-DOF preset exist in the simulator?",
+      "model": "It's a geometry deliberately singular at θ=0, placing a singularity in the middle of the workspace. It teaches that geometry choice matters: good design pushes singularities to the edges, and this shows what happens when it doesn't."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

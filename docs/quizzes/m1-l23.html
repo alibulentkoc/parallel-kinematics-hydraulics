@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.3 — Reachability & the Workspace — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.3 — Reachability & the Workspace",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "The reachable workspace is…",
+      "options": [
+        "A single circle",
+        "The overlap of each leg's reachable annulus (ring), with y ≥ 0",
+        "The whole upper half-plane",
+        "Wherever the pump can reach"
+      ],
+      "answer": 1,
+      "explain": "Each leg confines the platform to a ring between its min and max length; the workspace is their overlap above the base line."
+    },
+    {
+      "type": "mc",
+      "q": "A target too FAR from the machine triggers which limit?",
+      "options": [
+        "stroke-min",
+        "stroke-max",
+        "over-pressure",
+        "pump saturation"
+      ],
+      "answer": 1,
+      "explain": "Too far means a leg would exceed its maximum length: stroke-max."
+    },
+    {
+      "type": "tf",
+      "q": "A target can be unreachable because it is too CLOSE to an anchor.",
+      "answer": true,
+      "explain": "If a leg would need to be shorter than its closed length (stroke-min), the target is unreachable."
+    },
+    {
+      "type": "open",
+      "q": "Why keep the working region inside the workspace with margin, not right at the boundary?",
+      "model": "At a stroke limit the cylinder has no travel left to correct an error, and the controller loses authority. A margin leaves headroom to track and recover."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>

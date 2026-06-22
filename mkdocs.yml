@@ -1,0 +1,85 @@
+site_name: PKM Testbed — Learn Electrohydraulic Parallel Kinematics
+site_description: A self-guided course in parallel kinematics, hydraulics, control, and digital twins, built around an electrohydraulic parallel kinematics machine.
+site_url: https://alibulentkoc.github.io/parallel-kinematics-hydraulics/
+repo_url: https://github.com/alibulentkoc/parallel-kinematics-hydraulics
+repo_name: parallel-kinematics-hydraulics
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - assets/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - "Module 1 — Kinematics":
+      - "Overview": module01/index.md
+      - "Unit 1 — The Parallel Machine":
+          - "1.1 What Is a Parallel Kinematics Machine?": module01/1-1-what-is-a-pkm.md
+          - "1.2 The 2-RPR Geometry & Pose": module01/1-2-geometry-and-pose.md
+      - "Unit 2 — Solving the Motion":
+          - "2.1 Inverse Kinematics · demo": module01/2-1-inverse-kinematics.md
+          - "2.2 Forward Kinematics": module01/2-2-forward-kinematics.md
+          - "2.3 Reachability & the Workspace": module01/2-3-reachability.md
+      - "Unit 3 — Differential Motion":
+          - "3.1 The Jacobian & Manipulability · demo": module01/3-1-jacobian.md
+          - "3.2 Singularities · demo": module01/3-2-singularities.md
+  - "Reference Handbook":
+      - "Kinematics & the Math of Motion": 01-kinematics-and-motion.md
+      - "Hydraulic Design & Calculations": 02-hydraulic-design.md
+      - "The Control System": 03-control-system.md
+      - "Electrical & Control Wiring": 04-electrical-and-control-wiring.md
+      - "Worked Design Example": 05-design-worked-example.md
+  - "Interactive Demos": demos/index.html
+  - "Roadmap": roadmap.md

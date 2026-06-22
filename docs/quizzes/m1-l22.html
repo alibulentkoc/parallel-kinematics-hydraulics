@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>2.2 — Forward Kinematics — Knowledge Check</title>
+<link rel="stylesheet" href="quiz.css"/></head>
+<body><div id="quiz"></div>
+<script>window.QUIZ={
+  "title": "2.2 — Forward Kinematics",
+  "questions": [
+    {
+      "type": "mc",
+      "q": "Geometrically, the platform pose is found at…",
+      "options": [
+        "The midpoint of the two anchors",
+        "The intersection of two circles (one per leg)",
+        "The top of the taller cylinder",
+        "The origin"
+      ],
+      "answer": 1,
+      "explain": "Each leg length defines a circle around its anchor; the platform lies where they intersect."
+    },
+    {
+      "type": "mc",
+      "q": "The 2-DOF forward-kinematics x-coordinate is…",
+      "options": [
+        "x = (L1 + L2)/2",
+        "x = (L1² − L2²)/(4b)",
+        "x = L1 − L2",
+        "x = √(L1·L2)"
+      ],
+      "answer": 1,
+      "explain": "Subtracting the two circle equations cancels y² and gives x = (L1² − L2²)/(4b)."
+    },
+    {
+      "type": "tf",
+      "q": "The 3-DOF machine has a tidy closed-form forward kinematics like the 2-DOF one.",
+      "answer": false,
+      "explain": "Adding orientation gives three coupled nonlinear equations with no closed form; it's solved by Newton iteration."
+    },
+    {
+      "type": "open",
+      "q": "What does a negative argument under the square root for y mean physically?",
+      "model": "The two circles don't reach each other, so the commanded leg lengths are inconsistent — there is no real platform position for them. The code returns 'no solution' instead of NaN."
+    }
+  ]
+};</script>
+<script src="quiz.js"></script></body></html>
