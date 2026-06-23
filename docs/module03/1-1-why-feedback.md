@@ -111,8 +111,6 @@ print(f"error = {e:+.3f} m  ->  positive means too short, so extend")
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    The loop is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), stepped by [`simulation.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/simulation.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 3.1.1 check ↗](../quizzes/m3-l11.html){ target=_blank }

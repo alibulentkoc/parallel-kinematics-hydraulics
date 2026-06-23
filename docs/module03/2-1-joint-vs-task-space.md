@@ -116,8 +116,6 @@ print(f"leg setpoints: L1*={L1_star:.3f}, L2*={L2_star:.3f}")
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    Both modes live in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 3.2.1 check ↗](../quizzes/m3-l21.html){ target=_blank }

@@ -113,8 +113,6 @@ for p in [(0.0, 0.70), (0.10, 0.70), (0.0, 1.2)]:
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    Stroke limits live in the presets and [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 2.3 check ↗](../quizzes/m1-l23.html){ target=_blank }

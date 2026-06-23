@@ -109,8 +109,6 @@ print(f"command u={u} -> {'retract' if u < 0 else 'extend'} at {abs(u)*100:.0f}%
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 4.1.2 check ↗](../quizzes/m4-l12.html){ target=_blank }

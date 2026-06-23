@@ -122,8 +122,6 @@ print("phi (28 mm rod) =", round((pi*D**2/4)/(pi*(D**2-0.028**2)/4), 2))   # 1.9
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    phi is computed in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 2.1.2 check ↗](../quizzes/m2-l12.html){ target=_blank }

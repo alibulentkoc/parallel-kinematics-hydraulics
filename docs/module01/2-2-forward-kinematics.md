@@ -125,8 +125,6 @@ print(fk(0.990, 0.860))         # -> (0.100, 0.700)
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js); the 3-DOF case uses Newton iteration in [`kinematics3dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics3dof.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 2.2 check ↗](../quizzes/m1-l22.html){ target=_blank }

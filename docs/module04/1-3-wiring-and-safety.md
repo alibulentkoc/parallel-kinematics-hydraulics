@@ -117,8 +117,6 @@ print(guards(10e6, 0.9, 0.02))   # ['NEAR_SINGULAR']
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    The eleven detectors are in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 4.1.3 check ↗](../quizzes/m4-l13.html){ target=_blank }

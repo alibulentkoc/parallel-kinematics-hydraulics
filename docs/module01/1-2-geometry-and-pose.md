@@ -139,8 +139,6 @@ print(f"L1={L1:.3f} m, L2={L2:.3f} m")   # 0.990, 0.860
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 1.2 check ↗](../quizzes/m1-l12.html){ target=_blank }

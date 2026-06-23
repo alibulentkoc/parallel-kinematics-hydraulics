@@ -121,8 +121,6 @@ print(f"pressure = {f / A_cap / 1e6:.3f} MPa")     # ~0.10 MPa at a healthy pose
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 2.2.2 check ↗](../quizzes/m2-l22.html){ target=_blank }

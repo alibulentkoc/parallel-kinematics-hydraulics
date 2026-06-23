@@ -106,8 +106,6 @@ print(f"feedforward flow = {Q_ff*60000:.1f} L/min  (sent before any error appear
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    Feedforward is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), fed by [`trajectory.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/trajectory.js).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 3.2.2 check ↗](../quizzes/m3-l22.html){ target=_blank }

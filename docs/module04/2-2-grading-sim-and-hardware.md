@@ -103,8 +103,6 @@ print("ringing hw:", grade(0.20, 1.40))
     2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
     3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
 
-    Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
-
 ## 9. Knowledge Check
 
 [Open the Lesson 4.2.2 check ↗](../quizzes/m4-l22.html){ target=_blank }
