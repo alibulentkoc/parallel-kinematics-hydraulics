@@ -1,0 +1,12 @@
+# source=Family 2, view=Pump, params=baseline_hydraulic, exported=2026-06-23, key=req flow + power vs target speed at bore 40mm
+targetV_mps,reqFlow_Lmin,power_kW,saturated
+0.05,3.77,1.01,0
+0.10,7.54,2.01,0
+0.15,11.31,3.02,0
+0.20,15.08,4.02,0
+0.25,18.85,5.03,0
+0.30,22.62,6.03,0
+0.35,26.39,7.04,0
+0.40,30.16,8.04,0
+0.45,33.93,9.05,0
+0.50,37.70,9.60,1

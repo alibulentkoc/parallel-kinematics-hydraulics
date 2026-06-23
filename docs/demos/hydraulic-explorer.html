@@ -74,6 +74,15 @@
           <button class="btn" id="check">Check result</button>
           <div class="verdict" id="verdict"></div></div>
       </div>
+      <div class="card">
+        <h2>Export figure (frozen params)</h2>
+        <div style="display:flex;gap:6px">
+          <button class="btn" id="exsvg" style="width:auto;flex:1">SVG</button>
+          <button class="btn" id="expng" style="width:auto;flex:1">PNG</button>
+          <button class="btn" id="excsv" style="width:auto;flex:1">CSV</button>
+        </div>
+        <div class="verdict" id="exverdict"></div>
+      </div>
       <div class="hint" id="hint"></div>
     </aside>
   </div>
@@ -318,6 +327,42 @@ document.getElementById("save").addEventListener("click",function(){
 document.getElementById("check").addEventListener("click",function(){
   var pass=CHAL[view].test();
   document.getElementById("verdict").innerHTML = pass ? '<span class="ok">PASS - meets the acceptance test.</span>' : '<span class="warn">Needs work - target not yet met.</span>';
+});
+
+/* ---- export pipeline (SVG / PNG / CSV) with frozen params + metadata --- */
+var FW=600, FH=380;
+function frozenParams(){ return "baseline_hydraulic"; }
+function exBase(){ return "hydraulic-"+view; }
+function stamp(){ return new Date().toISOString().slice(0,10); }
+function ns(t){ return document.createElementNS("http://www.w3.org/2000/svg",t); }
+function serializeStage(){
+  var clone=svg.cloneNode(true);
+  var bg=ns("rect"); bg.setAttribute("width",FW); bg.setAttribute("height",FH); bg.setAttribute("fill","#0e1217"); clone.insertBefore(bg,clone.firstChild);
+  var style=ns("style"); style.textContent="svg{--bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--grid:#22303c;--accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;--dim:#8a97a3;--ink:#cdd6df;--rule:#2c3a47;--faint:#5b6975}";
+  clone.insertBefore(style,clone.firstChild);
+  var meta=ns("metadata"); meta.textContent="source=Family 2; view="+view+"; params="+frozenParams()+"; exported="+stamp(); clone.appendChild(meta);
+  return new XMLSerializer().serializeToString(clone);
+}
+function dl(name,data,type){ var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([data],{type:type})); a.download=name; a.click(); }
+function viewCSV(){
+  var hdr="# source=Family 2, view="+view+", params="+frozenParams()+", exported="+stamp(), lines=[hdr], saved=JSON.parse(JSON.stringify(st));
+  if(view==="cyl"){ lines.push("rod_mm,A_cap_mm2,A_rod_mm2,phi,Fext_kN,Fret_kN");
+    for(var r=0.010;r<=0.0381;r+=0.002){ st.rod=r; var a=areas(),f=forces(); lines.push((r*1000).toFixed(0)+","+(a.ac*1e6).toFixed(0)+","+(a.ar*1e6).toFixed(0)+","+a.phi.toFixed(3)+","+(f.Fext/1000).toFixed(2)+","+(f.Fret/1000).toFixed(2)); } }
+  else if(view==="valve"){ lines.push("dP_over_rated,Q_Lmin");
+    for(var d=0;d<=1.5001;d+=0.05) lines.push(d.toFixed(2)+","+(orificeQ(Math.abs(st.u),d*RATED_DP)*60000).toFixed(3)); }
+  else if(view==="pump"){ lines.push("targetV_mps,reqFlow_Lmin,power_kW,saturated");
+    for(var v=0.05;v<=0.5001;v+=0.05){ st.targetV=v; var rf=reqFlow(); lines.push(v.toFixed(2)+","+(rf*60000).toFixed(2)+","+(SUPPLY*Math.min(rf,PUMP_MAX)/1000).toFixed(2)+","+(rf>PUMP_MAX?1:0)); } }
+  else { lines.push("position_m,signal_V");
+    for(var pp=0;pp<=st.sensFS+1e-9;pp+=st.sensFS/20) lines.push(pp.toFixed(3)+","+Math.min(st.sensVmax,pp/st.sensFS*st.sensVmax).toFixed(3)); }
+  st.bore=saved.bore; st.rod=saved.rod; st.targetV=saved.targetV; render();
+  return lines.join("\n")+"\n";
+}
+document.getElementById("exsvg").addEventListener("click",function(){ dl(exBase()+".svg",serializeStage(),"image/svg+xml"); document.getElementById("exverdict").innerHTML='<span class="ok">SVG exported.</span>'; });
+document.getElementById("excsv").addEventListener("click",function(){ dl(exBase()+".csv",viewCSV(),"text/csv"); document.getElementById("exverdict").innerHTML='<span class="ok">CSV exported.</span>'; });
+document.getElementById("expng").addEventListener("click",function(){
+  var url=URL.createObjectURL(new Blob([serializeStage()],{type:"image/svg+xml"})), img=new Image();
+  img.onload=function(){ var c=document.createElement("canvas"); c.width=FW*2; c.height=FH*2; c.getContext("2d").drawImage(img,0,0,c.width,c.height); c.toBlob(function(b){ var a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download=exBase()+".png"; a.click(); }); URL.revokeObjectURL(url); };
+  img.src=url; document.getElementById("exverdict").innerHTML='<span class="ok">PNG exported.</span>';
 });
 
 renderInputs(); render();
