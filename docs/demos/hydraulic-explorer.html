@@ -89,7 +89,7 @@ var view="cyl", role="student";
 var svg=document.getElementById("svg");
 
 /* ---- hydraulic model (matches engine) -------------------------------- */
-function areas(){ var ac=PI4*st.bore*st.bore; var ar=ac-PI4*st.rod*st.rod; return {ac:ac,ar:ar,phi:ac/ar}; }
+function areas(){ var ac=PI4*st.bore*st.bore; var ar=ac-PI4*st.rod*st.rod; return {ac:ac,ar:ar,phi:ar>1e-12?ac/ar:Infinity}; }
 function forces(){ var a=areas(); return {Fext:SUPPLY*a.ac, Fret:SUPPLY*a.ar}; }
 function orificeQ(u,dp){ return u*RATED_FLOW*Math.sqrt(Math.max(0,dp)/RATED_DP); }
 function reqFlow(){ return st.targetV*areas().ac; }
@@ -142,18 +142,28 @@ function drawCylinder(){
   txt(bx+25,by+bh+42,"A","var(--accent)",11); txt(bx+16,by+bh+56,"cap","var(--faint)",9);
   txt(bx+145,by+bh+42,"B","var(--accent)",11); txt(bx+138,by+bh+56,"rod","var(--faint)",9);
   txt(bx,by-12,"ISO 1219 double-acting single-rod cylinder","var(--faint)",10);
-  // area annotation (to scale — updates with bore/rod sliders; annotation, not a substitute symbol)
-  var sc=850, rc=Math.sqrt(a.ac)*sc, rr=Math.sqrt(a.ar)*sc, cx=400, cy=150;
-  svg.appendChild(el("circle",{cx:cx,cy:cy,r:rc,fill:"rgba(57,197,224,0.16)",stroke:"var(--accent)","stroke-width":1.4}));
-  var cx2=cx+rc+rr+22;
-  svg.appendChild(el("circle",{cx:cx2,cy:cy,r:rr,fill:"rgba(57,197,224,0.06)",stroke:"var(--accent)","stroke-width":1.4,"stroke-dasharray":"3 3"}));
-  txt(cx-34,cy-rc-10,"areas to scale","var(--faint)",10);
-  txt(cx-12,cy+rc+18,"A_cap","var(--accent)",10,"middle"); txt(cx2,cy+rc+18,"A_rod","var(--dim)",10,"middle");
-  txt(330,cy+rc+38,(a.ac*1e6).toFixed(0)+" mm²        "+(a.ar*1e6).toFixed(0)+" mm²","var(--ink)",11);
+  // area annotation (to scale): A_cap = full bore disk; A_rod = bore disk MINUS rod (annulus)
+  var invalid = st.rod >= st.bore;
+  var sc=650, Rb=st.bore*sc, Rr=Math.min(st.rod,st.bore)*sc, cy=150, capX=372, rodX=482;
+  txt((capX+rodX)/2,cy-Rb-14,"areas to scale — A_rod is the ring (bore − rod)","var(--faint)",10,"middle");
+  // A_cap : full bore face (rod does not affect the cap side)
+  svg.appendChild(el("circle",{cx:capX,cy:cy,r:Rb,fill:"rgba(57,197,224,0.20)",stroke:"var(--accent)","stroke-width":1.5}));
+  txt(capX,cy+Rb+18,"A_cap","var(--accent)",10,"middle");
+  txt(capX,cy+Rb+33,(a.ac*1e6).toFixed(0)+" mm²","var(--ink)",10,"middle");
+  // A_rod : annulus = bore disk with the rod cross-section removed
+  svg.appendChild(el("circle",{cx:rodX,cy:cy,r:Rb,fill:"rgba(57,197,224,0.20)",stroke:"var(--accent)","stroke-width":1.5}));
+  svg.appendChild(el("circle",{cx:rodX,cy:cy,r:Rr,fill:"var(--bg)",stroke:"var(--dim)","stroke-width":1.2}));
+  txt(rodX,cy+3,"rod","var(--faint)",9,"middle");
+  txt(rodX,cy+Rb+18,"A_rod","var(--ok)",10,"middle");
+  txt(rodX,cy+Rb+33,(Math.max(0,a.ar)*1e6).toFixed(0)+" mm²","var(--ink)",10,"middle");
   // readouts
-  txt(bx,by+bh+92,"φ = A_cap / A_rod = "+a.phi.toFixed(2),"var(--ok)",13);
-  txt(bx,by+bh+114,"F_extend = "+(f.Fext/1000).toFixed(1)+" kN     F_retract = "+(f.Fret/1000).toFixed(1)+" kN","var(--ink)",12);
-  txt(bx,by+bh+132,"load = "+st.load.toFixed(1)+" kN","var(--faint)",11);
+  if(invalid){
+    txt(bx,by+bh+92,"rod \u2265 bore \u2014 unphysical: reduce rod or increase bore","var(--fault)",12);
+  } else {
+    txt(bx,by+bh+92,"\u03c6 = A_cap / A_rod = "+a.phi.toFixed(2),"var(--ok)",13);
+    txt(bx,by+bh+114,"F_extend = "+(f.Fext/1000).toFixed(1)+" kN     F_retract = "+(f.Fret/1000).toFixed(1)+" kN","var(--ink)",12);
+    txt(bx,by+bh+132,"load = "+st.load.toFixed(1)+" kN","var(--faint)",11);
+  }
 }
 
 function plot(xs,ys,opx,opy,xlab,ylab){
