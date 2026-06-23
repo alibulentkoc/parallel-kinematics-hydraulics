@@ -1,0 +1,10 @@
+<svg viewBox="0 0 600 410" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, Menlo, Consolas, monospace">
+<metadata>source=Family 3; view=Duty sweep; params=baseline_control; exported=2026-06-23; key=avg speed vs duty, deadband 8%</metadata>
+<rect width="600" height="410" fill="#0e1217"/>
+<text x="16" y="22" fill="#39c5e0" font-size="13">DUTY-CYCLE CHARACTERIZATION</text><text x="584" y="22" fill="#5b6975" font-size="10" text-anchor="end">baseline_control</text>
+<g transform="translate(0,30)">
+<line x1="64" y1="300" x2="566" y2="300" stroke="#2c3a47" stroke-width="1"/><line x1="64" y1="36" x2="64" y2="300" stroke="#2c3a47" stroke-width="1"/><text x="566" y="318" fill="#5b6975" font-size="11" text-anchor="end">duty cycle</text><text x="64" y="28" fill="#5b6975" font-size="11">avg speed (m/s)</text><path d="M64.0 300.0L74.0 300.0L84.1 300.0L94.1 300.0L104.2 300.0L114.2 294.3L124.2 288.5L134.3 282.8L144.3 277.0L154.4 271.3L164.4 265.6L174.4 259.8L184.5 254.1L194.5 248.3L204.6 242.6L214.6 236.9L224.6 231.1L234.7 225.4L244.7 219.7L254.8 213.9L264.8 208.2L274.8 202.4L284.9 196.7L294.9 191.0L305.0 185.2L315.0 179.5L325.0 173.7L335.1 168.0L345.1 162.3L355.2 156.5L365.2 150.8L375.2 145.0L385.3 139.3L395.3 133.6L405.4 127.8L415.4 122.1L425.4 116.3L435.5 110.6L445.5 104.9L455.6 99.1L465.6 93.4L475.6 87.7L485.7 81.9L495.7 76.2L505.8 70.4L515.8 64.7L525.8 59.0L535.9 53.2L545.9 47.5L556.0 41.7L566.0 36.0" fill="none" stroke="#39c5e0" stroke-width="2"/><line x1="104.16" y1="36" x2="104.16" y2="300" stroke="#ff5470" stroke-width="1" stroke-dasharray="3 3"/><text x="108.16" y="48" fill="#ff5470" font-size="10">deadband</text>
+</g>
+<line x1="16" y1="384" x2="584" y2="384" stroke="#2c3a47" stroke-width="1"/>
+<text x="16" y="400" fill="#8a97a3" font-size="10">cyan = avg speed vs duty · red = deadband (no motion below it)</text><text x="584" y="400" fill="#3a4753" font-size="9" text-anchor="end">B7 · SOURCE Family 3 · Duty sweep · baseline_control · 2026-06-23 · USED IN 2.5</text>
+</svg>
