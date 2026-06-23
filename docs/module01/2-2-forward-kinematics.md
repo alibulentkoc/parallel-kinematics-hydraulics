@@ -169,3 +169,13 @@ and L2, find (x, y). Include one case where the circles don't intersect.
 ---
 
 *Next lesson: [2.3 — Reachability & the Workspace](2-3-reachability.md), where we map exactly which poses the machine can and cannot reach.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![2-RPR geometry](../figures/A1-2rpr-geometry.svg)
+- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
+- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

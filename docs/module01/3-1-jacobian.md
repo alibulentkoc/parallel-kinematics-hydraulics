@@ -70,7 +70,7 @@ freely in every direction; low down, \(\det(J)\to 0\) and it loses one.
 
 ## 4. Visual Explanation
 
-![Unit leg directions û1 and û2 at the platform become the rows of the Jacobian](../assets/2-rpr-geometry.svg)
+![Unit leg directions û1 and û2 at the platform become the rows of the Jacobian](../figures/A1-2rpr-geometry.svg)
 
 The green arrows \(\hat{u}_1, \hat{u}_2\) at the platform are the Jacobian's rows.
 The bright-to-dark wash *is* manipulability: \(\det(J) = 2by/(L_1L_2)\) is large
@@ -187,3 +187,13 @@ positions (b = 0.6 m), and interpreting whether the pose is dexterous. With answ
 ---
 
 *Next lesson: [3.2 — Singularities](3-2-singularities.md), where det(J) → 0 and the machine loses a degree of freedom.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Manipulability map](../figures/B2-manipulability-map.svg)
+- **Read:** [Manipulability map](../figures/B2-manipulability-map.svg) · [Jacobian / velocity ellipse](../figures/A6-jacobian-manipulability.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
+- **Check yourself:** [Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)

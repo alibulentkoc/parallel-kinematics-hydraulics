@@ -70,7 +70,7 @@ piston travel the hydraulics produce.
 
 ## 4. Visual Explanation
 
-![2-RPR geometry with anchors B1, B2 at (±b, 0), legs L1, L2, and platform P](../assets/2-rpr-geometry.svg)
+![2-RPR geometry with anchors B1, B2 at (±b, 0), legs L1, L2, and platform P](../figures/A1-2rpr-geometry.svg)
 
 Everything is labelled: the half-spacing \(b\), the two anchors on the base line,
 the two leg lengths, and the platform point \(P = (x, y)\). The small green arrows
@@ -183,3 +183,12 @@ b = 0.6 m and various platform positions (x, y). Include worked solutions.
 ---
 
 *Next lesson: [2.1 — Inverse Kinematics](2-1-inverse-kinematics.md), where pose → leg lengths becomes a method you can run anywhere in the workspace.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
+- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

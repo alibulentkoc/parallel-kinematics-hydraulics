@@ -70,7 +70,7 @@ bottom, a geometry problem about distances and circles.*
 
 ## 4. Visual Explanation
 
-![A 2-RPR parallel machine: two base anchors, two cylinder legs, and the platform point P](../assets/2-rpr-geometry.svg)
+![A 2-RPR parallel machine: two base anchors, two cylinder legs, and the platform point P](../figures/A1-2rpr-geometry.svg)
 
 The figure is the whole machine in one picture: two ground **anchors** \(B_1,
 B_2\), two **cylinder legs** of length \(L_1, L_2\), and the **platform** point
@@ -212,3 +212,11 @@ advantage (stiffness, force, precision) the parallel design buys.
 ---
 
 *Next lesson: [1.2 — The 2-RPR Geometry & Pose](1-2-geometry-and-pose.md), where we make this machine precise with coordinates.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)

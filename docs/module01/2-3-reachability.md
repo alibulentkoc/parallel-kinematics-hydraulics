@@ -156,3 +156,13 @@ b = 0.6 m: a target, decide reachable or not, and name the failure mode if not.
 ---
 
 *Next lesson: [3.1 — The Jacobian & Manipulability](3-1-jacobian.md), where we move from positions to motion and dexterity.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Workspace map](../figures/B1-workspace-map.svg)
+- **Read:** [Workspace map](../figures/B1-workspace-map.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
+- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

@@ -57,7 +57,7 @@ The simulator flags two bands before disaster: **NEAR\_SINGULAR** (a warning as
 
 ## 4. Visual Explanation
 
-![Manipulability fades to a dark band at the base line — the singular locus](../assets/2-rpr-geometry.svg)
+![Manipulability fades to a dark band at the base line — the singular locus](../figures/A1-2rpr-geometry.svg)
 
 The dark band along the bottom of the heatmap is the singular region. The legs
 there are nearly horizontal — visually almost collinear — which is the geometric
@@ -170,3 +170,13 @@ their singularities are, and how designers keep the useful workspace away from t
 ---
 
 *Module 1 complete. Continue with the [reference handbook](../handbook/03-hydraulic-twin.md) for hydraulics, or see the [roadmap](../roadmap.md) for Modules 2–4.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Safe-region map](../figures/B3-safe-region-map.svg)
+- **Read:** [Safe-region map](../figures/B3-safe-region-map.svg) · [Jacobian / velocity ellipse](../figures/A6-jacobian-manipulability.svg)
+- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
+- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
+- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
+- **Check yourself:** [Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)
