@@ -134,3 +134,59 @@ if __name__ == "__main__":
     print(f"extend speed @15 L/min:    {cylinder_speed(RATED_FLOW, cap_area()):.2f} m/s")
     print(f"valve flow u=0.7, half dP: {valve_flow(0.7, RATED_DP/2)*60000:.1f} L/min")
     print(f"hydraulic power:           {hydraulic_power()/1e3:.1f} kW")
+
+
+# ---------------------------------------------------------------------------
+# 3-DOF (3-RPR planar) kinematics — pose (x, y, theta) -> three leg lengths.
+# Geometry matches the engine's default 3-DOF preset.
+# ---------------------------------------------------------------------------
+from math import cos, sin
+
+ANCHORS_3 = [(-0.8, 0.0), (0.8, 0.0), (0.0, 1.0)]      # fixed base joints
+ATTACH_3 = [(-0.12, -0.07), (0.12, -0.07), (0.0, 0.14)]  # platform-frame points
+L_CLOSED_3, STROKE_3 = 0.3, 0.7                         # L in [0.3, 1.0] m
+
+
+def world_attach_3(x, y, theta, attach=ATTACH_3):
+    """Platform attachment points in the world frame: P_i = o + R(theta) p_i."""
+    c, s = cos(theta), sin(theta)
+    return [(x + c*px - s*py, y + s*px + c*py) for (px, py) in attach]
+
+
+def ik3(x, y, theta, anchors=ANCHORS_3, attach=ATTACH_3):
+    """3-DOF inverse kinematics: pose -> [L1, L2, L3] (closed form, the easy way)."""
+    P = world_attach_3(x, y, theta, attach)
+    return [hypot(Px - ax, Py - ay) for (Px, Py), (ax, ay) in zip(P, anchors)]
+
+
+def jacobian3(x, y, theta, anchors=ANCHORS_3, attach=ATTACH_3):
+    """3x3 Jacobian dL/d(x,y,theta). Row i = [u_ix, u_iy, u_i . (dR/dtheta p_i)]."""
+    c, s = cos(theta), sin(theta)
+    P = world_attach_3(x, y, theta, attach)
+    J = []
+    for (Px, Py), (ax, ay), (px, py) in zip(P, anchors, attach):
+        rx, ry = Px - ax, Py - ay
+        L = hypot(rx, ry)
+        ux, uy = rx / L, ry / L
+        # dP_i/dtheta = (dR/dtheta) p_i, with dR/dtheta = [[-s,-c],[c,-s]]
+        dPx, dPy = -s*px - c*py, c*px - s*py
+        J.append([ux, uy, ux*dPx + uy*dPy])
+    return J
+
+
+def det3(J):
+    """Determinant of a 3x3 matrix (manipulability proxy for the 3-DOF machine)."""
+    a, b, c = J[0]; d, e, f = J[1]; g, h, i = J[2]
+    return a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g)
+
+
+if __name__ == "__main__":
+    print("\n--- 3-DOF (home pose x=0, y=0.45, theta=0) ---")
+    L = ik3(0.0, 0.45, 0.0)
+    print(f"leg lengths:  L1={L[0]:.3f}, L2={L[1]:.3f}, L3={L[2]:.3f} m")
+    print(f"all in [{L_CLOSED_3}, {L_CLOSED_3+STROKE_3}] m: {all(L_CLOSED_3<=Li<=L_CLOSED_3+STROKE_3 for Li in L)}")
+    print(f"det(J) at home: {det3(jacobian3(0.0, 0.45, 0.0)):.4f}")
+    # a small commanded move + rotation
+    L2 = ik3(0.05, 0.45, 0.10)
+    print(f"move to (0.05, 0.45, 0.10 rad): dL = "
+          f"{', '.join(f'{1000*(b-a):+.0f}mm' for a,b in zip(L, L2))}")

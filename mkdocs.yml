@@ -109,6 +109,10 @@ nav:
       - "Unit 2 — The Digital Twin":
           - "2.1 Logging & the Canonical Schema": module04/2-1-logging-and-schema.md
           - "2.2 Grading Sim & Hardware Identically": module04/2-2-grading-sim-and-hardware.md
+  - "Capstone — End-to-End Design":
+      - "Overview": capstone/index.md
+      - "2-DOF Machine Design": capstone/2dof-design.md
+      - "3-DOF Machine Design": capstone/3dof-design.md
   - "Reference Handbook":
       - "Overview": handbook.md
       - "Kinematics & the Math of Motion": 01-kinematics-and-motion.md

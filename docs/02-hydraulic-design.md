@@ -37,7 +37,7 @@ A_rod = π · (0.040² − 0.022²) / 4     = 8.77 × 10⁻⁴ m²   (877 mm²)
 φ     = 1257 / 877                    = 1.43
 ```
 
-(The test `hydraulics.test.js` asserts "asymmetry ~ 1.43" against exactly this.)
+(The automated tests assert "asymmetry ~ 1.43" against exactly this.)
 
 > ▶ **Interactive:** [**Cylinder Asymmetry**](demos/cylinder-asymmetry.html) — drag
 > bore and rod diameters and watch the cap/rod areas (drawn to scale), φ, and the
@@ -160,7 +160,7 @@ pressurized). Two consequences fall straight out of this:
 - If `p_load` exceeds the **relief setting**, the relief valve opens and the move
   sags. That's the `OVER_PRESSURE` fault.
 
-> Verified in `hydraulics.test.js`: "force balance Jᵀf ≈ [0, m·g]" confirms the
+> Verified by the automated tests: "force balance Jᵀf ≈ [0, m·g]" confirms the
 > leg forces correctly hold up the platform's weight.
 
 ---

@@ -71,7 +71,7 @@ L_i = | P_i − B_i |
 `R(θ)` rotates the attachment point by the platform angle; then it's the same
 distance formula. Still a direct calculation.
 
-> **In the code:** `kinematics2dof.js` and `kinematics3dof.js`, method `ik()`.
+> **In the code:** the kinematics solver's `ik()` method (2-DOF closed-form, 3-DOF Newton).
 
 ---
 
@@ -110,7 +110,7 @@ iterations.
 
 > **In the code:** `fk()`. The 2-DOF version is algebraic; the 3-DOF version runs
 > Newton iterations using the Jacobian from Section 1.4. Tested by
-> `kinematics.test.js`: "FK(IK(P)) round-trip < 1e-9" (2-DOF) and "< 1e-7" (3-DOF)
+> The automated tests check "FK(IK(P)) round-trip < 1e-9" (2-DOF) and "< 1e-7" (3-DOF)
 > — i.e. going pose → lengths → pose returns the original pose.
 
 ---
@@ -147,7 +147,7 @@ The `E·R·p_i` term is the velocity of attachment point `i` due to a unit rotat
 rate — the moment arm of the leg about the platform centre.
 
 > **In the code:** `jacobian()`. Verified against a finite-difference Jacobian in
-> `kinematics.test.js` ("Jacobian == finite-difference") — the analytic matrix
+> The automated tests ("Jacobian == finite-difference") confirm the analytic matrix
 > matches a numerical one to 1e-5.
 
 ### Why the Jacobian is the workhorse
@@ -196,8 +196,8 @@ one-liner), but it means the same thing: `w → 0` signals a singularity.
 > drag the platform straight down toward the base line and watch `det(J)` and `w`
 > collapse to zero — the equation above, live.
 
-> **In the code:** `manipulability()`. The heatmap in `viz/heatmap.js` samples it
-> across the workspace; `viz.test.js` asserts "heatmap shows base-line dead zone."
+> **In the code:** `manipulability()`. The workspace heatmap samples it
+> across the workspace; the automated tests assert "heatmap shows base-line dead zone."
 
 ---
 
@@ -236,7 +236,7 @@ and the platform lies in the legs' common reachable region
 ```
 
 If a target fails these tests it's flagged `UNREACHABLE` and the platform holds at
-the boundary instead of producing `NaN`. (`kinematics.test.js`: "FK no-intersection
+the boundary instead of producing `NaN`. (the automated tests check "FK no-intersection
 → ok:false," "never emits NaN.")
 
 ---

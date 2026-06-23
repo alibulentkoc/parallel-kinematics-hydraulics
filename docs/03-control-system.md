@@ -25,7 +25,7 @@ Everything to the right of the controller is "the plant" — the physical machin
 The controller's only job is to choose `u` so that **measured** tracks
 **commanded**. It runs at a fixed rate (a fixed timestep `dt`), which keeps the
 behaviour deterministic and repeatable — the same inputs always give the same
-output (verified by `controller.test.js`: "deterministic: identical pose after
+output (verified by the automated tests: "deterministic: identical pose after
 same steps").
 
 ---
@@ -61,7 +61,7 @@ integral term keeps accumulating error it can't act on — it "winds up," then
 overshoots badly when the valve finally has authority again. The fix is to
 **clamp the integrator** so it can't grow past a bound while saturated.
 
-> Verified by `controller.test.js`: "integrator stays within clamp under
+> Verified by the automated tests: "integrator stays within clamp under
 > saturation."
 
 ---
