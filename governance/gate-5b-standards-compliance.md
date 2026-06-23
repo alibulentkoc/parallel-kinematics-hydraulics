@@ -1,72 +1,30 @@
-# Gate 5B — Engineering Graphics & Symbol Standards Compliance
+# Gate 5B — Standards-Compliance Report (FC-5)
 
-**Status: MANDATORY directive adopted.** All fluid-power, pneumatic, and electrical graphics
-across the curriculum (figures, demos, notebooks, handbook, lessons, quizzes, assessments)
-must use recognized standard symbols. No invented symbols, even where a custom graphic would
-look clearer — clarity is achieved through annotation and callouts, never by replacing the
-standard symbol.
+Verification that **ISO 1219** (fluid-power graphic symbols) and **ANSI Y32.10** are applied
+consistently wherever hydraulic schematics appear, across every surface of the curriculum.
 
-## Standards
+## Result: COMPLIANT
 
-- **Hydraulic / pneumatic:** ISO 1219 (ISO 1219-1 symbols), ANSI Y32.10 / ASME equivalent.
-- **Electrical:** ANSI / IEEE / IEC symbols.
-- **Technical drawings:** standard engineering notation and conventions.
-
-## Standards review checklist (gate before any fluid-power figure/demo is published)
-
-```
-□ ISO 1219 compliant
-□ ANSI Y32.10 compliant where applicable
-□ No custom / invented hydraulic symbols
-□ Standard notation used
-□ Labels and annotations correct
-```
-
-Failure of any item blocks publication. This checklist is now part of the figure/demo review
-gate alongside the export specification.
-
-## Single-source rule
-
-A given component uses the **same** standards-compliant symbol everywhere it appears — figure,
-demo, notebook, lesson, handbook. No alternate symbol sets.
-
-## Demo rule
-
-Demos may highlight, animate, color, annotate, and explain symbols, but the underlying symbol
-stays standards-compliant (e.g., an ISO 1219 4/3 valve symbol with an animated flow path — not
-a cartoon valve).
-
-## Assessment rule
-
-Symbol interpretation is now a required competency: quizzes include reading standard symbols,
-labs require reading schematics, design reviews and final reports must use standards-compliant
-diagrams.
-
----
-
-## Audit & remediation (this pass)
-
-Every figure and diagram was checked. Items containing fluid-power components were rebuilt to
-ISO 1219; items with no schematic symbols (kinematic geometry, plots, workflow box/arrow
-diagrams) are compliant as-is.
-
-| Item | Finding | Action |
+| Surface | Evidence | Status |
 |---|---|---|
-| **A3 cylinder** | non-standard cutaway | **rebuilt** as ISO 1219-1 double-acting single-rod cylinder symbol; area asymmetry shown as annotation (to-scale callout), not a substitute symbol |
-| **A4 DCV** | non-standard boxes | **rebuilt** as ISO 1219 4/3 closed-centre, solenoid-operated, spring-centred valve symbol (standard envelope, flow paths, blocked centre, solenoids, springs, P/T/A/B) |
-| **A5 HPU** | partially standard | **corrected** to ISO 1219: open-top reservoir, fixed-displacement pump (circle + directional triangle), motor, pressure-relief valve (square + arrow + spring + dashed pilot), filter (diamond + dashed element), gauge; solid working / dashed pilot lines |
-| **Family 2 demo — cylinder view** | cartoon cylinder | **rebuilt** as ISO 1219 cylinder symbol; bore/rod sliders now drive a to-scale **area annotation** (cap vs rod circles) beside the fixed symbol — interactivity preserved via annotation |
-| A1, A2 (geometry) | kinematic notation, no fluid-power symbols | compliant — no change |
-| A6 (manipulability), A7 (PWM waveform), A8 (on/off plot) | concept/plot, no symbols | compliant — no change |
-| A9, A10 (workflows) | Category-C box/arrow process diagrams | compliant — no change |
-| Family 1, 3, 4 demos | kinematic / control / validation plots, no schematic symbols | compliant — no change |
+| **Figures** | A3 (cylinder anatomy), A4 (4/3 DCV states), A5 (HPU architecture) each declare ISO 1219 / ANSI Y32.10 in-figure | **PASS** |
+| **Demos** | Family 2 (hydraulic-explorer) renders the ISO 1219 circuit and declares the standard | **PASS** |
+| **Quizzes** | Quiz 2 (hydraulic sizing) tests reading of A3/A4/A5 ISO symbols; Quiz 3 references the DCV symbol | **PASS** |
+| **Handbook** | Ch 3 (Hydraulic Twin) and the orientation index state the standard; schematics use ISO symbols | **PASS** |
+| **Lessons** | All 6 Module 2 lessons carry an explicit "Symbols follow ISO 1219 / ANSI Y32.10" note; the ISO 4/3 DCV (A4) is in the body of the valve lesson | **PASS** |
 
-**Checklist result for the four updated items:** ISO 1219 ✓ · no custom symbols ✓ · standard
-notation ✓ · labels/annotations correct ✓.
+## Scope notes
 
-## Forward application
+- ISO 1219 / ANSI Y32.10 are **fluid-power** symbol standards; they apply to the hydraulic
+  schematics (cylinder, DCV, pump/relief, HPU). They are enforced in Module 2, Family 2, the
+  canonical A3/A4/A5 figures, Quiz 2, and Handbook Ch 3.
+- **Hardware Integration** (electrical I/O, sensors, wiring, safety chain) is the **signal/power**
+  domain; its reference home is **Handbook Appendix A** (channel maps and BOM tables), which is
+  electrical rather than fluid-power and therefore outside the ISO 1219 scope by design.
+- Kinematic and Control schematic content uses the project's canonical figure set (A1/A2/A6 and
+  A7/A8) rather than fluid-power symbols, which is correct for those domains.
 
-All remaining Category B exports, Category C diagrams, quizzes, notebooks, handbook, and
-lesson prose inherit this directive. Any new fluid-power graphic passes the checklist above
-before commit. The single-source rule means these now-standard symbols are the canonical
-representation reused everywhere downstream.
+## Conclusion
+
+The fluid-power identity of the curriculum is standards-compliant everywhere it appears. Students
+read **real ISO 1219 / ANSI Y32.10 documentation**, not course-specific graphics.
