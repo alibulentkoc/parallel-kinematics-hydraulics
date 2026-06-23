@@ -12,12 +12,15 @@
     --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;
-    padding:18px;max-width:1000px;margin:0 auto}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;padding:18px;max-width:1040px;margin:0 auto}
   h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px} h1 b{color:var(--accent)}
-  .sub{color:var(--faint);font-size:12px;margin-bottom:14px}
-  .wrap{display:grid;grid-template-columns:1fr 280px;gap:14px;align-items:start}
-  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:12px}
+  .bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+  .seg button{background:var(--panel);color:var(--dim);border:0;padding:5px 11px;font-family:inherit;font-size:11px;letter-spacing:.06em;cursor:pointer;text-transform:uppercase}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#06222b}
+  .wrap{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden;position:relative}
   svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
   aside{display:flex;flex-direction:column;gap:10px}
   .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
@@ -27,179 +30,236 @@
   .pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;border:1px solid var(--rule)}
   .ok{color:var(--ok);border-color:#1e3b30}.warn{color:var(--warn);border-color:#4a3a1a}.fault{color:var(--fault);border-color:#4a1e28}
   label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0;color:var(--dim);font-size:12px}
-  input[type=range]{width:130px;accent-color:var(--accent)}
-  .eq{background:var(--panel2);border:1px solid var(--rule);border-radius:5px;padding:8px 10px;font-size:12px;margin-top:10px}
-  .eq code{color:var(--accent)} .eq b{color:var(--ok)}
+  input[type=range]{width:140px;accent-color:var(--accent)}
+  .step{border-left:2px solid var(--rule);padding:2px 0 2px 10px;margin:8px 0}
+  .step.active{border-color:var(--accent)}
+  .step .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .step .v{font-size:12px;color:var(--ink)}
+  .btn{background:var(--panel2);color:var(--accent);border:1px solid var(--rule);border-radius:5px;padding:6px 10px;font-family:inherit;font-size:11px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase;width:100%;margin-top:6px}
+  .btn:hover{border-color:var(--accent)}
+  .verdict{font-size:12px;margin-top:6px;min-height:16px}
   .hint{color:var(--faint);font-size:11px;margin-top:8px}
   a{color:var(--accent)}
 </style>
 </head>
 <body>
   <h1><b>Kinematics</b> Explorer</h1>
-  <div class="sub">2-DOF parallel machine · drag the green platform — every number is live</div>
+  <div class="sub">Drag the platform · every number is live · Family 1 demo — geometry, IK, FK, workspace, manipulability, singularities</div>
+
+  <div class="bar">
+    <div class="seg" id="dof">
+      <button data-dof="2" aria-pressed="true">2-RPR (2-DOF)</button>
+      <button data-dof="3" aria-pressed="false">3-RPR (3-DOF)</button>
+    </div>
+    <div class="seg" id="view">
+      <button data-view="live" aria-pressed="true">Live</button>
+      <button data-view="workspace" aria-pressed="false">Workspace</button>
+      <button data-view="manip" aria-pressed="false">Manipulability</button>
+      <button data-view="sing" aria-pressed="false">Singularity</button>
+    </div>
+    <div class="seg" id="role">
+      <button data-role="student" aria-pressed="true">Student</button>
+      <button data-role="instructor" aria-pressed="false">Instructor</button>
+    </div>
+  </div>
 
   <div class="wrap">
-    <div class="stage"><svg id="svg" viewBox="0 0 640 440" preserveAspectRatio="xMidYMid meet"></svg></div>
-
+    <div class="stage"><svg id="svg" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet"></svg></div>
     <aside>
       <div class="card">
         <h2>State</h2>
-        <table>
-          <tr><td>platform x</td><td id="px">—</td></tr>
-          <tr><td>platform y</td><td id="py">—</td></tr>
-          <tr><td>leg L1</td><td id="l1">—</td></tr>
-          <tr><td>leg L2</td><td id="l2">—</td></tr>
-          <tr><td>stroke s1</td><td id="s1">—</td></tr>
-          <tr><td>stroke s2</td><td id="s2">—</td></tr>
-          <tr><td>det(J)</td><td id="det">—</td></tr>
-          <tr><td>manip. w</td><td id="w">—</td></tr>
-          <tr><td>status</td><td><span id="stat" class="pill ok">OK</span></td></tr>
-        </table>
+        <table id="state"></table>
+        <div style="margin-top:8px"><span class="pill ok" id="status">nominal</span></div>
+      </div>
+
+      <div class="card" id="rotcard" style="display:none">
+        <h2>Platform rotation theta</h2>
+        <label class="f"><span>theta (deg)</span><input type="range" id="theta" min="-25" max="25" step="0.5" value="0"></label>
       </div>
 
       <div class="card">
-        <h2>Geometry</h2>
-        <label class="f"><span>base half-spacing b</span><input id="b" type="range" min="0.3" max="0.9" step="0.05" value="0.6"></label>
-        <label class="f"><span>stroke</span><input id="stk" type="range" min="0.3" max="0.8" step="0.05" value="0.6"></label>
-        <div class="hint">Bright = dexterous, dark = losing a degree of freedom. The dark band along the base line is the singularity.</div>
+        <h2>Explore - Challenge - Artifact - Check</h2>
+        <div class="step" id="s-explore"><div class="k">Explore</div><div class="v">Drag the platform; watch leg lengths and det J.</div></div>
+        <div class="step active" id="s-chal"><div class="k">Challenge</div><div class="v" id="t-chal">-</div></div>
+        <div class="step" id="s-art"><div class="k">Artifact</div><div class="v" id="t-art">-</div>
+          <button class="btn" id="save">Save artifact</button></div>
+        <div class="step" id="s-check"><div class="k">Check</div>
+          <button class="btn" id="check">Check result</button>
+          <div class="verdict" id="verdict"></div></div>
       </div>
+      <div class="hint" id="hint"></div>
     </aside>
   </div>
 
-  <div class="eq" id="eqIK">Inverse kinematics: <code>L_i = √[(x − B_ix)² + y²]</code></div>
-  <div class="eq" id="eqDet">Manipulability: <code>det(J) = 2·b·y / (L1·L2)</code> = <b id="detEq">—</b> &nbsp;→&nbsp; drops to 0 at the base line (y → 0)</div>
-
-  <p class="hint">Part of the <a href="../01-kinematics-and-motion/" target="_top">Kinematics &amp; the Math of Motion</a> handbook chapter ·
-  <a href="index.html" target="_top">all demos</a></p>
-
 <script>
-const SVG="http://www.w3.org/2000/svg";
-const svg=document.getElementById("svg");
-const W=640,H=440,PAD=30;
-// world bounds
-let b=0.6, Lclosed=0.4, stroke=0.6;
-const world={minX:-1.0,maxX:1.0,minY:0,maxY:1.25};
-function sx(x){return PAD+(x-world.minX)/(world.maxX-world.minX)*(W-2*PAD);}
-function sy(y){return (H-PAD)-(y-world.minY)/(world.maxY-world.minY)*(H-2*PAD);}
-function slen(L){return L/(world.maxX-world.minX)*(W-2*PAD);}
-function wx(px){return world.minX+(px-PAD)/(W-2*PAD)*(world.maxX-world.minX);}
-function wy(py){return world.minY+((H-PAD)-py)/(H-2*PAD)*(world.maxY-world.minY);}
+"use strict";
+/* ---- verified geometry (matches the engine reference) ---------------- */
+const G2 = { b:0.6, Lmin:0.4, Lmax:1.0, anchors:[[-0.6,0],[0.6,0]] };
+const G3 = {
+  Lmin:0.3, Lmax:1.0,
+  anchors:[[-0.8,0],[0.8,0],[0,1.0]],
+  attach:[[-0.12,-0.07],[0.12,-0.07],[0,0.14]]
+};
+const SING_FLOOR = 0.02;      // |det J| safe-region floor
+const NEAR = 0.08;            // near-singular warning band
 
-// kinematics (identical to the engine)
-function legs(){return [[-b,0],[b,0]];}
-function ik(x,y){const B=legs();return [Math.hypot(x-B[0][0],y-B[0][1]),Math.hypot(x-B[1][0],y-B[1][1])];}
-function detJ(x,y){const [L1,L2]=ik(x,y);return 2*b*y/(L1*L2);}
-function reachable(x,y){const Lmin=Lclosed,Lmax=Lclosed+stroke;const [L1,L2]=ik(x,y);
-  return y>=0 && L1>=Lmin&&L1<=Lmax&&L2>=Lmin&&L2<=Lmax;}
-
-let P={x:0.0,y:0.70};
-let heatGroup,dynGroup;
-
-function buildStatic(){
-  svg.innerHTML="";
-  // heatmap (real manipulability field)
-  heatGroup=document.createElementNS(SVG,"g");
-  const nx=48,ny=32, cw=(W-2*PAD)/nx, ch=(H-2*PAD)/ny;
-  let dmax=0;
-  const vals=[];
-  for(let j=0;j<ny;j++){vals[j]=[];for(let i=0;i<nx;i++){
-    const x=world.minX+(i+0.5)/nx*(world.maxX-world.minX);
-    const y=world.minY+(j+0.5)/ny*(world.maxY-world.minY);
-    const v=reachable(x,y)?detJ(x,y):-1; vals[j][i]=v; if(v>dmax)dmax=v;
-  }}
-  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-    const v=vals[j][i]; const x=PAD+i*cw, y=PAD+j*ch;
-    let fill;
-    if(v<0) fill="#0c1015";
-    else { const t=Math.min(1,v/(dmax*0.9)); // bright = high manip
-      const r=Math.round(20+t*20),g=Math.round(40+t*150),bl=Math.round(55+t*120);
-      fill=`rgb(${r},${g},${bl})`; }
-    const rect=document.createElementNS(SVG,"rect");
-    rect.setAttribute("x",x);rect.setAttribute("y",y);rect.setAttribute("width",cw+1);rect.setAttribute("height",ch+1);
-    rect.setAttribute("fill",fill);rect.setAttribute("opacity","0.85");
-    heatGroup.appendChild(rect);
-  }
-  svg.appendChild(heatGroup);
-
-  // base line
-  const base=document.createElementNS(SVG,"line");
-  base.setAttribute("x1",sx(world.minX));base.setAttribute("y1",sy(0));
-  base.setAttribute("x2",sx(world.maxX));base.setAttribute("y2",sy(0));
-  base.setAttribute("stroke","#3a4b59");base.setAttribute("stroke-width","1.5");base.setAttribute("stroke-dasharray","3 4");
-  svg.appendChild(base);
-  // base line label
-  const bl=document.createElementNS(SVG,"text");
-  bl.setAttribute("x",sx(world.maxX)-2);bl.setAttribute("y",sy(0)+14);bl.setAttribute("fill","#6b7884");
-  bl.setAttribute("font-size","10");bl.setAttribute("text-anchor","end");bl.textContent="base line — singular (y=0)";
-  svg.appendChild(bl);
-
-  dynGroup=document.createElementNS(SVG,"g");
-  svg.appendChild(dynGroup);
-  draw();
+/* ---- kinematics ------------------------------------------------------ */
+function ik2(x,y){ return G2.anchors.map(function(a){ return Math.hypot(x-a[0],y-a[1]); }); }
+function det2(x,y){ var L=ik2(x,y); return Math.abs(2*G2.b*y/(L[0]*L[1])); }
+function worldAttach3(x,y,th,p){ var c=Math.cos(th),s=Math.sin(th); return [x+c*p[0]-s*p[1], y+s*p[0]+c*p[1]]; }
+function ik3(x,y,th){ return G3.attach.map(function(p,i){ var w=worldAttach3(x,y,th,p); var a=G3.anchors[i]; return Math.hypot(w[0]-a[0],w[1]-a[1]); }); }
+function jac3(x,y,th){ var h=1e-6; var base=ik3(x,y,th);
+  var qs=[[x+h,y,th],[x,y+h,th],[x,y,th+h]];
+  var cols=qs.map(function(q){ var Lp=ik3(q[0],q[1],q[2]); return Lp.map(function(v,i){ return (v-base[i])/h; }); });
+  return [0,1,2].map(function(i){ return [cols[0][i],cols[1][i],cols[2][i]]; });
+}
+function det3(x,y,th){ var J=jac3(x,y,th);
+  var d=J[0][0]*(J[1][1]*J[2][2]-J[1][2]*J[2][1])-J[0][1]*(J[1][0]*J[2][2]-J[1][2]*J[2][0])+J[0][2]*(J[1][0]*J[2][1]-J[1][1]*J[2][0]);
+  return Math.abs(d);
 }
 
-function elt(tag,attrs){const e=document.createElementNS(SVG,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+/* ---- state ----------------------------------------------------------- */
+var dof=2, view="live", role="student";
+var P={x:0.10,y:0.70,th:0};
+var svg=document.getElementById("svg");
 
-function draw(){
-  dynGroup.innerHTML="";
-  const B=legs();
-  const reach=reachable(P.x,P.y);
-  const [L1,L2]=ik(P.x,P.y);
-  const col=!reach?"var(--fault)":(detJ(P.x,P.y)<0.12?"var(--warn)":"var(--ok)");
+var VX0=-1.1,VX1=1.1,VY0=-0.1,VY1=1.25,W=600,H=460;
+function sx(x){ return (x-VX0)/(VX1-VX0)*W; }
+function sy(y){ return H-(y-VY0)/(VY1-VY0)*H; }
+function wx(px){ return VX0+(px/W)*(VX1-VX0); }
+function wy(py){ return VY0+((H-py)/H)*(VY1-VY0); }
 
-  // anchors (triangles)
-  for(const a of B){
-    const sxx=sx(a[0]),syy=sy(a[1]);
-    dynGroup.appendChild(elt("polygon",{points:`${sxx},${syy-8} ${sxx-8},${syy+7} ${sxx+8},${syy+7}`,fill:"#8a97a3"}));
+var CHAL={
+  2:{ chal:"Find a reachable pose with manipulability det J >= 0.5.", art:"Workspace map (reachable region).", test:function(s){ return s.reach && s.det>=0.5; } },
+  3:{ chal:"Find a pose clear of the singularity (|det J| >= 0.02), not the symmetric home.", art:"Safe-region map (|det J| floor).", test:function(s){ return s.reach && s.det>=SING_FLOOR; } }
+};
+
+function evalPose(){
+  if(dof===2){
+    var x=P.x,y=P.y; var L=ik2(x,y); var det=det2(x,y);
+    var reach=L.every(function(l){ return l>=G2.Lmin-1e-9&&l<=G2.Lmax+1e-9; }) && y>0.001;
+    var atStroke=L.some(function(l){ return l<=G2.Lmin+0.005||l>=G2.Lmax-0.005; });
+    return {L:L,det:det,reach:reach,atStroke:atStroke,x:x,y:y};
+  } else {
+    var x2=P.x,y2=P.y,th=P.th; var L2=ik3(x2,y2,th); var det4=det3(x2,y2,th);
+    var reach2=L2.every(function(l){ return l>=G3.Lmin-1e-9&&l<=G3.Lmax+1e-9; });
+    var atStroke2=L2.some(function(l){ return l<=G3.Lmin+0.005||l>=G3.Lmax-0.005; });
+    return {L:L2,det:det4,reach:reach2,atStroke:atStroke2,x:x2,y:y2,th:th};
   }
-  // legs, colored by length usage
-  for(let i=0;i<2;i++){
-    dynGroup.appendChild(elt("line",{x1:sx(B[i][0]),y1:sy(B[i][1]),x2:sx(P.x),y2:sy(P.y),
-      stroke:col, "stroke-width":"4","stroke-linecap":"round","opacity":"0.9"}));
-    // length label at midpoint
-    const mx=(sx(B[i][0])+sx(P.x))/2, my=(sy(B[i][1])+sy(P.y))/2;
-    const t=elt("text",{x:mx+(i?8:-8),y:my,fill:"#cdd6df","font-size":"11","text-anchor":i?"start":"end"});
-    t.textContent=`L${i+1}=${(i?L2:L1).toFixed(3)}`;
-    dynGroup.appendChild(t);
-  }
-  // platform handle
-  dynGroup.appendChild(elt("circle",{cx:sx(P.x),cy:sy(P.y),r:"9",fill:col,stroke:"#0e1217","stroke-width":"2"}));
-  // crosshair
-  dynGroup.appendChild(elt("line",{x1:sx(P.x)-14,y1:sy(P.y),x2:sx(P.x)+14,y2:sy(P.y),stroke:col,"stroke-width":"1"}));
-  dynGroup.appendChild(elt("line",{x1:sx(P.x),y1:sy(P.y)-14,x2:sx(P.x),y2:sy(P.y)+14,stroke:col,"stroke-width":"1"}));
-
-  // readouts
-  const det=detJ(P.x,P.y);
-  document.getElementById("px").textContent=P.x.toFixed(3);
-  document.getElementById("py").textContent=P.y.toFixed(3);
-  document.getElementById("l1").textContent=L1.toFixed(3)+" m";
-  document.getElementById("l2").textContent=L2.toFixed(3)+" m";
-  document.getElementById("s1").textContent=(L1-Lclosed).toFixed(3)+" m";
-  document.getElementById("s2").textContent=(L2-Lclosed).toFixed(3)+" m";
-  document.getElementById("det").textContent=det.toFixed(3);
-  document.getElementById("w").textContent=Math.max(0,det).toFixed(3);
-  document.getElementById("detEq").textContent=`2·${b.toFixed(2)}·${P.y.toFixed(2)} / (${L1.toFixed(2)}·${L2.toFixed(2)}) = ${det.toFixed(3)}`;
-  const stat=document.getElementById("stat");
-  if(!reach){stat.className="pill fault";stat.textContent="UNREACHABLE";}
-  else if(det<0.04){stat.className="pill fault";stat.textContent="SINGULAR";}
-  else if(det<0.12){stat.className="pill warn";stat.textContent="NEAR SINGULAR";}
-  else {stat.className="pill ok";stat.textContent="OK";}
 }
 
-// drag
-let dragging=false;
-function ptr(ev){const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
-  const loc=pt.matrixTransform(svg.getScreenCTM().inverse());
-  P.x=Math.max(world.minX,Math.min(world.maxX,wx(loc.x)));
-  P.y=Math.max(0,Math.min(world.maxY,wy(loc.y)));
-  draw();}
-svg.addEventListener("pointerdown",e=>{dragging=true;svg.setPointerCapture(e.pointerId);ptr(e);});
-svg.addEventListener("pointermove",e=>{if(dragging)ptr(e);});
-svg.addEventListener("pointerup",e=>{dragging=false;});
-document.getElementById("b").addEventListener("input",e=>{b=+e.target.value;buildStatic();});
-document.getElementById("stk").addEventListener("input",e=>{stroke=+e.target.value;buildStatic();});
+function statusOf(s){
+  if(!s.reach) return ["fault","UNREACHABLE - target outside leg-stroke envelope"];
+  if(s.atStroke) return ["warn","STROKE_END - a leg is at its travel limit"];
+  if(s.det<SING_FLOOR) return ["fault","SINGULAR - det J below safe floor"];
+  if(s.det<NEAR) return ["warn","NEAR_SINGULAR - low manipulability"];
+  return ["ok","nominal"];
+}
 
-buildStatic();
+function el(tag,attrs){ var e=document.createElementNS("http://www.w3.org/2000/svg",tag); for(var k in attrs)e.setAttribute(k,attrs[k]); return e; }
+function clear(){ while(svg.firstChild)svg.removeChild(svg.firstChild); }
+function drawGrid(){
+  for(var gx=-1;gx<=1.0001;gx+=0.5){ svg.appendChild(el("line",{x1:sx(gx),y1:sy(VY0),x2:sx(gx),y2:sy(VY1),stroke:"var(--grid)","stroke-width":1})); }
+  for(var gy=0;gy<=1.2001;gy+=0.3){ svg.appendChild(el("line",{x1:sx(VX0),y1:sy(gy),x2:sx(VX1),y2:sy(gy),stroke:"var(--grid)","stroke-width":1})); }
+}
+
+function fieldMap(kind){
+  var N=46;
+  for(var i=0;i<N;i++)for(var j=0;j<N;j++){
+    var x=VX0+(i+0.5)/N*(VX1-VX0), y=VY0+(j+0.5)/N*(VY1-VY0);
+    var fill=null, d, L, reach;
+    if(dof===2){
+      L=ik2(x,y); reach=L.every(function(l){return l>=G2.Lmin&&l<=G2.Lmax;})&&y>0.001;
+      if(!reach) continue; d=det2(x,y);
+      if(kind==="workspace") fill="rgba(57,197,224,0.18)";
+      else if(kind==="manip"){ var t=Math.min(1,d/1.2); fill="rgba(63,224,160,"+(0.10+0.5*t)+")"; }
+      else fill = d<SING_FLOOR?"rgba(255,84,112,0.40)":(d<NEAR?"rgba(255,180,84,0.30)":"rgba(63,224,160,0.16)");
+    } else {
+      L=ik3(x,y,P.th); reach=L.every(function(l){return l>=G3.Lmin&&l<=G3.Lmax;});
+      if(!reach) continue; d=det3(x,y,P.th);
+      if(kind==="workspace") fill="rgba(57,197,224,0.18)";
+      else if(kind==="manip"){ var t2=Math.min(1,d/0.06); fill="rgba(63,224,160,"+(0.10+0.5*t2)+")"; }
+      else fill = d<SING_FLOOR?"rgba(255,84,112,0.40)":(d<NEAR?"rgba(255,180,84,0.30)":"rgba(63,224,160,0.16)");
+    }
+    var w=W/N+1,h=H/N+1;
+    svg.appendChild(el("rect",{x:sx(x)-w/2,y:sy(y)-h/2,width:w,height:h,fill:fill}));
+  }
+}
+
+function drawMachine(s){
+  if(dof===2){
+    G2.anchors.forEach(function(a){
+      svg.appendChild(el("line",{x1:sx(a[0]),y1:sy(a[1]),x2:sx(s.x),y2:sy(s.y),stroke:"var(--accent)","stroke-width":2}));
+      svg.appendChild(el("circle",{cx:sx(a[0]),cy:sy(a[1]),r:4,fill:"var(--dim)"}));
+    });
+    svg.appendChild(el("circle",{cx:sx(s.x),cy:sy(s.y),r:8,fill:"var(--ok)",stroke:"#06222b","stroke-width":2}));
+  } else {
+    var wpts=G3.attach.map(function(p){ return worldAttach3(s.x,s.y,s.th,p); });
+    G3.anchors.forEach(function(a,i){
+      svg.appendChild(el("line",{x1:sx(a[0]),y1:sy(a[1]),x2:sx(wpts[i][0]),y2:sy(wpts[i][1]),stroke:"var(--accent)","stroke-width":2}));
+      svg.appendChild(el("circle",{cx:sx(a[0]),cy:sy(a[1]),r:4,fill:"var(--dim)"}));
+    });
+    var poly=wpts.map(function(p){ return sx(p[0])+","+sy(p[1]); }).join(" ");
+    svg.appendChild(el("polygon",{points:poly,fill:"rgba(63,224,160,0.18)",stroke:"var(--ok)","stroke-width":1.5}));
+    svg.appendChild(el("circle",{cx:sx(s.x),cy:sy(s.y),r:7,fill:"var(--ok)",stroke:"#06222b","stroke-width":2}));
+  }
+}
+
+function render(){
+  clear(); drawGrid();
+  var s=evalPose();
+  if(view!=="live") fieldMap(view);
+  drawMachine(s);
+  var rows=[];
+  if(dof===2){ rows.push(["x, y",s.x.toFixed(3)+", "+s.y.toFixed(3)+" m"]); rows.push(["L1, L2",s.L[0].toFixed(3)+", "+s.L[1].toFixed(3)+" m"]); }
+  else { rows.push(["x, y, th",s.x.toFixed(3)+", "+s.y.toFixed(3)+", "+(s.th*180/Math.PI).toFixed(1)+" deg"]); rows.push(["L1,L2,L3",s.L.map(function(l){return l.toFixed(3);}).join(", ")]); }
+  rows.push(["det J", s.det.toFixed(4)]);
+  rows.push(["reachable", s.reach?"yes":"no"]);
+  document.getElementById("state").innerHTML=rows.map(function(r){ return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>"; }).join("");
+  var st=statusOf(s);
+  var stEl=document.getElementById("status"); stEl.className="pill "+st[0]; stEl.textContent=st[1];
+  document.getElementById("verdict").textContent="";
+  document.getElementById("t-chal").textContent=CHAL[dof].chal;
+  document.getElementById("t-art").textContent=CHAL[dof].art;
+  document.getElementById("hint").innerHTML = role==="instructor"
+    ? "Instructor mode: drag anywhere (incl. unreachable / singular) to demonstrate failure modes. The symmetric 3-DOF home (0, 0.45, 0 deg) is a rotation singularity - det J approaches 0."
+    : "Student mode: stay inside the reachable region and complete the challenge.";
+}
+
+/* ---- interaction ----------------------------------------------------- */
+var drag=false;
+function setFromEvent(e){
+  var r=svg.getBoundingClientRect();
+  var px=(e.clientX-r.left)/r.width*W, py=(e.clientY-r.top)/r.height*H;
+  var x=wx(px), y=wy(py);
+  if(role==="student"){ y=Math.max(0.05,Math.min(1.15,y)); x=Math.max(-0.9,Math.min(0.9,x)); }
+  P.x=x; P.y=y; render();
+}
+svg.addEventListener("pointerdown",function(e){drag=true;svg.setPointerCapture(e.pointerId);setFromEvent(e);});
+svg.addEventListener("pointermove",function(e){if(drag)setFromEvent(e);});
+svg.addEventListener("pointerup",function(){drag=false;});
+document.getElementById("theta").addEventListener("input",function(e){P.th=(+e.target.value)*Math.PI/180;render();});
+
+function wireSeg(id,fn){ var g=document.getElementById(id); g.addEventListener("click",function(e){ var b=e.target.closest("button"); if(!b)return; Array.prototype.forEach.call(g.children,function(c){ c.setAttribute("aria-pressed", c===b); }); fn(b.dataset); }); }
+wireSeg("dof",function(d){ dof=+d.dof; document.getElementById("rotcard").style.display=dof===3?"block":"none"; P = dof===2?{x:0.10,y:0.70,th:0}:{x:0.05,y:0.55,th:0}; render(); });
+wireSeg("view",function(d){ view=d.view; render(); });
+wireSeg("role",function(d){ role=d.role; render(); });
+
+document.getElementById("save").addEventListener("click",function(){
+  var s=evalPose();
+  var artifact={ family:"kinematics-explorer", dof:dof, view:view, pose:{x:s.x,y:s.y,theta:dof===3?P.th:0}, legs:s.L, detJ:s.det, reachable:s.reach, challenge:CHAL[dof].chal, generated:new Date().toISOString() };
+  var blob=new Blob([JSON.stringify(artifact,null,2)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="kinematics-"+dof+"dof-"+view+".json"; a.click();
+  document.getElementById("verdict").innerHTML='<span class="ok">artifact saved.</span>';
+});
+document.getElementById("check").addEventListener("click",function(){
+  var s=evalPose(); var pass=CHAL[dof].test(s);
+  document.getElementById("verdict").innerHTML = pass
+    ? '<span class="ok">PASS - meets the acceptance test.</span>'
+    : '<span class="warn">Needs work - '+(s.reach?("det J = "+s.det.toFixed(4)+" below target"):"pose is unreachable")+'.</span>';
+});
+
+render();
 </script>
 </body>
 </html>

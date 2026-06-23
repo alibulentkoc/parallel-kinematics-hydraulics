@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinematics Explorer — PKM Testbed</title>
+<style>
+  :root{
+    --bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--rule:#2c3a47;--grid:#22303c;
+    --ink:#cdd6df;--dim:#8a97a3;--faint:#5b6975;
+    --accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;
+    padding:18px;max-width:1000px;margin:0 auto}
+  h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px} h1 b{color:var(--accent)}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:14px}
+  .wrap{display:grid;grid-template-columns:1fr 280px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+  aside{display:flex;flex-direction:column;gap:10px}
+  .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .card h2{font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:12px} td{padding:2px 0;font-variant-numeric:tabular-nums}
+  td:first-child{color:var(--dim)} td:last-child{text-align:right}
+  .pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;border:1px solid var(--rule)}
+  .ok{color:var(--ok);border-color:#1e3b30}.warn{color:var(--warn);border-color:#4a3a1a}.fault{color:var(--fault);border-color:#4a1e28}
+  label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0;color:var(--dim);font-size:12px}
+  input[type=range]{width:130px;accent-color:var(--accent)}
+  .eq{background:var(--panel2);border:1px solid var(--rule);border-radius:5px;padding:8px 10px;font-size:12px;margin-top:10px}
+  .eq code{color:var(--accent)} .eq b{color:var(--ok)}
+  .hint{color:var(--faint);font-size:11px;margin-top:8px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <h1><b>Kinematics</b> Explorer</h1>
+  <div class="sub">2-DOF parallel machine · drag the green platform — every number is live</div>
+
+  <div class="wrap">
+    <div class="stage"><svg id="svg" viewBox="0 0 640 440" preserveAspectRatio="xMidYMid meet"></svg></div>
+
+    <aside>
+      <div class="card">
+        <h2>State</h2>
+        <table>
+          <tr><td>platform x</td><td id="px">—</td></tr>
+          <tr><td>platform y</td><td id="py">—</td></tr>
+          <tr><td>leg L1</td><td id="l1">—</td></tr>
+          <tr><td>leg L2</td><td id="l2">—</td></tr>
+          <tr><td>stroke s1</td><td id="s1">—</td></tr>
+          <tr><td>stroke s2</td><td id="s2">—</td></tr>
+          <tr><td>det(J)</td><td id="det">—</td></tr>
+          <tr><td>manip. w</td><td id="w">—</td></tr>
+          <tr><td>status</td><td><span id="stat" class="pill ok">OK</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Geometry</h2>
+        <label class="f"><span>base half-spacing b</span><input id="b" type="range" min="0.3" max="0.9" step="0.05" value="0.6"></label>
+        <label class="f"><span>stroke</span><input id="stk" type="range" min="0.3" max="0.8" step="0.05" value="0.6"></label>
+        <div class="hint">Bright = dexterous, dark = losing a degree of freedom. The dark band along the base line is the singularity.</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="eq" id="eqIK">Inverse kinematics: <code>L_i = √[(x − B_ix)² + y²]</code></div>
+  <div class="eq" id="eqDet">Manipulability: <code>det(J) = 2·b·y / (L1·L2)</code> = <b id="detEq">—</b> &nbsp;→&nbsp; drops to 0 at the base line (y → 0)</div>
+
+  <p class="hint">Part of the <a href="../01-kinematics-and-motion/" target="_top">Kinematics &amp; the Math of Motion</a> handbook chapter ·
+  <a href="index.html" target="_top">all demos</a></p>
+
+<script>
+const SVG="http://www.w3.org/2000/svg";
+const svg=document.getElementById("svg");
+const W=640,H=440,PAD=30;
+// world bounds
+let b=0.6, Lclosed=0.4, stroke=0.6;
+const world={minX:-1.0,maxX:1.0,minY:0,maxY:1.25};
+function sx(x){return PAD+(x-world.minX)/(world.maxX-world.minX)*(W-2*PAD);}
+function sy(y){return (H-PAD)-(y-world.minY)/(world.maxY-world.minY)*(H-2*PAD);}
+function slen(L){return L/(world.maxX-world.minX)*(W-2*PAD);}
+function wx(px){return world.minX+(px-PAD)/(W-2*PAD)*(world.maxX-world.minX);}
+function wy(py){return world.minY+((H-PAD)-py)/(H-2*PAD)*(world.maxY-world.minY);}
+
+// kinematics (identical to the engine)
+function legs(){return [[-b,0],[b,0]];}
+function ik(x,y){const B=legs();return [Math.hypot(x-B[0][0],y-B[0][1]),Math.hypot(x-B[1][0],y-B[1][1])];}
+function detJ(x,y){const [L1,L2]=ik(x,y);return 2*b*y/(L1*L2);}
+function reachable(x,y){const Lmin=Lclosed,Lmax=Lclosed+stroke;const [L1,L2]=ik(x,y);
+  return y>=0 && L1>=Lmin&&L1<=Lmax&&L2>=Lmin&&L2<=Lmax;}
+
+let P={x:0.0,y:0.70};
+let heatGroup,dynGroup;
+
+function buildStatic(){
+  svg.innerHTML="";
+  // heatmap (real manipulability field)
+  heatGroup=document.createElementNS(SVG,"g");
+  const nx=48,ny=32, cw=(W-2*PAD)/nx, ch=(H-2*PAD)/ny;
+  let dmax=0;
+  const vals=[];
+  for(let j=0;j<ny;j++){vals[j]=[];for(let i=0;i<nx;i++){
+    const x=world.minX+(i+0.5)/nx*(world.maxX-world.minX);
+    const y=world.minY+(j+0.5)/ny*(world.maxY-world.minY);
+    const v=reachable(x,y)?detJ(x,y):-1; vals[j][i]=v; if(v>dmax)dmax=v;
+  }}
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
+    const v=vals[j][i]; const x=PAD+i*cw, y=PAD+j*ch;
+    let fill;
+    if(v<0) fill="#0c1015";
+    else { const t=Math.min(1,v/(dmax*0.9)); // bright = high manip
+      const r=Math.round(20+t*20),g=Math.round(40+t*150),bl=Math.round(55+t*120);
+      fill=`rgb(${r},${g},${bl})`; }
+    const rect=document.createElementNS(SVG,"rect");
+    rect.setAttribute("x",x);rect.setAttribute("y",y);rect.setAttribute("width",cw+1);rect.setAttribute("height",ch+1);
+    rect.setAttribute("fill",fill);rect.setAttribute("opacity","0.85");
+    heatGroup.appendChild(rect);
+  }
+  svg.appendChild(heatGroup);
+
+  // base line
+  const base=document.createElementNS(SVG,"line");
+  base.setAttribute("x1",sx(world.minX));base.setAttribute("y1",sy(0));
+  base.setAttribute("x2",sx(world.maxX));base.setAttribute("y2",sy(0));
+  base.setAttribute("stroke","#3a4b59");base.setAttribute("stroke-width","1.5");base.setAttribute("stroke-dasharray","3 4");
+  svg.appendChild(base);
+  // base line label
+  const bl=document.createElementNS(SVG,"text");
+  bl.setAttribute("x",sx(world.maxX)-2);bl.setAttribute("y",sy(0)+14);bl.setAttribute("fill","#6b7884");
+  bl.setAttribute("font-size","10");bl.setAttribute("text-anchor","end");bl.textContent="base line — singular (y=0)";
+  svg.appendChild(bl);
+
+  dynGroup=document.createElementNS(SVG,"g");
+  svg.appendChild(dynGroup);
+  draw();
+}
+
+function elt(tag,attrs){const e=document.createElementNS(SVG,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+function draw(){
+  dynGroup.innerHTML="";
+  const B=legs();
+  const reach=reachable(P.x,P.y);
+  const [L1,L2]=ik(P.x,P.y);
+  const col=!reach?"var(--fault)":(detJ(P.x,P.y)<0.12?"var(--warn)":"var(--ok)");
+
+  // anchors (triangles)
+  for(const a of B){
+    const sxx=sx(a[0]),syy=sy(a[1]);
+    dynGroup.appendChild(elt("polygon",{points:`${sxx},${syy-8} ${sxx-8},${syy+7} ${sxx+8},${syy+7}`,fill:"#8a97a3"}));
+  }
+  // legs, colored by length usage
+  for(let i=0;i<2;i++){
+    dynGroup.appendChild(elt("line",{x1:sx(B[i][0]),y1:sy(B[i][1]),x2:sx(P.x),y2:sy(P.y),
+      stroke:col, "stroke-width":"4","stroke-linecap":"round","opacity":"0.9"}));
+    // length label at midpoint
+    const mx=(sx(B[i][0])+sx(P.x))/2, my=(sy(B[i][1])+sy(P.y))/2;
+    const t=elt("text",{x:mx+(i?8:-8),y:my,fill:"#cdd6df","font-size":"11","text-anchor":i?"start":"end"});
+    t.textContent=`L${i+1}=${(i?L2:L1).toFixed(3)}`;
+    dynGroup.appendChild(t);
+  }
+  // platform handle
+  dynGroup.appendChild(elt("circle",{cx:sx(P.x),cy:sy(P.y),r:"9",fill:col,stroke:"#0e1217","stroke-width":"2"}));
+  // crosshair
+  dynGroup.appendChild(elt("line",{x1:sx(P.x)-14,y1:sy(P.y),x2:sx(P.x)+14,y2:sy(P.y),stroke:col,"stroke-width":"1"}));
+  dynGroup.appendChild(elt("line",{x1:sx(P.x),y1:sy(P.y)-14,x2:sx(P.x),y2:sy(P.y)+14,stroke:col,"stroke-width":"1"}));
+
+  // readouts
+  const det=detJ(P.x,P.y);
+  document.getElementById("px").textContent=P.x.toFixed(3);
+  document.getElementById("py").textContent=P.y.toFixed(3);
+  document.getElementById("l1").textContent=L1.toFixed(3)+" m";
+  document.getElementById("l2").textContent=L2.toFixed(3)+" m";
+  document.getElementById("s1").textContent=(L1-Lclosed).toFixed(3)+" m";
+  document.getElementById("s2").textContent=(L2-Lclosed).toFixed(3)+" m";
+  document.getElementById("det").textContent=det.toFixed(3);
+  document.getElementById("w").textContent=Math.max(0,det).toFixed(3);
+  document.getElementById("detEq").textContent=`2·${b.toFixed(2)}·${P.y.toFixed(2)} / (${L1.toFixed(2)}·${L2.toFixed(2)}) = ${det.toFixed(3)}`;
+  const stat=document.getElementById("stat");
+  if(!reach){stat.className="pill fault";stat.textContent="UNREACHABLE";}
+  else if(det<0.04){stat.className="pill fault";stat.textContent="SINGULAR";}
+  else if(det<0.12){stat.className="pill warn";stat.textContent="NEAR SINGULAR";}
+  else {stat.className="pill ok";stat.textContent="OK";}
+}
+
+// drag
+let dragging=false;
+function ptr(ev){const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
+  const loc=pt.matrixTransform(svg.getScreenCTM().inverse());
+  P.x=Math.max(world.minX,Math.min(world.maxX,wx(loc.x)));
+  P.y=Math.max(0,Math.min(world.maxY,wy(loc.y)));
+  draw();}
+svg.addEventListener("pointerdown",e=>{dragging=true;svg.setPointerCapture(e.pointerId);ptr(e);});
+svg.addEventListener("pointermove",e=>{if(dragging)ptr(e);});
+svg.addEventListener("pointerup",e=>{dragging=false;});
+document.getElementById("b").addEventListener("input",e=>{b=+e.target.value;buildStatic();});
+document.getElementById("stk").addEventListener("input",e=>{stroke=+e.target.value;buildStatic();});
+
+buildStatic();
+</script>
+</body>
+</html>
