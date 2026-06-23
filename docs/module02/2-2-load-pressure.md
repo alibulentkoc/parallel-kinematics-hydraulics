@@ -115,7 +115,7 @@ print(f"pressure = {f / A_cap / 1e6:.3f} MPa")     # ~0.10 MPa at a healthy pose
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

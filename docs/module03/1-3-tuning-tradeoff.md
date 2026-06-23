@@ -101,7 +101,7 @@ for name, g in {"too slow": (3,0,0), "too hot": (60,0,0), "well tuned": (30,0,8)
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Response metrics match [`src/student/metrics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/student/metrics.js).
+    This computation is a runnable cell in the **[Module 3 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Response metrics match [`src/student/metrics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/student/metrics.js).
 
 ## 9. Knowledge Check
 

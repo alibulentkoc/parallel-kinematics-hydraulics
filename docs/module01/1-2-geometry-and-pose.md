@@ -133,7 +133,7 @@ print(f"L1={L1:.3f} m, L2={L2:.3f} m")   # 0.990, 0.860
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
+    This computation is a runnable cell in the **[Module 1 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

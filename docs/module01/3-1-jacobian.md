@@ -139,7 +139,7 @@ print("det(J) =", round(det(J), 4))      # 0.9864 (also equals 2*b*y/(L1*L2))
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
+    This computation is a runnable cell in the **[Module 1 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

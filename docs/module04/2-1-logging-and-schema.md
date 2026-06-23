@@ -98,7 +98,7 @@ print(record)
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Logging, schema and replay are in [`src/logger/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/logger).
+    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Logging, schema and replay are in [`src/logger/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/logger).
 
 ## 9. Knowledge Check
 

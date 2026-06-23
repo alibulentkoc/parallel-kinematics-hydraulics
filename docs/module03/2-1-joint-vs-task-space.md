@@ -110,7 +110,7 @@ print(f"leg setpoints: L1*={L1_star:.3f}, L2*={L2_star:.3f}")
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Both modes live in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
+    This computation is a runnable cell in the **[Module 3 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Both modes live in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
 
 ## 9. Knowledge Check
 

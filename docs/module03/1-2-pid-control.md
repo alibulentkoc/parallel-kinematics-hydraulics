@@ -110,7 +110,7 @@ print(round(PID(3, 1.5, 0.4).update(0.03, 0.87, 0.02), 4))
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The PID is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
+    This computation is a runnable cell in the **[Module 3 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The PID is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js).
 
 ## 9. Knowledge Check
 

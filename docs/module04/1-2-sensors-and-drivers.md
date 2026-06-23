@@ -103,7 +103,7 @@ print(f"command u={u} -> {'retract' if u < 0 else 'extend'} at {abs(u)*100:.0f}%
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
+    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
 
 ## 9. Knowledge Check
 

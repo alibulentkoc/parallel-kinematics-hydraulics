@@ -35,6 +35,10 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
+exclude_docs: |
+  notebooks/*.ipynb
+  notebooks/*.py
+
 markdown_extensions:
   - admonition
   - attr_list

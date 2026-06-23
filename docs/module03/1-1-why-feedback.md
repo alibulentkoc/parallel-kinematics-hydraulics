@@ -105,7 +105,7 @@ print(f"error = {e:+.3f} m  ->  positive means too short, so extend")
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 3 notebook](../notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The loop is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), stepped by [`simulation.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/simulation.js).
+    This computation is a runnable cell in the **[Module 3 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The loop is in [`src/control/controller.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/controller.js), stepped by [`simulation.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/control/simulation.js).
 
 ## 9. Knowledge Check
 

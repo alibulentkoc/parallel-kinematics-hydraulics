@@ -119,7 +119,7 @@ print(f"2-leg demand = {demand*60000:.1f} L/min (pump supplies {pump_max_flow*60
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Pump, relief and power defaults are in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Pump, relief and power defaults are in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

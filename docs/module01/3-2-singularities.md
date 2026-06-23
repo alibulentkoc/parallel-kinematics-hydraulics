@@ -118,7 +118,7 @@ for y in [0.7, 0.4, 0.2, 0.05]:
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Detected as a fault in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
+    This computation is a runnable cell in the **[Module 1 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Detected as a fault in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
 
 ## 9. Knowledge Check
 

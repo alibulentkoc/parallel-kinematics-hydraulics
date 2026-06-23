@@ -111,7 +111,7 @@ print(guards(10e6, 0.9, 0.02))   # ['NEAR_SINGULAR']
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The eleven detectors are in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
+    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The eleven detectors are in [`src/faults/faults.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/faults/faults.js).
 
 ## 9. Knowledge Check
 

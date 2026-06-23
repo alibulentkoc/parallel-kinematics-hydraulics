@@ -110,7 +110,7 @@ print(f"speed @15 L/min = {(2.5e-4) / A_cap:.2f} m/s")  # v = Q/A -> 0.20 m/s
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The cylinder model is in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The cylinder model is in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

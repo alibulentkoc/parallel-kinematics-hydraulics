@@ -103,7 +103,7 @@ print(f"real = {real:.1f} L/min   linear = {linear:.2f} L/min")   # 7.4 vs 5.25
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](../notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The flow law is in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
+    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The flow law is in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
 
 ## 9. Knowledge Check
 

@@ -121,7 +121,7 @@ print(f"d L1 = {1000*(after[0]-before[0]):+.0f} mm,  d L2 = {1000*(after[1]-befo
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The method is [`ik()` in `src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
+    This computation is a runnable cell in the **[Module 1 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The method is [`ik()` in `src/kinematics/kinematics2dof.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics/kinematics2dof.js).
 
 ## 9. Knowledge Check
 

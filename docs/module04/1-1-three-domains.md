@@ -106,7 +106,7 @@ print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
 
 ## 9. Knowledge Check
 

@@ -107,7 +107,7 @@ for p in [(0.0, 0.70), (0.10, 0.70), (0.0, 1.2)]:
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 1 notebook](../notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Stroke limits live in the presets and [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+    This computation is a runnable cell in the **[Module 1 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Stroke limits live in the presets and [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

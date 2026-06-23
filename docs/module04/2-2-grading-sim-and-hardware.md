@@ -97,7 +97,7 @@ print("ringing hw:", grade(0.20, 1.40))
 ```
 
 !!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](../notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
+    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
 
 ## 9. Knowledge Check
 
