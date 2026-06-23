@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 3 — Closed-Loop Control** · **Unit 1 — The Feedback Loop** · **Lesson 1.2 — PID Control**
+!!! abstract "Control Twin · C6/C7 · PWM position control · Milestone: control loop → final 3-DOF (W15)"
+    **Artifact contribution:** the Path A signature: the Position-control / Duty-characterization result
 
 # Lesson 1.2 — PID Control
 
-> **Module 3 · Unit 1 · Lesson 1.2** · interactive
-> The workhorse controller of all of engineering: three simple terms — Proportional,
-> Integral, Derivative — that between them react to the present, the past, and the
-> future of the error.
+!!! note "Why you need this — before the theory"
+    PID computes how hard to push, but on this machine that command becomes a PWM duty on a solenoid on/off valve. This lesson is the Path A signature — position control with on/off valves via PWM — the result your Position-control demo must show.
+
+!!! warning "Control identity — Path A (fluid-power control, not generic)"
+    This is control of the **hydraulic PKM**. The controller's command `u` drives a
+    **solenoid on/off DCV via PWM** (the signature path); a **proportional valve** appears only as a
+    **benchmark**. The course outcome is **position control with on/off valves via PWM, and explaining
+    its limits versus proportional** — not generic controls.
 
 ---
 
@@ -49,9 +53,12 @@ In practice the derivative is taken on the *measurement* (not the error) to avoi
 spikes when the setpoint jumps, and the integral is *clamped* to prevent windup —
 both of which the codebase implements.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/control, PID; valve PWM) · A7 · A8 · B8 · Family 3
+
 ## 4. Visual Explanation
 
-![PID inside the feedback loop: Kp·e + Ki∫e + Kd·ė forms the command](../assets/pid-loop.svg)
+![On/off control of the hydraulic position loop](../figures/A8-onoff-control.svg)
 
 The controller block in the loop is the PID sum. Each term reads the same error and
 contributes to the command; their balance is what you tune.
@@ -91,16 +98,29 @@ slowly drives it to zero. Add a little \(K_d\): if you then raise \(K_p\) for sp
 the derivative term damps the overshoot that would otherwise appear. Three terms,
 three jobs — you just tuned a controller by reasoning, not luck.
 
+![PWM waveform](../figures/A7-pwm-waveform.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Step: on/off vs PWM vs proportional](../figures/B8-step-response.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 
 Use the presets first: **too slow** (low \(K_p\)) creeps; **too hot** (high \(K_p\))
 overshoots and rings; **well tuned** combines moderate \(K_p\) with a little \(K_i\)
 and \(K_d\) for a fast, clean settle. Then drag each gain alone and watch which part
 of the curve it changes — rise, overshoot, or steady offset.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Compare on/off, PWM, and proportional step responses in the demo.
+    - **Interpret:** On/off parks short (deadband); PWM recovers fine positioning; proportional is the benchmark.
+    - **Apply:** Tune the PWM duty onto target and explain why on/off alone cannot settle.
 
 ## 8. Code & Computation
 
@@ -119,9 +139,12 @@ print(round(PID(3, 1.5, 0.4).update(0.03, 0.87, 0.02), 4))
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N3 — PWM / Control](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**settling ≤ 2.5 s; on/off limit cycle bounded**) is owned by the artifact and stated in **[Handbook Ch 4 — Control Twin](../handbook/04-control-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.1.2 check](../quizzes/m3-l12.html)
+[Check your understanding — Quiz 3](../quizzes/quiz-3-pwm-position-control.md)
 
 ## 10. Challenge Problem
 

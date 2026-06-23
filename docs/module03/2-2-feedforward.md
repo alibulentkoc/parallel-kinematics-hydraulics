@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 3 — Closed-Loop Control** · **Unit 2 — Controlling a Parallel Machine** · **Lesson 2.2 — Feedforward & Trajectory Tracking**
+!!! abstract "Control Twin · C13/C14 · feedforward & tracking · Milestone: control loop → final 3-DOF (W15)"
+    **Artifact contribution:** the Coordinated / Tuned tracking result
 
 # Lesson 2.2 — Feedforward & Trajectory Tracking
 
-> **Module 3 · Unit 2 · Lesson 2.2**
-> Feedback reacts *after* an error appears. Feedforward anticipates the motion you
-> already know is coming. Together they let the platform follow a moving target —
-> a trajectory — far better than feedback alone.
+!!! note "Why you need this — before the theory"
+    Feedback alone lags a moving target. Adding feedforward sharpens trajectory tracking — the difference between a passing and failing Tuned Control Report.
+
+!!! warning "Control identity — Path A (fluid-power control, not generic)"
+    This is control of the **hydraulic PKM**. The controller's command `u` drives a
+    **solenoid on/off DCV via PWM** (the signature path); a **proportional valve** appears only as a
+    **benchmark**. The course outcome is **position control with on/off valves via PWM, and explaining
+    its limits versus proportional** — not generic controls.
 
 ---
 
@@ -39,6 +43,9 @@ and sometimes acceleration at each instant. Knowing the target velocity, you can
 pre-command the flow that produces it (recall \(v = Q/A\)); feedback then only
 corrects the leftover error. A smooth trajectory \(r(t)\) with known \(\dot r(t)\) is
 what makes feedforward possible.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/control, feedforward) · B9 · B10 · Family 3
 
 ## 4. Visual Explanation
 
@@ -77,16 +84,29 @@ Track a setpoint moving at a steady 0.1 m/s.
 
 Same loop, same gains — anticipation removed the tracking lag.
 
+![Coordinated tracking](../figures/B9-coordinated-tracking.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Tuned response](../figures/B10-tuned-response.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 
 The demo tracks a *step* (the hardest case for feedback, since the setpoint jumps).
 Notice how much the response lags the instant the target moves — that lag is exactly
 what feedforward removes for a *smooth* trajectory. Imagine the dashed target line
 ramping instead of jumping: feedforward would let the curve ride along it.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Add feedforward; watch lag on the fast path segment shrink.
+    - **Interpret:** Feedforward anticipates the moving setpoint; feedback only reacts.
+    - **Apply:** Combine feedback + feedforward to pass the tracking threshold.
 
 ## 8. Code & Computation
 
@@ -102,9 +122,12 @@ print(f"feedforward flow = {Q_ff*60000:.1f} L/min  (sent before any error appear
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N3 — PWM / Control](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**tracking RMSE ≤ 10 mm**) is owned by the artifact and stated in **[Handbook Ch 4 — Control Twin](../handbook/04-control-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.2.2 check](../quizzes/m3-l22.html)
+[Check your understanding — Quiz 5](../quizzes/quiz-5-coordinated-tuning.md)
 
 ## 10. Challenge Problem
 

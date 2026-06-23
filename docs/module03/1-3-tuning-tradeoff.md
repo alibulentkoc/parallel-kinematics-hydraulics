@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 3 — Closed-Loop Control** · **Unit 1 — The Feedback Loop** · **Lesson 1.3 — The Tuning Trade-off**
+!!! abstract "Control Twin · C14 · tuning · Milestone: control loop → final 3-DOF (W15)"
+    **Artifact contribution:** the Tuned Control Report
 
 # Lesson 1.3 — The Tuning Trade-off
 
-> **Module 3 · Unit 1 · Lesson 1.3** · interactive
-> The deep truth of control: fast and stable pull in opposite directions. Good
-> tuning is the narrow band that satisfies both — and the metrics that tell you when
-> you've found it.
+!!! note "Why you need this — before the theory"
+    A PWM-driven on/off loop must settle without chattering. Tuning it — gain, deadband, frequency — produces the Tuned Control Report that gates the final.
+
+!!! warning "Control identity — Path A (fluid-power control, not generic)"
+    This is control of the **hydraulic PKM**. The controller's command `u` drives a
+    **solenoid on/off DCV via PWM** (the signature path); a **proportional valve** appears only as a
+    **benchmark**. The course outcome is **position control with on/off valves via PWM, and explaining
+    its limits versus proportional** — not generic controls.
 
 ---
 
@@ -40,6 +44,9 @@ Raising \(K_p\) cuts rise time but raises overshoot; the two move in opposite
 directions, which is the trade-off made quantitative. Good tuning minimizes settling
 time subject to an overshoot cap.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/control, tuning) · B7 · B10 · Family 3
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -71,16 +78,29 @@ changed, but the *settling* time — the metric that actually matters — improv
 dramatically. That's the trade-off resolved: \(K_d\) bought stability without
 sacrificing speed.
 
+![Duty curve](../figures/B7-duty-curve.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Tuned PWM response](../figures/B10-tuned-response.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 
 Watch the **overshoot** and **settling time** readouts as you move the gains. Try to
 beat the "well tuned" preset: find gains with overshoot under 20% *and* the shortest
 settling time you can. Notice you can't drive both to zero — that impossibility *is*
 the trade-off.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Sweep gain; watch settling time trade against ripple.
+    - **Interpret:** Too little gain lags; too much chatters — the PWM loop has a sweet spot.
+    - **Apply:** Find a gain that settles ≤ 2.5 s without a limit cycle.
 
 ## 8. Code & Computation
 
@@ -103,9 +123,12 @@ for name, g in {"too slow": (3,0,0), "too hot": (60,0,0), "well tuned": (30,0,8)
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N3 — PWM / Control](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**settling ≤ 2.5 s; limit cycle bounded**) is owned by the artifact and stated in **[Handbook Ch 4 — Control Twin](../handbook/04-control-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.1.3 check](../quizzes/m3-l13.html)
+[Check your understanding — Quiz 5](../quizzes/quiz-5-coordinated-tuning.md)
 
 ## 10. Challenge Problem
 

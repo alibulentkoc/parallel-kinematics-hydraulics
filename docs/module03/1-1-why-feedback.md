@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 3 — Closed-Loop Control** · **Unit 1 — The Feedback Loop** · **Lesson 1.1 — Why Feedback**
+!!! abstract "Control Twin · C6 · feedback & closed-loop control · Milestone: control loop → final 3-DOF (W15)"
+    **Artifact contribution:** the feedback basis of the Position-control demo
 
 # Lesson 1.1 — Why Feedback
 
-> **Module 3 · Unit 1 · Lesson 1.1**
-> We can compute the leg lengths (Module 1) and the forces and flows (Module 2). But
-> if we just command them and hope, the platform drifts. This module is about
-> *closing the loop* — measuring what actually happened and correcting it.
+!!! note "Why you need this — before the theory"
+    A hydraulic leg drifts under load and valve nonlinearity, so open-loop never holds a pose. Feedback is what lets the PKM hold position — and it must do so driving on/off valves with PWM, the implementation the rest of the control work builds on.
+
+!!! warning "Control identity — Path A (fluid-power control, not generic)"
+    This is control of the **hydraulic PKM**. The controller's command `u` drives a
+    **solenoid on/off DCV via PWM** (the signature path); a **proportional valve** appears only as a
+    **benchmark**. The course outcome is **position control with on/off valves via PWM, and explaining
+    its limits versus proportional** — not generic controls.
 
 ---
 
@@ -48,9 +52,12 @@ The loop runs forever: **sense** \(y\) → **compare** to \(r\) to get \(e\) →
 **correct** with \(u\) → **actuate** → sense again. The art of control is choosing
 \(C\) so the error goes to zero quickly and stays there (Lessons 1.2–1.3).
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/control, error/loop) · A8 · Family 3
+
 ## 4. Visual Explanation
 
-![The feedback loop: setpoint, error, controller, plant, sensor](../assets/pid-loop.svg)
+![On/off control of the hydraulic position loop](../figures/A8-onoff-control.svg)
 
 The figure is the loop in one picture: the setpoint enters, the sensor's measurement
 is subtracted to form the error, the controller turns error into a command, the
@@ -87,14 +94,19 @@ That repetition — not any single perfect command — is what makes the loop ac
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 
 The demo shows the loop chasing a step setpoint. For now, just watch the response
 curve climb toward the dashed target line and settle there — that climb *is*
 feedback shrinking the error. The next lessons explain the three terms that shape
 how it climbs.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Disturb the loop; watch open-loop drift vs closed-loop correction.
+    - **Interpret:** Only the closed loop holds the hydraulic pose against load and valve nonlinearity.
+    - **Apply:** Predict whether a disturbance is rejected before the demo shows it.
 
 ## 8. Code & Computation
 
@@ -107,9 +119,12 @@ print(f"error = {e:+.3f} m  ->  positive means too short, so extend")
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N3 — PWM / Control](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**position control achieved (tracking ≤ 10 mm)**) is owned by the artifact and stated in **[Handbook Ch 4 — Control Twin](../handbook/04-control-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.1.1 check](../quizzes/m3-l11.html)
+[Check your understanding — Quiz 3](../quizzes/quiz-3-pwm-position-control.md)
 
 ## 10. Challenge Problem
 

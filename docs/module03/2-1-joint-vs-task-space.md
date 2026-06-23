@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 3 — Closed-Loop Control** · **Unit 2 — Controlling a Parallel Machine** · **Lesson 2.1 — Joint-Space vs Task-Space**
+!!! abstract "Control Twin · C13 · coordinated / task-space control · Milestone: control loop → final 3-DOF (W15)"
+    **Artifact contribution:** the Coordinated tracking runs
 
 # Lesson 2.1 — Joint-Space vs Task-Space
 
-> **Module 3 · Unit 2 · Lesson 2.1**
-> One PID controls one cylinder. But the platform is held by several at once. There
-> are two ways to wire the control — per-leg or per-pose — and the choice shapes how
-> the whole machine behaves.
+!!! note "Why you need this — before the theory"
+    A parallel machine has several legs that must move together to put the platform on a Cartesian path. Coordinated (task-space) control keeps the platform on track, recorded as the Coordinated tracking runs.
+
+!!! warning "Control identity — Path A (fluid-power control, not generic)"
+    This is control of the **hydraulic PKM**. The controller's command `u` drives a
+    **solenoid on/off DCV via PWM** (the signature path); a **proportional valve** appears only as a
+    **benchmark**. The course outcome is **position control with on/off valves via PWM, and explaining
+    its limits versus proportional** — not generic controls.
 
 ---
 
@@ -49,6 +53,9 @@ The Jacobian \(J\) (Module 1) is what lets a *pose* error become the right *leg*
 commands — task-space control literally cannot work without the kinematics, which is
 why we built them first.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/control, task-space) · B9 · Family 3
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -86,15 +93,24 @@ Command the platform from \((0, 0.7)\) to \((0.1, 0.7)\).
 
 Same target, same cylinders — different fidelity to the actual path.
 
+![Coordinated tracking](../figures/B9-coordinated-tracking.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/kinematics-explorer.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 
 The explorer shows the IK that joint-space control uses (pose → leg lengths) and the
 Jacobian that task-space control needs. Drag the platform and watch both update:
 joint space consumes the leg lengths; task space consumes the Jacobian.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Run a coordinated path; watch all legs move together.
+    - **Interpret:** Task-space control closes the loop on the platform pose, not each leg alone.
+    - **Apply:** Raise the gain until coordinated tracking passes ≤ 10 mm.
 
 ## 8. Code & Computation
 
@@ -112,9 +128,12 @@ print(f"leg setpoints: L1*={L1_star:.3f}, L2*={L2_star:.3f}")
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N3 — PWM / Control](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**tracking RMSE ≤ 10 mm**) is owned by the artifact and stated in **[Handbook Ch 4 — Control Twin](../handbook/04-control-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.2.1 check](../quizzes/m3-l21.html)
+[Check your understanding — Quiz 5](../quizzes/quiz-5-coordinated-tuning.md)
 
 ## 10. Challenge Problem
 
