@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PID Tuning — PKM Testbed</title>
+<style>
+  :root{--bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--rule:#2c3a47;--grid:#22303c;--ink:#cdd6df;--dim:#8a97a3;--faint:#5b6975;
+    --accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;padding:18px;max-width:1000px;margin:0 auto}
+  h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px}h1 b{color:var(--accent)}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:14px}
+  .wrap{display:grid;grid-template-columns:1fr 280px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  svg{display:block;width:100%;height:auto}
+  aside{display:flex;flex-direction:column;gap:10px}
+  .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .card h2{font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:12px}td{padding:2px 0;font-variant-numeric:tabular-nums}td:first-child{color:var(--dim)}td:last-child{text-align:right}
+  label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:7px 0;color:var(--dim);font-size:12px}
+  label.f b{color:var(--accent);font-variant-numeric:tabular-nums;min-width:38px;text-align:right;display:inline-block}
+  input[type=range]{width:120px;accent-color:var(--accent)}
+  .v-ok{color:var(--ok)}.v-bad{color:var(--fault)}
+  .preset{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  button{background:var(--panel2);color:var(--ink);border:1px solid var(--rule);border-radius:3px;font-family:var(--mono);font-size:11px;padding:5px 9px;cursor:pointer}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  .hint{color:var(--faint);font-size:11px;margin-top:8px}a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <h1><b>PID</b> Tuning</h1>
+  <div class="sub">Step response of a hydraulic position loop — feel the fast-vs-overshoot trade-off</div>
+
+  <div class="wrap">
+    <div class="stage"><svg id="svg" viewBox="0 0 600 340" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <aside>
+      <div class="card">
+        <h2>Response metrics</h2>
+        <table>
+          <tr><td>overshoot</td><td id="os">—</td></tr>
+          <tr><td>settling time</td><td id="ts">—</td></tr>
+          <tr><td>steady error</td><td id="ss">—</td></tr>
+          <tr><td>verdict</td><td id="vd">—</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Gains</h2>
+        <label class="f"><span>Kp</span><span><input id="kp" type="range" min="0" max="200" step="1" value="40"><b id="kpv">40</b></span></label>
+        <label class="f"><span>Ki</span><span><input id="ki" type="range" min="0" max="60" step="1" value="0"><b id="kiv">0</b></span></label>
+        <label class="f"><span>Kd</span><span><input id="kd" type="range" min="0" max="20" step="0.5" value="0"><b id="kdv">0</b></span></label>
+        <div class="preset">
+          <button data-p="slow">too slow</button>
+          <button data-p="hot">too hot</button>
+          <button data-p="good">well tuned</button>
+        </div>
+      </div>
+      <div class="card hint">
+        Plant: a mass driven through a saturating valve (a double integrator) — the same structure as a real cylinder
+        position loop. Anti-windup clamps the integral term, exactly as in the simulator’s controller.
+      </div>
+    </aside>
+  </div>
+
+  <p class="hint">Part of the <a href="../03-control-system/" target="_top">Control System</a> chapter ·
+  <a href="index.html" target="_top">all demos</a> · related assignment: <b>M3 — Tuning trade-off</b></p>
+
+<script>
+const SVG="http://www.w3.org/2000/svg",svg=document.getElementById("svg");
+let Kp=40,Ki=0,Kd=0;
+const target=1.0, T=3.0, dt=0.002;             // 3 s window, 2 ms step
+const plot={x0:50,y0:280,w:510,h:230};
+
+function simulate(){
+  // double-integrator plant: a = clamp(u)/m ; v += a dt ; x += v dt
+  // u from PID (derivative on measurement, clamped integrator = anti-windup)
+  const m=1.0, uMax=1.0, vMax=3.0;
+  let x=0,v=0,integ=0,prevX=0;
+  const xs=[];
+  const n=Math.round(T/dt);
+  for(let i=0;i<=n;i++){
+    const e=target-x;
+    integ+=e*dt; integ=Math.max(-0.5,Math.min(0.5,integ));   // anti-windup clamp
+    let u=Kp*e + Ki*integ - Kd*((x-prevX)/dt);                // derivative on measurement
+    prevX=x;
+    u=Math.max(-uMax*200,Math.min(uMax*200,u));               // raw command
+    let acc=u/m;                                              // valve→force→accel (scaled)
+    // valve flow saturation: cap the speed the actuator can produce
+    v+=acc*dt; v=Math.max(-vMax,Math.min(vMax,v));
+    x+=v*dt;
+    if(i%4===0) xs.push(x);
+  }
+  return xs;
+}
+function metrics(xs){
+  let peak=0; for(const x of xs) if(x>peak)peak=x;
+  const overshoot=Math.max(0,(peak-target)/target);
+  // settling: last time outside ±2%
+  const band=0.02*target; let settle=T;
+  const step=T/(xs.length-1);
+  for(let i=xs.length-1;i>=0;i--){ if(Math.abs(xs[i]-target)>band){settle=(i+1)*step;break;} if(i===0)settle=0; }
+  const ss=Math.abs(xs[xs.length-1]-target);
+  return {overshoot,settle,ss};
+}
+function elt(t,a){const e=document.createElementNS(SVG,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+function X(t){return plot.x0+t/T*plot.w;}
+function Y(x){return plot.y0-x/1.6*plot.h;} // 0..1.6 range
+
+function draw(){
+  const xs=simulate(), mt=metrics(xs);
+  svg.innerHTML="";
+  // grid + target band
+  for(let i=0;i<=3;i++){svg.appendChild(elt("line",{x1:X(i),y1:plot.y0,x2:X(i),y2:plot.y0-plot.h,stroke:"#22303c"}));
+    svg.appendChild(Object.assign(elt("text",{x:X(i),y:plot.y0+16,fill:"#5b6975","font-size":"10","text-anchor":"middle"}),{textContent:i+"s"}));}
+  // ±2% settling band
+  svg.appendChild(elt("rect",{x:plot.x0,y:Y(1.02),width:plot.w,height:Y(0.98)-Y(1.02),fill:"#3fe0a0","opacity":"0.08"}));
+  // target line
+  svg.appendChild(elt("line",{x1:plot.x0,y1:Y(1.0),x2:plot.x0+plot.w,y2:Y(1.0),stroke:"#3fe0a0","stroke-width":"1.5","stroke-dasharray":"5 4"}));
+  svg.appendChild(Object.assign(elt("text",{x:plot.x0+plot.w-4,y:Y(1.0)-5,fill:"#3fe0a0","font-size":"10","text-anchor":"end"}),{textContent:"target"}));
+  // axes
+  svg.appendChild(elt("line",{x1:plot.x0,y1:plot.y0,x2:plot.x0+plot.w,y2:plot.y0,stroke:"#3a4b59"}));
+  svg.appendChild(elt("line",{x1:plot.x0,y1:plot.y0,x2:plot.x0,y2:plot.y0-plot.h,stroke:"#3a4b59"}));
+  svg.appendChild(Object.assign(elt("text",{x:16,y:plot.y0-plot.h/2,fill:"#8a97a3","font-size":"11","text-anchor":"middle",transform:`rotate(-90 16 ${plot.y0-plot.h/2})`}),{textContent:"position"}));
+  // response curve
+  const over=mt.overshoot>0.2, col=over?"#ff5470":(mt.settle>1.5?"#ffb454":"#39c5e0");
+  let d="";const step=T/(xs.length-1);
+  xs.forEach((x,i)=>{d+=(i?"L":"M")+X(i*step)+" "+Y(x)+" ";});
+  svg.appendChild(elt("path",{d,fill:"none",stroke:col,"stroke-width":"2.5"}));
+
+  // metrics
+  const setv=(id,txt,good)=>{const e=document.getElementById(id);e.textContent=txt;e.className=good?"v-ok":"v-bad";};
+  setv("os",(mt.overshoot*100).toFixed(0)+"%",mt.overshoot<0.2);
+  setv("ts",mt.settle.toFixed(2)+" s",mt.settle<1.5);
+  setv("ss",(mt.ss*1000).toFixed(1)+" mm",mt.ss<0.02);
+  const good=mt.overshoot<0.2 && mt.settle<1.5;
+  const vd=document.getElementById("vd");vd.textContent=good?"✓ good":"tune more";vd.className=good?"v-ok":"v-bad";
+}
+function setGains(p,i,d){Kp=p;Ki=i;Kd=d;
+  kp.value=p;ki.value=i;kd.value=d;kpv.textContent=p;kiv.textContent=i;kdv.textContent=d;draw();}
+const kp=document.getElementById("kp"),ki=document.getElementById("ki"),kd=document.getElementById("kd");
+const kpv=document.getElementById("kpv"),kiv=document.getElementById("kiv"),kdv=document.getElementById("kdv");
+kp.oninput=e=>{Kp=+e.target.value;kpv.textContent=Kp;draw();};
+ki.oninput=e=>{Ki=+e.target.value;kiv.textContent=Ki;draw();};
+kd.oninput=e=>{Kd=+e.target.value;kdv.textContent=Kd;draw();};
+document.querySelectorAll("[data-p]").forEach(btn=>btn.onclick=()=>{
+  const p=btn.dataset.p;
+  if(p==="slow")setGains(8,0,0);
+  else if(p==="hot")setGains(160,0,0);
+  else setGains(55,4,6);
+});
+draw();
+</script>
+</body>
+</html>
