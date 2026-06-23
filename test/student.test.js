@@ -7,7 +7,7 @@
  */
 
 import { TwinTrace, Logger } from "../src/logger/index.js";
-import { traceMetrics, ASSIGNMENTS, getAssignment, listAssignments, selfCheck, makeSubmission } from "../src/student/index.js";
+import { traceMetrics, twinAccuracy, dutyCycleOf, ASSIGNMENTS, getAssignment, listAssignments, selfCheck, makeSubmission } from "../src/student/index.js";
 import { PresetManager } from "../src/presets/index.js";
 import { buildSimulation } from "../src/sim/index.js";
 import { makeFaultEngine } from "../src/faults/index.js";
@@ -135,9 +135,34 @@ function runTask(assignment, controllerOverride = {}) {
   check("submission re-parses as a TwinTrace", tr.length === sub.rows.length && tr.dof() === 2);
 }
 
-/* --- summary ---------------------------------------------------------- */
-const total = pass + fail;
-console.log(`\nStudent module: ${pass}/${total} checks passed.`);
+/* ===================== TWIN ACCURACY METRICS (C15) ===================== */
+{
+  const a = getAssignment("M1");
+  const twin = runTask(a); // reference twin run
+  const same = runTask(a); // identical run → near-perfect agreement
+  const off = runTask(a, { Kp: 8 }); // detuned run → measurable divergence
+
+  // single-trace additions
+  const m = traceMetrics(twin);
+  check("traceMetrics exposes rmsErr ≥ meanErr", Number.isFinite(m.rmsErr) && m.rmsErr >= m.meanErr - 1e-9);
+  check("traceMetrics dutyCycle in [0,1]", Number.isFinite(m.dutyCycle) && m.dutyCycle >= 0 && m.dutyCycle <= 1);
+
+  // twin vs identical reference
+  const id = twinAccuracy(twin, same);
+  check("twinAccuracy posRMSE ~ 0 for identical traces", id.posRMSE < 1e-9);
+  check("twinAccuracy pressureRMSE ~ 0 for identical traces", !(id.pressureRMSE > 1e-6));
+  check("twinAccuracy settleTimeDiff ~ 0 for identical traces", id.settleTimeDiff < 1e-9);
+  check("twinAccuracy reports pressurePctErr (finite or NaN, not negative)", Number.isNaN(id.pressurePctErr) || id.pressurePctErr >= 0);
+
+  // twin vs detuned reference → divergence is detected
+  const dv = twinAccuracy(twin, off);
+  check("twinAccuracy posRMSE > 0 for divergent traces", dv.posRMSE > id.posRMSE);
+
+  // duty cycle is well-defined on a real run
+  check("dutyCycleOf finite on a real trace", Number.isFinite(dutyCycleOf(twin)));
+}
+
+
 if (fail > 0) {
   console.error(`FAILED: ${failures.join(", ")}`);
   if (typeof process !== "undefined" && process.exit) process.exit(1);
