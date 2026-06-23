@@ -178,10 +178,59 @@ function plot(xs,ys,opx,opy,xlab,ylab){
   txt(px1,py1+18,xlab,"var(--faint)",11,"end"); txt(px0,py0-8,ylab,"var(--faint)",11);
 }
 
+function arrow(x1,y1,x2,y2,col){
+  svg.appendChild(el("line",{x1:x1,y1:y1,x2:x2,y2:y2,stroke:col,"stroke-width":1.6}));
+  var ang=Math.atan2(y2-y1,x2-x1),a=4.5;
+  svg.appendChild(el("path",{d:"M"+x2+" "+y2+"L"+(x2-a*Math.cos(ang-0.5))+" "+(y2-a*Math.sin(ang-0.5))+"L"+(x2-a*Math.cos(ang+0.5))+" "+(y2-a*Math.sin(ang+0.5))+"Z",fill:col}));
+}
+function dcvSymbol(x,y,w,h){
+  for(var i=0;i<3;i++) svg.appendChild(el("rect",{x:x+i*w,y:y,width:w,height:h,fill:"none",stroke:"var(--ink)","stroke-width":1.3}));
+  // left box: parallel  P->A , B->T
+  arrow(x+w*0.32,y+h-5,x+w*0.32,y+5,"var(--accent)");
+  arrow(x+w*0.68,y+5,x+w*0.68,y+h-5,"var(--accent)");
+  // centre box: closed centre (four blocked stubs)
+  [[1.3,0],[1.7,0],[1.3,1],[1.7,1]].forEach(function(s){ var px=x+w*s[0], py=(s[1]?y+h:y), ey=(s[1]?y+h-7:y+7);
+    svg.appendChild(el("line",{x1:px,y1:py,x2:px,y2:ey,stroke:"var(--ink)","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:px-3,y1:ey,x2:px+3,y2:ey,stroke:"var(--ink)","stroke-width":1.2})); });
+  // right box: crossed  P->B , A->T
+  arrow(x+2*w+w*0.28,y+h-5,x+2*w+w*0.72,y+5,"var(--accent)");
+  arrow(x+2*w+w*0.72,y+h-5,x+2*w+w*0.28,y+5,"var(--accent)");
+  // external ports on the centre box
+  svg.appendChild(el("line",{x1:x+w*1.3,y1:y,x2:x+w*1.3,y2:y-11,stroke:"var(--ink)"}));
+  svg.appendChild(el("line",{x1:x+w*1.7,y1:y,x2:x+w*1.7,y2:y-11,stroke:"var(--ink)"}));
+  svg.appendChild(el("line",{x1:x+w*1.3,y1:y+h,x2:x+w*1.3,y2:y+h+11,stroke:"var(--ink)"}));
+  svg.appendChild(el("line",{x1:x+w*1.7,y1:y+h,x2:x+w*1.7,y2:y+h+11,stroke:"var(--ink)"}));
+  txt(x+w*1.3-3,y-14,"A","var(--dim)",9); txt(x+w*1.7-3,y-14,"B","var(--dim)",9);
+  txt(x+w*1.3-3,y+h+21,"P","var(--dim)",9); txt(x+w*1.7-3,y+h+21,"T","var(--dim)",9);
+  // solenoid actuators on the outer ends
+  svg.appendChild(el("rect",{x:x-13,y:y+h/2-7,width:12,height:14,fill:"none",stroke:"var(--ok)","stroke-width":1}));
+  svg.appendChild(el("line",{x1:x-13,y1:y+h/2+7,x2:x-1,y2:y+h/2-7,stroke:"var(--ok)","stroke-width":1}));
+  svg.appendChild(el("rect",{x:x+3*w+1,y:y+h/2-7,width:12,height:14,fill:"none",stroke:"var(--warn)","stroke-width":1}));
+  svg.appendChild(el("line",{x1:x+3*w+1,y1:y+h/2+7,x2:x+3*w+13,y2:y+h/2-7,stroke:"var(--warn)","stroke-width":1}));
+  txt(x+w*0.6,y-28,"ISO 1219 4/3 DCV","var(--faint)",9);
+}
+function pumpReliefSymbol(x,y){
+  // fixed-displacement pump (circle + directional triangle)
+  svg.appendChild(el("circle",{cx:x,cy:y,r:13,fill:"none",stroke:"var(--accent)","stroke-width":1.5}));
+  svg.appendChild(el("path",{d:"M"+x+" "+(y-9)+"L"+(x+7)+" "+(y+4)+"L"+(x-7)+" "+(y+4)+"Z",fill:"var(--accent)"}));
+  txt(x-14,y+30,"pump","var(--accent)",9);
+  // pressure line to relief
+  svg.appendChild(el("line",{x1:x+13,y1:y,x2:x+58,y2:y,stroke:"var(--accent)","stroke-width":1.6}));
+  // pressure-relief valve (square + arrow + spring + dashed pilot)
+  var rx=x+58,ry=y-13;
+  svg.appendChild(el("rect",{x:rx,y:ry,width:26,height:26,fill:"none",stroke:"var(--fault)","stroke-width":1.5}));
+  arrow(rx+13,ry+22,rx+17,ry+4,"var(--fault)");
+  svg.appendChild(el("path",{d:"M"+(rx+26)+" "+(ry+8)+"l5 -3 l0 8 l5 -8 l0 8 l4 -3",fill:"none",stroke:"var(--dim)","stroke-width":1}));
+  svg.appendChild(el("line",{x1:x+30,y1:y,x2:x+30,y2:y+12,stroke:"var(--dim)","stroke-width":1,"stroke-dasharray":"3 2"}));
+  svg.appendChild(el("line",{x1:x+30,y1:y+12,x2:rx+13,y2:y+12,stroke:"var(--dim)","stroke-width":1,"stroke-dasharray":"3 2"}));
+  svg.appendChild(el("line",{x1:rx+13,y1:y+12,x2:rx+13,y2:ry+26,stroke:"var(--dim)","stroke-width":1,"stroke-dasharray":"3 2"}));
+  txt(rx-4,ry-6,"relief","var(--fault)",9);
+}
 function drawValve(){
   var xs=[],ys=[]; for(var f=0;f<=1.5;f+=0.05){ xs.push(f); ys.push(orificeQ(Math.abs(st.u),f*RATED_DP)*60000); }
   var q=orificeQ(st.u,st.dpFrac*RATED_DP)*60000;
   plot(xs,ys,st.dpFrac,Math.abs(q),"dP / rated","Q (L/min)");
+  dcvSymbol(110,92,30,30);
   txt(70,330,"Q = u . Q_rated . sqrt(dP/dP_rated)   |   u="+st.u.toFixed(2)+"  ->  Q="+q.toFixed(1)+" L/min","var(--ink)",12);
 }
 
@@ -190,24 +239,33 @@ function drawPump(){
   var bx=120,bw=360;
   function bar(y,frac,col,lab){ svg.appendChild(el("rect",{x:bx,y:y,width:bw,height:20,fill:"var(--panel2)",stroke:"var(--rule)"}));
     svg.appendChild(el("rect",{x:bx,y:y,width:bw*Math.min(1,frac),height:20,fill:col})); txt(bx,y-6,lab,"var(--dim)",11); }
-  bar(70,rq/pm,rq>pm?"var(--fault)":"var(--accent)","required flow "+rq.toFixed(1)+" L/min");
-  bar(120,1,"rgba(63,224,160,0.5)","pump max "+pm.toFixed(1)+" L/min");
-  var Phyd=SUPPLY*Math.min(reqFlow(),PUMP_MAX)/1000;
-  txt(bx,180,"hydraulic power = supply . flow = "+Phyd.toFixed(1)+" kW","var(--ink)",12);
+  bar(64,rq/pm,rq>pm?"var(--fault)":"var(--accent)","required flow "+rq.toFixed(1)+" L/min");
+  bar(114,1,"rgba(63,224,160,0.5)","pump max "+pm.toFixed(1)+" L/min");
+  var Phyd=SUPPLY*Math.min(reqFlow(),PUMP_MAX)/1000, Pmax=SUPPLY*PUMP_MAX/1000;
+  txt(bx,170,"power at required flow = supply x flow = "+Phyd.toFixed(1)+" kW","var(--ink)",12);
+  txt(bx,190,"installed max = supply x pump max = "+Pmax.toFixed(1)+" kW","var(--faint)",11);
   var pNeed=pressForLoad()/1e6;
   txt(bx,210,"pressure to hold load = "+pNeed.toFixed(1)+" MPa   (relief "+(RELIEF/1e6)+" MPa)","var(--faint)",11);
+  pumpReliefSymbol(150,272);
 }
 
 function drawSensor(){
   var px0=80,px1=540,py0=40,py1=300;
-  function X(v){return px0+v/st.sensFS*(px1-px0);} function Y(v){return py1-v/st.sensVmax*(py1-py0);}
+  function X(v){return px0+Math.min(v,st.sensFS)/st.sensFS*(px1-px0);} function Y(v){return py1-Math.min(v,st.sensVmax)/st.sensVmax*(py1-py0);}
   svg.appendChild(el("line",{x1:px0,y1:py1,x2:px1,y2:py1,stroke:"var(--rule)"}));
   svg.appendChild(el("line",{x1:px0,y1:py0,x2:px0,y2:py1,stroke:"var(--rule)"}));
+  // calibration line: 0..full-scale  ->  0..V_max
   svg.appendChild(el("line",{x1:X(0),y1:Y(0),x2:X(st.sensFS),y2:Y(st.sensVmax),stroke:"var(--accent)","stroke-width":2}));
-  var V=st.sensRead/st.sensFS*st.sensVmax;
-  svg.appendChild(el("circle",{cx:X(st.sensRead),cy:Y(V),r:5,fill:"var(--ok)"}));
-  txt(px1,py1+18,"position (m)","var(--faint)",11,"end"); txt(px0,py0-8,"volts","var(--faint)",11);
-  txt(px0,330,"reading "+st.sensRead.toFixed(2)+" m  ->  "+V.toFixed(2)+" V   (scale "+(st.sensVmax/st.sensFS).toFixed(1)+" V/m)","var(--ink)",12);
+  var over=st.sensRead>st.sensFS;
+  var V=Math.min(st.sensVmax, st.sensRead/st.sensFS*st.sensVmax);
+  var ox=X(st.sensRead), oy=Y(V);
+  // projection lines making volts <-> position explicit
+  svg.appendChild(el("line",{x1:ox,y1:py1,x2:ox,y2:oy,stroke:"var(--grid)","stroke-width":1,"stroke-dasharray":"3 3"}));
+  svg.appendChild(el("line",{x1:px0,y1:oy,x2:ox,y2:oy,stroke:"var(--grid)","stroke-width":1,"stroke-dasharray":"3 3"}));
+  svg.appendChild(el("circle",{cx:ox,cy:oy,r:5,fill:over?"var(--fault)":"var(--ok)"}));
+  txt(px1,py1+18,"position (m)  [engineering units]","var(--faint)",11,"end"); txt(px0,py0-8,"signal (V)","var(--faint)",11);
+  txt(80,326,"linear position transducer:  V = (reading / full-scale) x V_max","var(--faint)",11);
+  txt(80,344,"reading "+st.sensRead.toFixed(2)+" m  ->  "+V.toFixed(2)+" V   (scale "+(st.sensVmax/st.sensFS).toFixed(1)+" V/m)"+(over?"   over-range: clamped at V_max":""),over?"var(--fault)":"var(--ink)",12);
 }
 
 /* ---- status / failure modes ------------------------------------------ */
@@ -215,6 +273,7 @@ function statusOf(){
   if(view==="cyl"){ var f=forces(); if(f.Fext<st.load*1000) return ["fault","UNDERSIZED - extend force below load"]; if(pressForLoad()>RELIEF) return ["fault","OVER_PRESSURE - load needs more than relief"]; return ["ok","nominal"]; }
   if(view==="valve"){ if(Math.abs(st.u)>=0.999) return ["warn","VALVE_SATURATED - command at limit"]; return ["ok","nominal"]; }
   if(view==="pump"){ if(reqFlow()>PUMP_MAX) return ["fault","PUMP_SATURATED - demand exceeds pump"]; return ["ok","nominal"]; }
+  if(view==="sensor"){ if(st.sensRead>st.sensFS) return ["warn","OVER_RANGE - reading exceeds full scale"]; return ["ok","nominal"]; }
   return ["ok","nominal"];
 }
 
