@@ -1,12 +1,20 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 2 — Valves, Flow & Pressure** · **Lesson 2.1 — The Valve Flow Law**
+!!! abstract "Hydraulic Twin · C5 · valve flow law · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** the valve-flow basis of the Sizing Report
 
 # Lesson 2.1 — The Valve Flow Law
 
-> **Module 2 · Unit 2 · Lesson 2.1** · interactive
-> The cylinder turns flow into speed — but what sets the flow? The valve. And the
-> valve's flow law has a square root in it that surprises everyone the first time:
-> halving the pressure drop does *not* halve the flow.
+!!! note "Why you need this — before the theory"
+    The valve is the throttle between pump and cylinder. Getting its flow law right — and knowing it is a solenoid DCV driven by PWM, not a proportional valve — is what makes the controller you build later behave.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
+
+!!! warning "Implementation path — Path A"
+    The primary path is a **solenoid on/off DCV driven by PWM** to position the actuator: the
+    command `u` is realized as a **PWM duty** (time-averaged opening), not a continuously held
+    spool. A **proportional valve** appears only as a **benchmark** delivering continuous `u`
+    directly — you are not commanding a proportional valve.
 
 ---
 
@@ -30,7 +38,7 @@ is the square-root law.
 
 ## 3. Mathematical Foundations
 
-The proportional-valve flow law:
+The valve flow law (orifice characteristic):
 
 \[
 \boxed{\;Q = u \cdot Q_\text{rated}\,\sqrt{\dfrac{\Delta P}{\Delta P_\text{rated}}}\;}
@@ -44,6 +52,9 @@ The proportional-valve flow law:
 The command enters linearly; the pressure drop enters under a **square root**. That
 \(\sqrt{\cdot}\) is the orifice equation in disguise — flow through a restriction
 grows with the *square root* of the pressure pushing it.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, orifice Q) · A4 · B5 · Family 2
 
 ## 4. Visual Explanation
 
@@ -80,6 +91,14 @@ Compare a *linear* guess (\(0.7 \times 15 \times 0.5 = 5.25\) L/min). The real v
 passes **7.4**, not 5.25 — about 40% more — because \(\sqrt{0.5} = 0.71\), not 0.5.
 That gap is the whole point of the lesson.
 
+![DCV states (ISO 1219)](../figures/A4-dcv-states.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
+![Flow curve](../figures/B5-flow-curve.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/hydraulic-explorer.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -90,6 +109,11 @@ Set \(u = 0.7\), \(Q_\text{rated} = 15\), and slide ΔP to 0.5 — confirm the f
 reads ~7.4 L/min on the blue (real) curve while the grey dashed (linear) line sits
 lower at ~5.25. Sweep ΔP across its range and watch the square-root curve bow above
 the straight line everywhere but the rated point.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Read the ISO 1219 4/3 DCV symbol; set command and ΔP in the demo.
+    - **Interpret:** Flow scales with command linearly but with ΔP under a square root.
+    - **Apply:** Predict the flow at u=0.7, half-rated ΔP, then confirm.
 
 ## 8. Code & Computation
 
@@ -105,9 +129,12 @@ print(f"real = {real:.1f} L/min   linear = {linear:.2f} L/min")   # 7.4 vs 5.25
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**flow within valve rating**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.2.1 check](../quizzes/m2-l21.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -137,7 +164,7 @@ drop are you operating at? (Solve \(12 = 15\sqrt{\Delta P/\Delta P_\text{rated}}
 
 **Tutor**
 ```
-Explain the proportional-valve flow law Q = u·Q_rated·√(ΔP/ΔP_rated). Why is the
+Explain the valve flow law Q = u·Q_rated·√(ΔP/ΔP_rated). Why is the
 command linear but the pressure drop under a square root? Use the orifice analogy.
 ```
 **Practice**
@@ -150,12 +177,3 @@ compare to a naive linear estimate. Include answers.
 
 *Next lesson: [2.2 — Load Pressure & the Jacobian](2-2-load-pressure.md), where the platform's load becomes cylinder pressure.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![DCV states (ISO 1219)](../figures/A4-dcv-states.svg)
-- **Read:** [DCV states (ISO 1219)](../figures/A4-dcv-states.svg) · [Flow curve](../figures/B5-flow-curve.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Valve view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

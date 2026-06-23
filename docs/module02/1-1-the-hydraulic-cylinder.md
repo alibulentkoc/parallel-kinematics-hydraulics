@@ -1,12 +1,14 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 1 — Cylinders & Asymmetry** · **Lesson 1.1 — The Hydraulic Cylinder**
+!!! abstract "Hydraulic Twin · C5 · cylinder fundamentals · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** the cylinder basis of the Hydraulic Sizing Report
 
 # Lesson 1.1 — The Hydraulic Cylinder
 
-> **Module 2 · Unit 1 · Lesson 1.1**
-> Module 1 told us *how long* each leg must be. This module is about the device that
-> actually changes that length — the hydraulic cylinder — and the physics that turns
-> oil pressure and flow into force and motion.
+!!! note "Why you need this — before the theory"
+    The cylinder is the muscle of every leg. Before you can size anything you must know how a double-acting cylinder turns pressure into force and flow into speed — that is the foundation of the Hydraulic Sizing Report you will ship at the midterm.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
 
 ---
 
@@ -51,6 +53,9 @@ v = \frac{Q}{A}.
 These two relations are the whole actuator in miniature: pressure buys force, flow
 buys speed, and area is the exchange rate for both. The twist — that the two sides
 of the piston have *different* areas — is the subject of the next two lessons.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, areas/force) · A3 · Family 2
 
 ## 4. Visual Explanation
 
@@ -99,6 +104,11 @@ Set the bore to 40 mm and the flow to 15 L/min and confirm the extend speed read
 ~0.20 m/s. Slide the pressure up and down and watch the *force* change while the
 *speed* stays fixed — pressure and flow really are independent levers.
 
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Read the ISO 1219 cylinder symbol; pressurise each side in the demo.
+    - **Interpret:** Cap-side area is larger than rod-side, so extend force beats retract force.
+    - **Apply:** Identify which port to pressurise for a required push.
+
 ## 8. Code & Computation
 
 ```python
@@ -112,9 +122,12 @@ print(f"speed @15 L/min = {(2.5e-4) / A_cap:.2f} m/s")  # v = Q/A -> 0.20 m/s
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**φ ≤ 1.6; F_ext ≥ load**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1.1 check](../quizzes/m2-l11.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -157,12 +170,3 @@ and flow, find speed. Mix the units (mm, MPa, L/min). Include answers.
 
 *Next lesson: [1.2 — Area Asymmetry φ](1-2-area-asymmetry.md), where the rod makes the two sides unequal.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
-- **Read:** [Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

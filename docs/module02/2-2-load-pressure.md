@@ -1,12 +1,14 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 2 — Valves, Flow & Pressure** · **Lesson 2.2 — Load Pressure & the Jacobian**
+!!! abstract "Hydraulic Twin · C5 · load pressure · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** the load-pressure check feeding the Sizing Report
 
 # Lesson 2.2 — Load Pressure & the Jacobian
 
-> **Module 2 · Unit 2 · Lesson 2.2**
-> The bridge between Module 1 and Module 2: the platform's load becomes leg forces
-> through the Jacobian, and leg forces become cylinder pressures through the piston
-> area. This is where geometry and hydraulics finally meet.
+!!! note "Why you need this — before the theory"
+    How hard a leg must push depends on the pose through the Jacobian — load pressure rises where manipulability falls. Catching that early keeps the Sizing Report honest about worst-case pressure.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
 
 ---
 
@@ -54,6 +56,9 @@ As \(\det(J)\to 0\) near a singularity, \(J^{-\mathsf T}\) blows up, so \(f\) �
 the demanded pressure — diverges. The relief valve (next lesson) is what stops that
 from destroying the machine.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, load pressure; Jacobian) · B4 · A6 · Family 2
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -92,6 +97,14 @@ base line: the geometry factor inflates, the required leg force climbs by 10× o
 more, and the pressure marches toward the relief limit. *Same load, same cylinders —
 only the pose changed.*
 
+![Force vs area](../figures/B4-force-area.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
+![Jacobian](../figures/A6-jacobian-manipulability.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -102,6 +115,11 @@ While this demo shows manipulability rather than pressure directly, the connecti
 is exact: the dark (low-\(w\)) regions are precisely where \(J^{-\mathsf T}\) — and
 therefore the required leg force and pressure — blow up. Drag toward the base line
 and read the collapsing manipulability as a pressure-danger map.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Move toward a low-manipulability pose; watch load pressure climb.
+    - **Interpret:** Load pressure ∝ 1/det(J): poor dexterity means high pressure demand.
+    - **Apply:** Check the worst-case pose stays under the relief setting.
 
 ## 8. Code & Computation
 
@@ -117,9 +135,12 @@ print(f"pressure = {f / A_cap / 1e6:.3f} MPa")     # ~0.10 MPa at a healthy pose
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**hold pressure ≤ relief**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.2.2 check](../quizzes/m2-l22.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -163,12 +184,3 @@ and what a real machine does (relief valve, motion limits) to survive it.
 
 *Next lesson: [2.3 — Pump & Relief Sizing](2-3-pump-and-relief.md), where we size the power unit to supply the flow and cap the pressure.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Force vs area](../figures/B4-force-area.svg)
-- **Read:** [Force vs area](../figures/B4-force-area.svg) · [Jacobian](../figures/A6-jacobian-manipulability.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Sensor view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

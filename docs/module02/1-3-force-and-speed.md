@@ -1,12 +1,14 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 1 — Cylinders & Asymmetry** · **Lesson 1.3 — Force and Speed**
+!!! abstract "Hydraulic Twin · C5 · force & speed · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** the force/speed envelope in the Sizing Report
 
 # Lesson 1.3 — Force and Speed
 
-> **Module 2 · Unit 1 · Lesson 1.3**
-> Putting φ to work: the four numbers that define what a cylinder can do — extend
-> force, retract force, extend speed, retract speed — and why they come in a
-> strong-slow / weak-fast pair.
+!!! note "Why you need this — before the theory"
+    A leg must push hard enough and move fast enough at once, and those trade against pressure and flow. The force/speed envelope is the heart of the Hydraulic Sizing Report.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
 
 ---
 
@@ -42,6 +44,9 @@ v_\text{ext} = \frac{Q}{A_\text{cap}}, \qquad v_\text{ret} = \frac{Q}{A_\text{ro
 
 So φ is the ratio *both* ways: extend is φ times stronger, retract is φ times
 faster. One number ties all four together.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, force, flow) · B4 · B5 · Family 2
 
 ## 4. Visual Explanation
 
@@ -85,6 +90,14 @@ Retract can't do it. To hold 16 kN both ways you'd need to raise pressure to
 with a thinner rod (smaller φ). This is exactly the kind of check the worked design
 example in the handbook walks through.
 
+![Force vs area](../figures/B4-force-area.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
+![Flow curve](../figures/B5-flow-curve.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -94,6 +107,11 @@ example in the handbook walks through.
 Read the four bars — extend/retract force and extend/retract speed — at the default
 settings and confirm the table above. Then raise the pressure slider until the
 retract-force bar reaches 16 kN, and note the pressure you needed.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Set load and speed; watch required pressure and flow respond.
+    - **Interpret:** Force scales with pressure×area; speed scales with flow÷area.
+    - **Apply:** Find a bore that meets both force and speed within limits.
 
 ## 8. Code & Computation
 
@@ -109,9 +127,12 @@ print(f"v_ext={Q/A_cap:.2f} m/s  v_ret={Q/A_rod:.2f} m/s")        # 0.20, 0.29
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**F_ext ≥ load**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1.3 check](../quizzes/m2-l13.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -154,12 +175,3 @@ deciding whether it meets a force or speed requirement. Include answers.
 
 *Next lesson: [2.1 — The Valve Flow Law](2-1-valve-flow-law.md), where we control how much oil reaches the cylinder.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Force vs area](../figures/B4-force-area.svg)
-- **Read:** [Force vs area](../figures/B4-force-area.svg) · [Flow curve](../figures/B5-flow-curve.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder/Valve view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

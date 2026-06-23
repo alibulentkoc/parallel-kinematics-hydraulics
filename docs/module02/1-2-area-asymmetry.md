@@ -1,12 +1,14 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 1 — Cylinders & Asymmetry** · **Lesson 1.2 — Area Asymmetry φ**
+!!! abstract "Hydraulic Twin · C5 · area ratio φ · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** the area-ratio / force-asymmetry result in the Sizing Report
 
 # Lesson 1.2 — Area Asymmetry φ
 
-> **Module 2 · Unit 1 · Lesson 1.2** · interactive
-> The single most important quirk of a hydraulic cylinder: its two sides have
-> different areas, so it is stronger and slower extending than retracting. One
-> number — the ratio φ — captures the whole effect.
+!!! note "Why you need this — before the theory"
+    The rod steals area from one side, so a cylinder is stronger extending than retracting. Quantifying that asymmetry (φ) is a sizing decision the Hydraulic Sizing Report must defend.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
 
 ---
 
@@ -46,6 +48,9 @@ quotient:
 Because \(d > 0\), the denominator is always smaller than the numerator, so
 \(\varphi > 1\) — always. A thicker rod (larger \(d\)) makes φ larger and the
 asymmetry more severe.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, areas, φ) · A3 · B4 · Family 2
 
 ## 4. Visual Explanation
 
@@ -93,6 +98,10 @@ A_\text{rod} = \frac{\pi (40^2 - 28^2)}{4} = \frac{\pi (1600 - 784)}{4}
 A thicker rod nearly *doubled* the asymmetry. The rod isn't just a structural part —
 its diameter is a design lever on how lopsided the cylinder behaves.
 
+![Force vs area](../figures/B4-force-area.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -102,6 +111,11 @@ its diameter is a design lever on how lopsided the cylinder behaves.
 Set bore 40 mm, rod 22 mm and read φ = 1.43. Now drag the rod slider toward 28 mm
 and watch φ climb toward ~1.96 while the cap and rod area circles redraw to scale —
 the worked example, live.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Sweep rod diameter; watch φ and the force gap change.
+    - **Interpret:** φ = A_cap/A_rod; a fatter rod widens the asymmetry.
+    - **Apply:** Pick a rod that keeps φ ≤ 1.6 for your load case.
 
 ## 8. Code & Computation
 
@@ -118,9 +132,12 @@ print("phi (28 mm rod) =", round((pi*D**2/4)/(pi*(D**2-0.028**2)/4), 2))   # 1.9
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**φ ≤ 1.6**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1.2 check](../quizzes/m2-l12.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -163,12 +180,3 @@ interpreting what φ means for force and speed. Include answers.
 
 *Next lesson: [1.3 — Force and Speed](1-3-force-and-speed.md), where φ turns into the actual numbers the machine produces.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
-- **Read:** [Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg) · [Force vs area](../figures/B4-force-area.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

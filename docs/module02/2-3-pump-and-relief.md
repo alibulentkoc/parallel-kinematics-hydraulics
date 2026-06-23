@@ -1,12 +1,14 @@
-!!! abstract "You are here"
-    **Module 2 — Hydraulic Actuation** · **Unit 2 — Valves, Flow & Pressure** · **Lesson 2.3 — Pump & Relief Sizing**
+!!! abstract "Hydraulic Twin · C5 · pump & relief sizing · Milestone: midterm 2-DOF build (W8)"
+    **Artifact contribution:** pump/relief sizing in the Sizing Report / Design Review
 
 # Lesson 2.3 — Pump & Relief Sizing
 
-> **Module 2 · Unit 2 · Lesson 2.3**
-> The power unit that feeds everything: a pump that must supply enough *flow* for the
-> fastest move across all legs at once, and a relief valve that caps the *pressure*
-> so a singularity or a jam can't burst the system.
+!!! note "Why you need this — before the theory"
+    The pump must supply peak flow and the relief must cap peak pressure — get either wrong and the machine starves or over-pressures. This sizing closes the Hydraulic Sizing Report and gates the Design Review.
+
+!!! info "Standards — read real documentation"
+    Symbols in this lesson follow **ISO 1219 / ANSI Y32.10**. Learn to read them: these are the
+    symbols on real hydraulic schematics and datasheets, not course-specific drawings.
 
 ---
 
@@ -52,13 +54,16 @@ This is the budget that ties the whole module together: areas and speeds set the
 flow demand, the Jacobian and load set the pressure demand, and their product is the
 power the unit must provide.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/hydraulics, pump, relief) · A5 · B6 · Family 2
+
 ## 4. Visual Explanation
 
-![Hydraulic circuit: tank, pump, relief valve, proportional valve, and cylinder](../figures/A5-hpu-architecture.svg)
+![Hydraulic circuit: tank, pump, relief valve, solenoid directional valve, and cylinder](../figures/A5-hpu-architecture.svg)
 
 The schematic shows the power path: the **pump** lifts oil from tank to supply
 pressure, the **relief valve** caps that pressure (dumping excess back to tank), and
-the **proportional valve** meters flow onward to the **cylinder**. Size the pump for
+the **solenoid directional valve** meters flow onward to the **cylinder**. Size the pump for
 flow, the relief for the pressure ceiling.
 
 ```mermaid
@@ -96,6 +101,10 @@ inside the 36 L/min the pump supplies — so the move doesn't starve. Push to th
 fast cylinders and you'd approach the limit, and the platform would slow: the pump
 is the speed ceiling.
 
+![Pump / power](../figures/B6-pump-power.svg)
+
+*Read this directly — it is exported from the simulator at frozen parameters and feeds the artifact.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/hydraulic-explorer.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -106,6 +115,11 @@ The pump sets the *total* flow available; the valve demo shows how a single leg'
 flow depends on command and pressure drop. Picture several of these running at once
 sharing the 36 L/min supply — when their demands sum past the pump's output,
 everyone slows together.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Sweep target speed; watch required flow approach the pump ceiling.
+    - **Interpret:** Required flow = speed×cap area; the relief caps pressure independently.
+    - **Apply:** Size pump and relief so peak flow and pressure both stay within limits.
 
 ## 8. Code & Computation
 
@@ -121,9 +135,12 @@ print(f"2-leg demand = {demand*60000:.1f} L/min (pump supplies {pump_max_flow*60
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N2 — Hydraulics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**flow ≤ pump max; hold ≤ relief**) is owned by the artifact and stated in **[Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.2.3 check](../quizzes/m2-l23.html)
+[Check your understanding — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 
@@ -167,12 +184,3 @@ flow; given supply and burst, choose a relief setting. Include answers.
 
 *Module 2 complete. Continue to [Module 3 — Closed-Loop Control](../module03/1-1-why-feedback.md).*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![HPU (ISO 1219)](../figures/A5-hpu-architecture.svg)
-- **Read:** [HPU (ISO 1219)](../figures/A5-hpu-architecture.svg) · [Pump / power](../figures/B6-pump-power.svg)
-- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Pump view
-- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
-- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
-- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)
