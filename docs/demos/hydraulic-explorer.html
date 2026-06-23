@@ -108,9 +108,10 @@ var CHAL={
 };
 
 /* ---- inputs per view ------------------------------------------------- */
+function fmtLabel(v,scale,unit){ return (v*(scale||1)).toFixed(unit==="mm"?0:2)+' '+(unit||''); }
 function slider(key,label,min,max,step,scale,unit){
   var val=st[key];
-  return '<label class="f"><span>'+label+'</span><input type="range" data-k="'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><b id="lbl-'+key+'">'+(val*(scale||1)).toFixed(unit==="mm"?0:2)+' '+(unit||'')+'</b></label>';
+  return '<label class="f"><span>'+label+'</span><input type="range" data-k="'+key+'" data-scale="'+(scale||1)+'" data-unit="'+(unit||'')+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><b id="lbl-'+key+'">'+fmtLabel(val,scale,unit)+'</b></label>';
 }
 function renderInputs(){
   var h="";
@@ -120,7 +121,7 @@ function renderInputs(){
   else { h+=slider("sensFS","sensor full scale",0.2,1.0,0.01,1,"m")+slider("sensVmax","max voltage",5,15,0.5,1,"V")+slider("sensRead","reading",0,0.6,0.01,1,"m"); }
   document.getElementById("inputs").innerHTML=h;
   Array.prototype.forEach.call(document.querySelectorAll('#inputs input'),function(inp){
-    inp.addEventListener("input",function(){ st[inp.dataset.k]=+inp.value; render(); });
+    inp.addEventListener("input",function(){ st[inp.dataset.k]=+inp.value; var lbl=document.getElementById("lbl-"+inp.dataset.k); if(lbl) lbl.textContent=fmtLabel(+inp.value,+inp.dataset.scale,inp.dataset.unit); render(); });
   });
 }
 

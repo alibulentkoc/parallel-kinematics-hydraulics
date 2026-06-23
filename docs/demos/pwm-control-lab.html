@@ -140,7 +140,7 @@ var CHAL={
 
 /* ---- inputs per view ------------------------------------------------- */
 function slider(key,label,min,max,step,unit){ var val=st[key];
-  return '<label class="f"><span>'+label+'</span><input type="range" data-k="'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><b>'+val+(unit||'')+'</b></label>'; }
+  return '<label class="f"><span>'+label+'</span><input type="range" data-k="'+key+'" data-unit="'+(unit||'')+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><b id="lbl-'+key+'">'+val+(unit||'')+'</b></label>'; }
 function renderInputs(){
   var h="";
   if(view==="duty"){ h+=slider("dbDuty","duty deadband",0.0,0.4,0.01,""); }
@@ -152,7 +152,7 @@ function renderInputs(){
     else { h+=slider("Kp","gain Kp",2,60,1,""); }
   }
   document.getElementById("inputs").innerHTML=h;
-  Array.prototype.forEach.call(document.querySelectorAll('#inputs input'),function(inp){ inp.addEventListener("input",function(){ st[inp.dataset.k]=+inp.value; render(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll('#inputs input'),function(inp){ inp.addEventListener("input",function(){ st[inp.dataset.k]=+inp.value; var lbl=document.getElementById("lbl-"+inp.dataset.k); if(lbl) lbl.textContent=(+inp.value)+(inp.dataset.unit||''); render(); }); });
 }
 
 /* ---- svg helpers ----------------------------------------------------- */
