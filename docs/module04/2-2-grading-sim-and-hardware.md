@@ -100,7 +100,7 @@ overshoot, it would fail — correctly exposing a sim-to-real gap to investigate
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/digital-twin-validation.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/digital-twin-validation.html" title="Digital Twin Validation Lab — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
 [Open this demo full-screen in a new tab](../demos/digital-twin-validation.html){ target=_blank }
 
@@ -179,4 +179,4 @@ and hardware.
 
 ---
 
-*🎓 You've completed the curriculum — from kinematics, through hydraulics and control, to a hardware-ready digital twin. Revisit the [Reference Handbook](../handbook.md) or the [Interactive Demos](../demos/digital-twin-validation.html) any time.*
+*🎓 You've completed the curriculum — from kinematics, through hydraulics and control, to a hardware-ready digital twin. Revisit the [Project Handbook](../handbook/index.md) or the [Interactive Demos](../demos/digital-twin-validation.html) any time.*

@@ -95,7 +95,7 @@ independent layers caught one dangerous condition.*
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/digital-twin-validation.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/digital-twin-validation.html" title="Digital Twin Validation Lab — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
 [Open this demo full-screen in a new tab](../demos/digital-twin-validation.html){ target=_blank }
 

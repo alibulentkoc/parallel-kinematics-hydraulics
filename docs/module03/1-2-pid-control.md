@@ -108,7 +108,7 @@ three jobs — you just tuned a controller by reasoning, not luck.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pwm-control-lab.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/pwm-control-lab.html" title="PWM / Control Lab — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
 [Open this demo full-screen in a new tab](../demos/pwm-control-lab.html){ target=_blank }
 

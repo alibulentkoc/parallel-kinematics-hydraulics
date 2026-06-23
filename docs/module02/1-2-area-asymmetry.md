@@ -104,7 +104,7 @@ its diameter is a design lever on how lopsided the cylinder behaves.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Hydraulic Explorer — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
 [Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
