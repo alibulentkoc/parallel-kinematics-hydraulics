@@ -87,6 +87,15 @@
         <button class="btn" id="check">Check result</button>
         <div class="verdict" id="verdict"></div>
       </div>
+      <div class="card">
+        <h2>Export figure (frozen params)</h2>
+        <div style="display:flex;gap:6px">
+          <button class="btn" id="exsvg" style="width:auto;flex:1">SVG</button>
+          <button class="btn" id="expng" style="width:auto;flex:1">PNG</button>
+          <button class="btn" id="excsv" style="width:auto;flex:1">CSV</button>
+        </div>
+        <div class="verdict" id="exverdict"></div>
+      </div>
       <div class="hint" id="hint"></div>
     </aside>
   </div>
@@ -213,6 +222,43 @@ document.getElementById("check").addEventListener("click",function(){
   else if(view==="diagnose"){ document.getElementById("verdict").innerHTML = guessed? (guessed===f?'<span class="ok">Diagnosis correct.</span>':'<span class="warn">Diagnosis incorrect.</span>') : '<span class="warn">Pick a cause first.</span>'; }
   else if(view==="sync"){ document.getElementById("verdict").innerHTML = Math.abs(m.bestShift)>3 ? (aligned?'<span class="ok">Aligned - now judge accuracy.</span>':'<span class="warn">Align first (click the plot).</span>') : '<span class="ok">No significant offset.</span>'; }
   else { document.getElementById("verdict").innerHTML='<span class="ok">Compared - RMSE '+(m.pos*1000).toFixed(1)+' mm.</span>'; }
+});
+
+/* ---- export pipeline (SVG / PNG / CSV) with frozen params + metadata --- */
+var FW=600, FH=360;
+function curFault(){ return (view==="diagnose"&&hidden)?truth:fault; }
+function frozenParams(){ return curFault()==="none"?"baseline_twin_good":"baseline_twin_faults ("+curFault()+")"; }
+function exBase(){ return "twin-"+view+"-"+curFault(); }
+function stampF(){ return new Date().toISOString().slice(0,10); }
+function nsEl(t){ return document.createElementNS("http://www.w3.org/2000/svg",t); }
+function serializeStage(){
+  var clone=svg.cloneNode(true);
+  var bg=nsEl("rect"); bg.setAttribute("width",FW); bg.setAttribute("height",FH); bg.setAttribute("fill","#0e1217"); clone.insertBefore(bg,clone.firstChild);
+  var style=nsEl("style"); style.textContent="svg{--bg:#0e1217;--grid:#22303c;--accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;--dim:#8a97a3;--ink:#cdd6df;--rule:#2c3a47;--faint:#5b6975;--ghost:#43607a}";
+  clone.insertBefore(style,clone.firstChild);
+  var meta=nsEl("metadata"); meta.textContent="source=Family 4; view="+view+"; scenario="+curFault()+"; params="+frozenParams()+"; exported="+stampF(); clone.appendChild(meta);
+  return new XMLSerializer().serializeToString(clone);
+}
+function dlF(name,data,type){ var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([data],{type:type})); a.download=name; a.click(); }
+function viewCSV(){
+  var lines=["# source=Family 4, view="+view+", scenario="+curFault()+", params="+frozenParams()+", exported="+stampF()];
+  if(view==="diagnose"){ lines.push("fault,posRMSE_mm,presErr_pct,holdRipple_mm,errLo_mm,errHi_mm,alignHelps");
+    ["geometry","sensor","deadband","pressure","timing"].forEach(function(ff){ var m=metrics(ff);
+      lines.push(ff+","+(m.pos*1000).toFixed(1)+","+m.presErr.toFixed(1)+","+(m.ripple*1000).toFixed(1)+","+(m.errLo*1000).toFixed(1)+","+(m.errHi*1000).toFixed(1)+","+(m.posAligned<m.pos*0.5)); }); }
+  else if(view==="sync"){ var m=metrics(curFault()); lines.push("t,twin_x,rig_raw_x,rig_aligned_x");
+    for(var i=0;i<N;i+=4){ var j=i-m.bestShift, al=(j>=0&&j<N)?m.rg.x[j].toFixed(5):""; lines.push(m.tw.t[i].toFixed(3)+","+m.tw.x[i].toFixed(5)+","+m.rg.x[i].toFixed(5)+","+al); } }
+  else if(view==="replay"){ var m2=metrics(curFault()); lines.push("t,residual_x");
+    for(var k=0;k<N;k+=4) lines.push(m2.tw.t[k].toFixed(3)+","+(m2.tw.x[k]-m2.rg.x[k]).toFixed(5)); }
+  else { var m3=metrics(curFault()); lines.push("t,twin_x,rig_x,twin_P,rig_P");
+    for(var n=0;n<N;n+=4) lines.push(m3.tw.t[n].toFixed(3)+","+m3.tw.x[n].toFixed(5)+","+m3.rg.x[n].toFixed(5)+","+m3.tw.P[n].toFixed(4)+","+m3.rg.P[n].toFixed(4)); }
+  return lines.join("\n")+"\n";
+}
+document.getElementById("exsvg").addEventListener("click",function(){ dlF(exBase()+".svg",serializeStage(),"image/svg+xml"); document.getElementById("exverdict").innerHTML='<span class="ok">SVG exported.</span>'; });
+document.getElementById("excsv").addEventListener("click",function(){ dlF(exBase()+".csv",viewCSV(),"text/csv"); document.getElementById("exverdict").innerHTML='<span class="ok">CSV exported.</span>'; });
+document.getElementById("expng").addEventListener("click",function(){
+  var url=URL.createObjectURL(new Blob([serializeStage()],{type:"image/svg+xml"})), img=new Image();
+  img.onload=function(){ var c=document.createElement("canvas"); c.width=FW*2; c.height=FH*2; c.getContext("2d").drawImage(img,0,0,c.width,c.height); c.toBlob(function(b){ var a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download=exBase()+".png"; a.click(); }); URL.revokeObjectURL(url); };
+  img.src=url; document.getElementById("exverdict").innerHTML='<span class="ok">PNG exported.</span>';
 });
 
 render();
