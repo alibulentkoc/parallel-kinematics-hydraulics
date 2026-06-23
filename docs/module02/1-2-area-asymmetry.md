@@ -49,7 +49,7 @@ asymmetry more severe.
 
 ## 4. Visual Explanation
 
-![The cap face is a full circle; the rod face is an annulus — hence φ > 1](../assets/cylinder-section.svg)
+![The cap face is a full circle; the rod face is an annulus — hence φ > 1](../figures/A3-cylinder-anatomy.svg)
 
 The two circles at the bottom of the figure are the faces *to scale*: the rod
 punches a hole in the rod-side face. The amount of "missing" area is exactly what
@@ -95,9 +95,9 @@ its diameter is a design lever on how lopsided the cylinder behaves.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 Set bore 40 mm, rod 22 mm and read φ = 1.43. Now drag the rod slider toward 28 mm
 and watch φ climb toward ~1.96 while the cap and rod area circles redraw to scale —
@@ -162,3 +162,13 @@ interpreting what φ means for force and speed. Include answers.
 ---
 
 *Next lesson: [1.3 — Force and Speed](1-3-force-and-speed.md), where φ turns into the actual numbers the machine produces.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
+- **Read:** [Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg) · [Force vs area](../figures/B4-force-area.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

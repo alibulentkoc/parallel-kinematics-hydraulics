@@ -162,3 +162,13 @@ and what a real machine does (relief valve, motion limits) to survive it.
 ---
 
 *Next lesson: [2.3 — Pump & Relief Sizing](2-3-pump-and-relief.md), where we size the power unit to supply the flow and cap the pressure.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Force vs area](../figures/B4-force-area.svg)
+- **Read:** [Force vs area](../figures/B4-force-area.svg) · [Jacobian](../figures/A6-jacobian-manipulability.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Sensor view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

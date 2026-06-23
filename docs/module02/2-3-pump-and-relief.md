@@ -54,7 +54,7 @@ power the unit must provide.
 
 ## 4. Visual Explanation
 
-![Hydraulic circuit: tank, pump, relief valve, proportional valve, and cylinder](../assets/hydraulic-circuit.svg)
+![Hydraulic circuit: tank, pump, relief valve, proportional valve, and cylinder](../figures/A5-hpu-architecture.svg)
 
 The schematic shows the power path: the **pump** lifts oil from tank to supply
 pressure, the **relief valve** caps that pressure (dumping excess back to tank), and
@@ -98,9 +98,9 @@ is the speed ceiling.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/orifice-flow.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/orifice-flow.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 The pump sets the *total* flow available; the valve demo shows how a single leg's
 flow depends on command and pressure drop. Picture several of these running at once
@@ -166,3 +166,13 @@ flow; given supply and burst, choose a relief setting. Include answers.
 ---
 
 *Module 2 complete. Continue to [Module 3 — Closed-Loop Control](../module03/1-1-why-feedback.md).*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![HPU (ISO 1219)](../figures/A5-hpu-architecture.svg)
+- **Read:** [HPU (ISO 1219)](../figures/A5-hpu-architecture.svg) · [Pump / power](../figures/B6-pump-power.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Pump view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

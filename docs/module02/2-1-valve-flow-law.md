@@ -82,9 +82,9 @@ That gap is the whole point of the lesson.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/orifice-flow.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/orifice-flow.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 Set \(u = 0.7\), \(Q_\text{rated} = 15\), and slide ΔP to 0.5 — confirm the flow
 reads ~7.4 L/min on the blue (real) curve while the grey dashed (linear) line sits
@@ -149,3 +149,13 @@ compare to a naive linear estimate. Include answers.
 ---
 
 *Next lesson: [2.2 — Load Pressure & the Jacobian](2-2-load-pressure.md), where the platform's load becomes cylinder pressure.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![DCV states (ISO 1219)](../figures/A4-dcv-states.svg)
+- **Read:** [DCV states (ISO 1219)](../figures/A4-dcv-states.svg) · [Flow curve](../figures/B5-flow-curve.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Valve view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

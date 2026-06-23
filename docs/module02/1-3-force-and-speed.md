@@ -87,9 +87,9 @@ example in the handbook walks through.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 Read the four bars — extend/retract force and extend/retract speed — at the default
 settings and confirm the table above. Then raise the pressure slider until the
@@ -153,3 +153,13 @@ deciding whether it meets a force or speed requirement. Include answers.
 ---
 
 *Next lesson: [2.1 — The Valve Flow Law](2-1-valve-flow-law.md), where we control how much oil reaches the cylinder.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Force vs area](../figures/B4-force-area.svg)
+- **Read:** [Force vs area](../figures/B4-force-area.svg) · [Flow curve](../figures/B5-flow-curve.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder/Valve view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)

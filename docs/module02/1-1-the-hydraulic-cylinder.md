@@ -54,7 +54,7 @@ of the piston have *different* areas — is the subject of the next two lessons.
 
 ## 4. Visual Explanation
 
-![Cross-section of a hydraulic cylinder: barrel, piston, rod, and the two oil sides](../assets/cylinder-section.svg)
+![Cross-section of a hydraulic cylinder: barrel, piston, rod, and the two oil sides](../figures/A3-cylinder-anatomy.svg)
 
 The piston splits the barrel into two chambers. Oil pressure on a face produces
 force; oil flow into a chamber produces motion. The rod occupies part of one
@@ -91,9 +91,9 @@ of this module.
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 Set the bore to 40 mm and the flow to 15 L/min and confirm the extend speed reads
 ~0.20 m/s. Slide the pressure up and down and watch the *force* change while the
@@ -156,3 +156,13 @@ and flow, find speed. Mix the units (mm, MPa, L/min). Include answers.
 ---
 
 *Next lesson: [1.2 — Area Asymmetry φ](1-2-area-asymmetry.md), where the rod makes the two sides unequal.*
+
+---
+## Aligned assets
+*This lesson uses existing course assets — it creates none.*
+![Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
+- **Read:** [Cylinder (ISO 1219)](../figures/A3-cylinder-anatomy.svg)
+- **Explore:** [Family 2 — Hydraulic demo](../demos/hydraulic-explorer.html) · Cylinder view
+- **Procedure & acceptance test:** [Handbook Ch 3 — Hydraulic Twin](../handbook/03-hydraulic-twin.md)
+- **Verify:** [Notebook N2 — Hydraulics](../notebooks/index.md) — φ ≤ 1.6 · F_ext ≥ load · flow ≤ pump max · hold ≤ relief
+- **Check yourself:** [Quiz 2 — Hydraulic Sizing](../quizzes/quiz-2-hydraulic-sizing.md)
