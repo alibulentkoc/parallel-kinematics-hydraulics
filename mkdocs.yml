@@ -38,6 +38,7 @@ theme:
 exclude_docs: |
   notebooks/*.ipynb
   notebooks/*.py
+  archive/*
 
 markdown_extensions:
   - admonition
@@ -119,6 +120,7 @@ nav:
       - "3 · Hydraulic Twin": handbook/03-hydraulic-twin.md
       - "4 · Control Twin": handbook/04-control-twin.md
       - "5 · Validation Twin": handbook/05-validation-twin.md
+      - "Appendix A · Wiring & I/O": handbook/06-wiring-and-io-appendix.md
   - "Interactive Demos": demos/index.html
   - "Python & Notebooks": notebooks/index.md
   - "Roadmap": roadmap.md

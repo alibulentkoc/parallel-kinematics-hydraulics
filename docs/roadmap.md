@@ -24,7 +24,7 @@ handbook](handbook.md) and [interactive demos](demos/index.html) back them up.
 
 ## ✅ Module 2 — Hydraulic Actuation *(complete)*
 
-Reference: [Hydraulic Design & Calculations](02-hydraulic-design.md) · demos:
+Reference: [Hydraulic Design & Calculations](handbook/03-hydraulic-twin.md) · demos:
 [Cylinder Asymmetry](demos/cylinder-asymmetry.html), [Valve Flow Law](demos/orifice-flow.html)
 
 - **Unit 1 — Cylinders & Asymmetry**
@@ -38,7 +38,7 @@ Reference: [Hydraulic Design & Calculations](02-hydraulic-design.md) · demos:
 
 ## ✅ Module 3 — Closed-Loop Control *(complete)*
 
-Reference: [The Control System](03-control-system.md) · demo: [PID Tuning](demos/pid-tuning.html)
+Reference: [The Control System](handbook/04-control-twin.md) · demo: [PID Tuning](demos/pid-tuning.html)
 
 - **Unit 1 — The Feedback Loop**
     - [1.1 Why Feedback](module03/1-1-why-feedback.md)
@@ -50,8 +50,8 @@ Reference: [The Control System](03-control-system.md) · demo: [PID Tuning](demo
 
 ## ✅ Module 4 — From Simulator to Hardware *(complete)*
 
-Reference: [Electrical & Control Wiring](04-electrical-and-control-wiring.md),
-[Worked Design Example](05-design-worked-example.md)
+Reference: [Electrical & Control Wiring](handbook/06-wiring-and-io-appendix.md),
+[Worked Design Example](handbook/index.md)
 
 - **Unit 1 — Electrical & Control Wiring**
     - [1.1 The Three Domains](module04/1-1-three-domains.md)

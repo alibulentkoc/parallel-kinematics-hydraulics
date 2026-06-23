@@ -108,7 +108,7 @@ print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
-    The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+    The full mapping table is in the handbook chapter [Electrical & Control Wiring](../handbook/06-wiring-and-io-appendix.md).
 
 ## 9. Knowledge Check
 

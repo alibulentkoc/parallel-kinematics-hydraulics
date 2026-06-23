@@ -31,6 +31,7 @@ You move down the chain by producing and verifying each stage's artifact.
 | [3 · Hydraulic Twin](03-hydraulic-twin.md) | M2 | Sizing Report, Design Review | Family 2 | N2 | Q2 |
 | [4 · Control Twin](04-control-twin.md) | M3 | Duty characterization, Tuned Control Report | Family 3 | N3 | Q3, Q5 |
 | [5 · Validation Twin](05-validation-twin.md) | M4 | Twin Accuracy Report, Discrepancy Analysis, Final Integration | Family 4 | N4, N5 | Q6 |
+| [Appendix A · Wiring & I/O](06-wiring-and-io-appendix.md) | — | hardware channels, signal↔channel map | — | — | — |
 
 ## How to use a chapter
 

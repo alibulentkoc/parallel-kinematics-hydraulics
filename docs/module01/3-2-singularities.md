@@ -169,4 +169,4 @@ their singularities are, and how designers keep the useful workspace away from t
 
 ---
 
-*Module 1 complete. Continue with the [reference handbook](../02-hydraulic-design.md) for hydraulics, or see the [roadmap](../roadmap.md) for Modules 2–4.*
+*Module 1 complete. Continue with the [reference handbook](../handbook/03-hydraulic-twin.md) for hydraulics, or see the [roadmap](../roadmap.md) for Modules 2–4.*

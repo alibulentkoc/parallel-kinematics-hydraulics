@@ -30,7 +30,7 @@ Each lesson comes with:
 |---|---|---|
 | **This course** | structured lessons with demos & checks | you're in it |
 | **The simulator apps** | instructor / student / grading consoles | <a href="app/index.html" target="_blank">open the apps ↗</a> |
-| **The reference handbook** | the full engineering theory | [Kinematics](01-kinematics-and-motion.md) · [Hydraulics](02-hydraulic-design.md) · [Control](03-control-system.md) · [Wiring](04-electrical-and-control-wiring.md) |
+| **The reference handbook** | the full engineering theory | [Kinematics](handbook/02-kinematic-twin.md) · [Hydraulics](handbook/03-hydraulic-twin.md) · [Control](handbook/04-control-twin.md) · [Wiring](handbook/06-wiring-and-io-appendix.md) |
 
 !!! note "About the machine"
     The running system is a planar electrohydraulic parallel manipulator: a moving

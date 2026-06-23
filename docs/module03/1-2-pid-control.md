@@ -72,7 +72,7 @@ flowchart LR
     This lesson is about the *control law* — the math the controller runs. How that
     loop is physically realized (controller/PLC, valve driver, position and pressure
     sensors, and their power) is covered in [Module 4 — From Simulator to Hardware](../module04/index.md)
-    and, in full, in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+    and, in full, in the handbook chapter [Electrical & Control Wiring](../handbook/06-wiring-and-io-appendix.md).
     You can tune the loop (next lesson) in simulation first; the same gains transfer to the wired rig.
 
 Our controller is a PID with the production niceties: derivative

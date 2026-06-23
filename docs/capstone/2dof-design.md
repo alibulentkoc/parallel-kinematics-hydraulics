@@ -185,7 +185,7 @@ overshoot; too much proportional gain rings, too little is sluggish.
 
 !!! info "Where this loop is physically wired"
     The control law here is realized in hardware in [Module 4](../module04/index.md)
-    and the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+    and the handbook chapter [Electrical & Control Wiring](../handbook/06-wiring-and-io-appendix.md).
     You tune in simulation first; the same gains transfer to the rig.
 
 ---
