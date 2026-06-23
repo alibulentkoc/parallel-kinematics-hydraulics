@@ -1,102 +1,95 @@
-# Gate 5B — Lesson Compliance Audit
+# Gate 5B — Lesson Compliance Audit (v2)
 
-Per the Retroactive and Forward Lesson Compliance Directive. Every lesson audited against all ten
-checks. No lesson is grandfathered — including the Module 1–2 lessons revised earlier this session.
+Re-run under the **Curriculum Integrity Directive** (supersedes v1). Four-state classification
+(PASS / REVISE / RESTRUCTURE / MOVE), Rule 11 template, ownership audit before editing.
 
-## Result: 0 PASS / 23 REVISE
+## Correction to v1
 
-No lesson currently satisfies all ten checks. The failures are systemic (the same few causes
-recur), so the fix is a single compliant template applied to every lesson.
+v1 flagged every lesson for lacking its **own** acceptance test. **Rule 5 reverses this:**
+acceptance tests belong to **artifacts**; lessons *reference* them and must not own or duplicate
+them. The fix is a referenced acceptance test at the verification step — not an embedded one.
 
-## Systemic failures (apply to all 23 unless noted)
+## Result
 
-| Check | Finding | Affected |
+| State | Count | Lessons |
 |---|---|---|
-| 4 · Artifact Produced | no explicit "Artifact Produced" line | all 23 |
-| 8 · Acceptance Test | no explicit inline "Acceptance Test" with threshold | all 23 |
-| 10 · Navigation | old topic-centered "Module · Unit · Lesson" breadcrumb framing | all 23 |
-| 7 · Asset Integration | assets not placed at point of use | Modules 1–2 (appended block); Modules 3–4 (absent) |
-| 5 · Asset Alignment | old `assets/` figures + removed demos (`cylinder-asymmetry`, `orifice-flow`, `pid-tuning`) | Modules 3–4 |
-| 6 · Equation Traceability | equations not attributed to a canonical source | lessons containing equations |
-| 9 · Project Relevance | "why this advances the project" not stated as such before theory | most (Modules 1–2 have "Why this matters"; needs project-advancement framing) |
+| PASS | 0 | — (none fully compliant yet) |
+| MOVE | 2 | M4 1.2 Sensors, M4 1.3 Wiring → **Hardware Integration** (Rule 4) |
+| RESTRUCTURE | 0 | no lesson currently owns an artifact's acceptance test |
+| REVISE | 21 | all of M1, M2, M3, and M4 1.1 / 2.1 / 2.2 |
 
-Checks **1 (module), 2 (twin stage), 3 (competency)** pass for Modules 1–3 (correct placement).
-**Module 4 hardware lessons (1.2 Sensors, 1.3 Wiring) have a twin-stage ambiguity** — they are
-cross-cutting hardware, not one of the five twin stages — flagged below.
+**Jacobian & Manipulability (M1 §3.1)** — the directive cited this as a possible MOVE to Control.
+Audited: its competencies (C11/C12) and assets (A6, B2, B3, Family 1, Quiz 4) are all kinematic;
+manipulability/dexterity is a property of the mechanism. **Stays in Kinematic Twin.** The control
+*use* of the Jacobian is taught in M3 task-space control. (If you define manipulability as a
+control competency, it becomes a MOVE — but that would reassign C11/C12 and B2/B3 too.)
 
-## Per-lesson audit
+## Ownership audit (Rule 3) — Module · Stage · Competency · Artifact · Milestone
 
-Asset targets are the approved Lesson→Asset map; "Status" is the directive's PASS/REVISE.
-
-### Module 1 — Kinematic Twin (M1)
-| Lesson | Competency | Artifact | Acceptance test | Status | Reason |
+### Module 1 — Kinematic Twin · Milestone: kinematic model (pre-midterm)
+| Lesson | Stage | Competency | Artifact | Status | Reason |
 |---|---|---|---|---|---|
-| 1.1 What Is a PKM | C2 | Geometry config (intro) | round-trip < 1e-6 m | REVISE | #4 #8 #10; assets appended (#7) |
-| 1.2 Geometry & Pose | C2 | Geometry config | round-trip < 1e-6 m | REVISE | #4 #8 #10 #7 |
-| 2.1 Inverse Kinematics | C2 | IK/FK impl. | round-trip < 1e-6 m | REVISE | #4 #8 #10 #7 #6 |
-| 2.2 Forward Kinematics | C3 | IK/FK impl. | round-trip < 1e-6 m | REVISE | #4 #8 #10 #7 #6 |
-| 2.3 Reachability | C4 | Workspace map | workspace classified; \|det J\| ≥ 0.02 | REVISE | #4 #8 #10 #7 |
-| 3.1 Jacobian & Manipulability | C11 | Manipulability map | \|det J\| ≥ 0.02 | REVISE | #4 #8 #10 #7 #6 |
-| 3.2 Singularities | C12 | Safe-region map | \|det J\| ≥ 0.02 | REVISE | #4 #8 #10 #7 #6 |
+| 1.1 What Is a PKM | Kinematic | C2 | Geometry config | REVISE | R6 R9 R10; nav de-Unit |
+| 1.2 Geometry & Pose | Kinematic | C2 | Geometry config | REVISE | R6 R9 R10 |
+| 2.1 Inverse Kinematics | Kinematic | C2 | IK/FK impl. | REVISE | R6 R7 R9 R10 |
+| 2.2 Forward Kinematics | Kinematic | C3 | IK/FK impl. | REVISE | R6 R7 R9 R10 |
+| 2.3 Reachability | Kinematic | C4 | Workspace map | REVISE | R6 R9 R10 |
+| 3.1 Jacobian & Manipulability | Kinematic | C11 | Manipulability map | REVISE | R6 R7 R9 R10 (location confirmed) |
+| 3.2 Singularities | Kinematic | C12 | Safe-region map | REVISE | R6 R7 R9 R10 |
 
-### Module 2 — Hydraulic Twin (M2)
-| Lesson | Competency | Artifact | Acceptance test | Status | Reason |
+### Module 2 — Hydraulic Twin · Milestone: midterm 2-DOF build (W8)
+| Lesson | Stage | Competency | Artifact | Status | Reason |
 |---|---|---|---|---|---|
-| 1.1 The Hydraulic Cylinder | C5 | Hydraulic Sizing Report | φ ≤ 1.6 | REVISE | #4 #8 #10 #7 |
-| 1.2 Area Asymmetry φ | C5 | Hydraulic Sizing Report | φ ≤ 1.6 | REVISE | #4 #8 #10 #7 #6 |
-| 1.3 Force and Speed | C5 | Hydraulic Sizing Report | F_ext ≥ load | REVISE | #4 #8 #10 #7 #6 |
-| 2.1 The Valve Flow Law | C5 | Hydraulic Sizing Report | flow within rating | REVISE | #4 #8 #10 #7 #6 |
-| 2.2 Load Pressure & the Jacobian | C5 | Hydraulic Sizing Report | hold ≤ relief | REVISE | #4 #8 #10 #7 #6 |
-| 2.3 Pump & Relief Sizing | C5 | Sizing Report / Design Review | flow ≤ pump max; hold ≤ relief | REVISE | #4 #8 #10 #7 #6 |
+| 1.1 The Hydraulic Cylinder | Hydraulic | C5 | Hydraulic Sizing Report | REVISE | R6 R9 R10 |
+| 1.2 Area Asymmetry φ | Hydraulic | C5 | Hydraulic Sizing Report | REVISE | R6 R7 R9 R10 |
+| 1.3 Force and Speed | Hydraulic | C5 | Hydraulic Sizing Report | REVISE | R6 R7 R9 R10 |
+| 2.1 The Valve Flow Law | Hydraulic | C5 | Hydraulic Sizing Report | REVISE | R6 R7 R9 R10 |
+| 2.2 Load Pressure & the Jacobian | Hydraulic | C5 | Hydraulic Sizing Report | REVISE | R6 R7 R9 R10 |
+| 2.3 Pump & Relief Sizing | Hydraulic | C5 | Sizing / Design Review | REVISE | R6 R7 R9 R10 |
 
-### Module 3 — Control Twin (M3)
-| Lesson | Competency | Artifact | Acceptance test | Status | Reason |
+### Module 3 — Control Twin · Milestone: control (pre-final) · Path A emphasis
+| Lesson | Stage | Competency | Artifact | Status | Reason |
 |---|---|---|---|---|---|
-| 1.1 Why Feedback | C6 | Position-control demo | tracking ≤ 10 mm | REVISE | #4 #5 #6 #7 #8 #9 #10; old assets, Path A emphasis |
-| 1.2 PID Control (+ PWM on/off) | C6/C7 | Duty characterization / Position control | settling ≤ 2.5 s | REVISE | #4 #5 #6 #7 #8 #9 #10; broken demo, Path A emphasis |
-| 1.3 The Tuning Trade-off | C14 | Tuned Control Report | settling ≤ 2.5 s | REVISE | #4 #5 #6 #7 #8 #9 #10; broken demo |
-| 2.1 Joint-Space vs Task-Space | C13 | Coordinated runs | tracking ≤ 10 mm | REVISE | #4 #5 #7 #8 #9 #10 |
-| 2.2 Feedforward & Tracking | C13/C14 | Coordinated / Tuned report | tracking ≤ 10 mm | REVISE | #4 #5 #6 #7 #8 #9 #10; broken demo |
+| 1.1 Why Feedback | Control | C6 | Position-control demo | REVISE | R6 R7 R8 R9 R10; old assets |
+| 1.2 PID Control (+ PWM on/off) | Control | C6/C7 | Duty characterization / Position control | REVISE | R6 R7 R8 R9 R10; broken demo, Path A |
+| 1.3 The Tuning Trade-off | Control | C14 | Tuned Control Report | REVISE | R6 R7 R8 R9 R10; broken demo |
+| 2.1 Joint-Space vs Task-Space | Control | C13 | Coordinated runs | REVISE | R6 R7 R8 R9 R10 |
+| 2.2 Feedforward & Tracking | Control | C13/C14 | Coordinated / Tuned report | REVISE | R6 R7 R8 R9 R10; broken demo |
 
-### Module 4 — Validation Twin (M4) + hardware
-| Lesson | Competency | Artifact | Acceptance test | Status | Reason |
+### Module 4 — Validation Twin + Hardware Integration · Milestone: final 3-DOF validated (W15)
+| Lesson | Cur → Proposed Stage | Competency | Artifact | Status | Reason |
 |---|---|---|---|---|---|
-| 1.1 The Three Domains | C16 | Integration overview | — (orientation) | REVISE | #4 #5 #7 #9 #10 |
-| 1.2 Sensors & Valve Drivers | (hardware) | Design-review inputs | — | REVISE | #2 twin-stage ambiguity; #4 #5 #7 #9 #10 |
-| 1.3 Wiring & Safety Chain | (hardware) | Design-review inputs | — | REVISE | #2 twin-stage ambiguity; #4 #5 #7 #9 #10 |
-| 2.1 Logging & the Canonical Schema | C15 | Twin Accuracy (logging) | schema matches engine | REVISE | #4 #5 #7 #8 #9 #10 |
-| 2.2 Grading Sim & Hardware Identically | C16 | Twin Accuracy / Final Integration | RMSE ≤ 10 mm; pressure ≤ 15% | REVISE | #4 #5 #6 #7 #8 #9 #10 |
+| 1.1 The Three Domains | Validation | C16 | Integration overview | REVISE | R6 R8 R9 R10 |
+| 1.2 Sensors & Valve Drivers | Validation → **Hardware Integration** | (hardware) | Design-review inputs | **MOVE** | R4 cross-cutting; then R6 R8 R9 R10 |
+| 1.3 Wiring & Safety Chain | Validation → **Hardware Integration** | (hardware) | Design-review inputs | **MOVE** | R4 cross-cutting; then R6 R8 R9 R10 |
+| 2.1 Logging & the Canonical Schema | Validation | C15 | Twin Accuracy (logging) | REVISE | R6 R8 R9 R10 |
+| 2.2 Grading Sim & Hardware Identically | Validation | C16 | Twin Accuracy / Final Integration | REVISE | R6 R7 R8 R9 R10 |
 
-## Compliant lesson template (the fix)
+## Rule key
+R4 twin-stage (Hardware Integration allowed) · R5 acceptance test referenced not owned · R6 assets
+as instructional objects (use→observe→interpret→apply) · R7 equation provenance · R8 asset
+existence verified · R9 project context before theory · R10 inline integration (no appended block).
 
-Revision replaces the appended-block approach with **point-of-use integration** and adds the
-missing required fields. Every revised lesson will have:
+## Resolution sequence (Rule 12)
 
-1. **Header (replaces Unit breadcrumb) [#10, #1–3]** — `Twin Stage · Competency · Artifact · Milestone`.
-2. **Project relevance, before theory [#9]** — one paragraph: *why the student needs this to advance the build*.
-3. **Artifact Produced [#4]** — explicit line naming the deliverable and its place in the chain.
-4. **Concept → Figure [#7]** — each concept introduces its canonical figure inline.
-5. **Equation (with source) [#6]** — every equation tagged `(source: engine / Fig X / Handbook Ch N)`.
-6. **Procedure → Demo [#7]** — steps reference the Family demo/view at the point of use.
-7. **Verification → Notebook + Acceptance Test [#7, #8]** — the notebook call **and** the explicit threshold inline.
-8. **Assessment → Quiz [#7]** — the summative quiz at the assessment point.
-
-The trailing "## Aligned assets" block added in Modules 1–2 will be **removed** and its links
-distributed to their point of use.
-
-## Sequence (per directive)
-
-1. **Audit — complete (this document).**
-2. Revise all 23 to the compliant template (module by module: re-do M1/M2 to integrate inline +
-   add fields; align M3/M4 figures/demos + add fields; resolve M4 hardware twin-stage).
-3. Produce the compliance report (re-audit → all PASS).
-4. Resume writing any remaining new prose.
+1. Audit — **complete (this document).**
+2. Classify — **done** (0 PASS / 2 MOVE / 0 RESTRUCTURE / 21 REVISE).
+3. **Resolve MOVE:** create a **Hardware Integration** nav group; move M4 §1.2, §1.3 there.
+4. Resolve RESTRUCTURE: none.
+5. **Resolve REVISE (module by module):** apply the compliant template —
+   - header `Twin Stage · Competency · Artifact · Milestone` (drop Unit breadcrumb, R10/R1);
+   - project-relevance opening (R9);
+   - explicit **Artifact Produced** line;
+   - concept→figure / procedure→demo / verification→notebook used as instructional objects (R6, R10);
+   - every equation tagged with provenance (R7);
+   - acceptance test **referenced** from the artifact/handbook at the verification step (R5);
+   - assessment→quiz inline; remove the appended "Aligned assets" block (R10);
+   - M3/M4 figures/demos repointed to canonical assets (R8).
+6. Produce the clean re-audit report (target: all PASS).
+7. Resume any remaining new prose.
 
 ## Decision requested
 
-Two items before revision:
-1. **M4 hardware twin-stage:** assign Sensors/Wiring lessons to a stage. Recommended: **Validation
-   Twin** (they exist to make the sim↔rig bridge real), with the wiring detail pointing to Handbook
-   Appendix A. Alternatively a labeled "Hardware / Commissioning" bridge under M2.
-2. **Approve the compliant template** so I revise all 23 to it, then produce the all-PASS
-   compliance report — before any further new prose.
+1. Confirm **Jacobian & Manipulability stays in Kinematic Twin** (recommended) — or direct the MOVE.
+2. Confirm the **Hardware Integration** nav group for M4 §1.2/§1.3 (Rule 4).
+3. Approve executing the resolution sequence (MOVE → REVISE → clean re-audit) before any new prose.
