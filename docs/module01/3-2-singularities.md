@@ -98,7 +98,7 @@ The machine doesn't fail suddenly; it *warns* (the amber band) before it fails.
 
 <iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/kinematics-explorer.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/kinematics-explorer.html){ target=_blank }
 
 Drag the platform slowly straight down and watch the status pill march **OK →
 NEAR SINGULAR → SINGULAR** while \(w\) falls toward zero, matching the table above.
@@ -117,16 +117,12 @@ for y in [0.7, 0.4, 0.2, 0.05]:
     print(f"y={y:>4}:  manip = {manip(0.10, y):.4f}")   # collapses toward 0
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 1 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 1 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 3.2 check ↗](../quizzes/m1-l32.html){ target=_blank }
+[Open the Lesson 3.2 check](../quizzes/m1-l32.html)
 
 ## 10. Challenge Problem
 

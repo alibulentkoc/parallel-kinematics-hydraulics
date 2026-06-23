@@ -89,7 +89,7 @@ example in the handbook walks through.
 
 <iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
 
 Read the four bars — extend/retract force and extend/retract speed — at the default
 settings and confirm the table above. Then raise the pressure slider until the
@@ -106,16 +106,12 @@ print(f"F_ext={p*A_cap/1e3:.1f} kN  F_ret={p*A_rod/1e3:.1f} kN")   # 20.1, 14.0
 print(f"v_ext={Q/A_cap:.2f} m/s  v_ret={Q/A_rod:.2f} m/s")        # 0.20, 0.29
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1.3 check ↗](../quizzes/m2-l13.html){ target=_blank }
+[Open the Lesson 2.1.3 check](../quizzes/m2-l13.html)
 
 ## 10. Challenge Problem
 

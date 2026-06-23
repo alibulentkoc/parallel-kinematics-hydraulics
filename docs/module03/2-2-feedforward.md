@@ -58,7 +58,7 @@ unpredictable remainder. The result tracks a moving setpoint with far less lag.
 
 ## 5. Engineering Example
 
-Our trajectory generator (`trajectory.js`) produces smooth setpoints — position and
+Our trajectory generator produces smooth setpoints — position and
 velocity over time — and the controller's feedforward term uses that velocity to
 pre-command flow, while the PID corrects residual error. This is what lets the
 student "trajectory tracking" assignment achieve low tracking error: feedback alone
@@ -81,7 +81,7 @@ Same loop, same gains — anticipation removed the tracking lag.
 
 <iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
 
 The demo tracks a *step* (the hardest case for feedback, since the setpoint jumps).
 Notice how much the response lags the instant the target moves — that lag is exactly
@@ -99,16 +99,12 @@ print(f"feedforward flow = {Q_ff*60000:.1f} L/min  (sent before any error appear
 # command u = u_ff + PID(e): feedback only trims the small remainder.
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 3 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 3 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 3.2.2 check ↗](../quizzes/m3-l22.html){ target=_blank }
+[Open the Lesson 3.2.2 check](../quizzes/m3-l22.html)
 
 ## 10. Challenge Problem
 

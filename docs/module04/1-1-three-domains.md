@@ -89,7 +89,7 @@ round-trip a real loop makes thousands of times a second.
 
 ## 7. Interactive Demonstration
 
-[Open the demos gallery ↗](../demos/index.html){ target=_blank }
+[Open the demos gallery](../demos/index.html){ target=_blank }
 
 The interactive demos live in the *control* domain (pure numbers, like the
 simulator). This lesson is the reminder that on hardware, each of those numbers is a
@@ -105,18 +105,14 @@ k = 10 / 0.6                     # sensor: 0-10 V over a 0-0.6 m stroke
 print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 4 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 4 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
     The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
 
 ## 9. Knowledge Check
 
-[Open the Lesson 4.1.1 check ↗](../quizzes/m4-l11.html){ target=_blank }
+[Open the Lesson 4.1.1 check](../quizzes/m4-l11.html)
 
 ## 10. Challenge Problem
 

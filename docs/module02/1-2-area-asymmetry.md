@@ -75,7 +75,7 @@ A_\text{rod} = \frac{\pi (40^2 - 22^2)}{4} = 877\ \text{mm}^2,
 \]
 
 So this cylinder pushes 43% harder than it pulls, and retracts 43% faster than it
-extends. The test suite asserts exactly this — `hydraulics.test.js` checks
+extends. The engine's automated test suite asserts exactly this — it checks
 "asymmetry ≈ 1.43."
 
 ## 6. Worked Example
@@ -97,7 +97,7 @@ its diameter is a design lever on how lopsided the cylinder behaves.
 
 <iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
 
 Set bore 40 mm, rod 22 mm and read φ = 1.43. Now drag the rod slider toward 28 mm
 and watch φ climb toward ~1.96 while the cap and rod area circles redraw to scale —
@@ -115,16 +115,12 @@ print(f"A_cap={A_cap*1e6:.0f} mm^2, A_rod={A_rod*1e6:.0f} mm^2, phi={A_cap/A_rod
 print("phi (28 mm rod) =", round((pi*D**2/4)/(pi*(D**2-0.028**2)/4), 2))   # 1.96
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1.2 check ↗](../quizzes/m2-l12.html){ target=_blank }
+[Open the Lesson 2.1.2 check](../quizzes/m2-l12.html)
 
 ## 10. Challenge Problem
 

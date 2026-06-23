@@ -61,11 +61,11 @@ convergence is the entire point of the canonical schema.
 
 ## 5. Engineering Example
 
-Our logger (`logger.js`) writes records validated against a schema (`schema.js`), and
-a trace utility (`trace.js`) replays them. Every dashboard strip-chart, every graded
+Our logger writes records validated against a fixed schema, and
+a trace utility replays them. Every dashboard strip-chart, every graded
 metric, and every fault timeline reads from this one format. Because the schema is
 enforced, a malformed record is caught immediately rather than silently corrupting an
-analysis — the `logger.test.js` and `schema.test.js` suites check exactly this
+analysis — the engine's automated tests check exactly this
 validation.
 
 ## 6. Worked Example
@@ -79,7 +79,7 @@ machine. The schema made the source irrelevant.
 
 ## 7. Interactive Demonstration
 
-[Open the demos gallery ↗](../demos/index.html){ target=_blank }
+[Open the demos gallery](../demos/index.html){ target=_blank }
 
 The demos render live values that, in the full simulator, are exactly the channels
 the logger records each cycle. Picture each number you see being appended to a row in
@@ -97,16 +97,12 @@ record = {"t": 0.42, "target": (0.10, 0.70), "pose": (0.098, 0.701),
 print(record)
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 4 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 4 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 4.2.1 check ↗](../quizzes/m4-l21.html){ target=_blank }
+[Open the Lesson 4.2.1 check](../quizzes/m4-l21.html)
 
 ## 10. Challenge Problem
 

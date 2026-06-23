@@ -68,7 +68,14 @@ flowchart LR
 
 ## 5. Engineering Example
 
-Our controller (`controller.js`) is a PID with the production niceties: derivative
+!!! info "Where the wiring lives"
+    This lesson is about the *control law* — the math the controller runs. How that
+    loop is physically realized (controller/PLC, valve driver, position and pressure
+    sensors, and their power) is covered in [Module 4 — From Simulator to Hardware](../module04/index.md)
+    and, in full, in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+    You can tune the loop (next lesson) in simulation first; the same gains transfer to the wired rig.
+
+Our controller is a PID with the production niceties: derivative
 on measurement, an anti-windup clamp on the integral, and an optional feedforward
 term (Lesson 2.2). It runs per-leg in joint space and can also run in task space on
 the platform pose (Lesson 2.1). The same three gains you'll drag in the demo are the
@@ -88,7 +95,7 @@ three jobs — you just tuned a controller by reasoning, not luck.
 
 <iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
 
 Use the presets first: **too slow** (low \(K_p\)) creeps; **too hot** (high \(K_p\))
 overshoots and rings; **well tuned** combines moderate \(K_p\) with a little \(K_i\)
@@ -109,16 +116,12 @@ class PID:                       # derivative-on-measurement + anti-windup
 print(round(PID(3, 1.5, 0.4).update(0.03, 0.87, 0.02), 4))
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 3 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 3 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 3 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module03.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 3.1.2 check ↗](../quizzes/m3-l12.html){ target=_blank }
+[Open the Lesson 3.1.2 check](../quizzes/m3-l12.html)
 
 ## 10. Challenge Problem
 

@@ -20,7 +20,7 @@ brain deciding valve commands). They meet at the controller.
 ```mermaid
 flowchart TB
     subgraph POWER["Power domain"]
-        MAINS["3-phase mains"] --> MOTOR["Electric motor"]
+        MAINS["AC mains supply"] --> MOTOR["Electric motor"]
         MOTOR --> PUMP["Hydraulic pump"]
         MAINS --> PSU["24 VDC PSU"]
     end
@@ -54,9 +54,9 @@ The closed loop is the path **cylinder → position transducer → controller �
 
 ```mermaid
 flowchart LR
-    MAINS["3-phase<br/>400 VAC"] --> BRK["Main breaker"]
+    MAINS["AC mains<br/>(single- or 3-phase)"] --> BRK["Main breaker"]
     BRK --> VFD["VFD / motor starter"]
-    VFD --> MOTOR["Pump motor<br/>(≈ 10–15 kW)"]
+    VFD --> MOTOR["Pump motor<br/>(sized to load)"]
     BRK --> XFMR["Control transformer"]
     XFMR --> PSU24["24 VDC supply"]
     PSU24 --> CTRLP["Controller logic"]
@@ -65,9 +65,27 @@ flowchart LR
 ```
 
 - **Pump motor.** Sized from the hydraulic power need. [Hydraulics §2.6](02-hydraulic-design.md#26-the-pump-and-the-relief-valve)
-  found ≈ 9.6 kW of hydraulic power at full flow and pressure; allowing for pump
-  and motor efficiency (~80%), a **~12 kW** motor is appropriate. A VFD lets you
-  vary pump speed (and thus flow) for efficiency.
+  found ≈ 9.6 kW of hydraulic power at full flow and pressure for *this* full-scale
+  example; allowing for pump and motor efficiency (~80%), a motor of roughly that
+  rating is appropriate. A variable-speed drive lets you vary pump speed (and thus
+  flow) for efficiency.
+
+!!! note "The power stage is a design choice — not a fixed 400 V / 3-phase assumption"
+    The numbers above size *one* industrial-scale rig, which is why it lands on a
+    large three-phase motor. **The control loop does not care how the pump is driven.**
+    Pick the power stage to match your build:
+
+    - **Bench / teaching rig (fractional to a few kW):** a single-phase AC motor, or a
+      DC / brushless-DC motor from a low-voltage supply, driving a small gear or vane
+      pump. Common for a 2-DOF demonstrator.
+    - **Mid-size (a few to ~10 kW):** single- or three-phase induction motor on a
+      variable-frequency drive (VFD), or a servo-pump.
+    - **Large / industrial (≳ 10 kW):** three-phase induction or servo motor on a VFD,
+      typically 400 V (Europe) or 480 V (North America).
+
+    Whatever the motor and voltage, everything downstream of the pump — the manifold,
+    valves, sensors, the controller, and the **PID logic from [Module 3](module03/index.md)** —
+    is identical. The power stage only sets how much flow and pressure you can deliver.
 - **24 VDC control supply.** Separate, regulated, for controller logic, valve
   electronics, and sensor excitation. Keeping control power isolated from the
   motor drive limits electrical noise into the sensitive signal domain.

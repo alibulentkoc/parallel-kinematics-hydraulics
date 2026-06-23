@@ -100,7 +100,7 @@ is the speed ceiling.
 
 <iframe src="../../demos/orifice-flow.html" title="Valve Flow Law — interactive demo" loading="lazy" style="width:100%;height:660px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab ↗](../demos/orifice-flow.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/orifice-flow.html){ target=_blank }
 
 The pump sets the *total* flow available; the valve demo shows how a single leg's
 flow depends on command and pressure drop. Picture several of these running at once
@@ -118,16 +118,12 @@ demand = 2 * 0.28 * A_rod                   # two legs retracting at 0.28 m/s
 print(f"2-leg demand = {demand*60000:.1f} L/min (pump supplies {pump_max_flow*60000:.0f})")
 ```
 
-!!! tip "Run this yourself — three ways"
-    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
-
-    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
-    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
-    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+!!! tip "Run it"
+    The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 2 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }.
 
 ## 9. Knowledge Check
 
-[Open the Lesson 2.2.3 check ↗](../quizzes/m2-l23.html){ target=_blank }
+[Open the Lesson 2.2.3 check](../quizzes/m2-l23.html)
 
 ## 10. Challenge Problem
 
