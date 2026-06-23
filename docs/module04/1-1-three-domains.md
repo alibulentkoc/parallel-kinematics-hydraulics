@@ -105,8 +105,14 @@ k = 10 / 0.6                     # sensor: 0-10 V over a 0-0.6 m stroke
 print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 4 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 4 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    The full mapping table is in the handbook chapter [Electrical & Control Wiring](../04-electrical-and-control-wiring.md).
 
 ## 9. Knowledge Check
 

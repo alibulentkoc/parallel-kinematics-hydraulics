@@ -106,8 +106,14 @@ print(f"F_ext={p*A_cap/1e3:.1f} kN  F_ret={p*A_rod/1e3:.1f} kN")   # 20.1, 14.0
 print(f"v_ext={Q/A_cap:.2f} m/s  v_ret={Q/A_rod:.2f} m/s")        # 0.20, 0.29
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. See [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    See [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

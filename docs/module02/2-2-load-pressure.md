@@ -114,8 +114,14 @@ print(f"pressure = {f / A_cap / 1e6:.3f} MPa")     # ~0.10 MPa at a healthy pose
 # near a singularity J^-T blows up, so f -- and this pressure -- diverge.
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    The force-to-pressure path uses the Jacobian from [`src/kinematics/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/kinematics) in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

@@ -118,8 +118,14 @@ demand = 2 * 0.28 * A_rod                   # two legs retracting at 0.28 m/s
 print(f"2-leg demand = {demand*60000:.1f} L/min (pump supplies {pump_max_flow*60000:.0f})")
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 2 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Pump, relief and power defaults are in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 2 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 2 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module02.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    Pump, relief and power defaults are in [`src/hydraulics/hydraulics.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/hydraulics.js).
 
 ## 9. Knowledge Check
 

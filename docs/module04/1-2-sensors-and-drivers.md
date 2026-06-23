@@ -102,8 +102,14 @@ u = -0.4
 print(f"command u={u} -> {'retract' if u < 0 else 'extend'} at {abs(u)*100:.0f}% opening, {10*u:+.1f} V")
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 4 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 4 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    Valve types are in [`src/hydraulics/valve.js`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/hydraulics/valve.js).
 
 ## 9. Knowledge Check
 

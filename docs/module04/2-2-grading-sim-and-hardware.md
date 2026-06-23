@@ -96,8 +96,14 @@ print("hw  run:   ", grade(0.13, 0.85))
 print("ringing hw:", grade(0.20, 1.40))
 ```
 
-!!! tip "Run it yourself"
-    This computation is a runnable cell in the **[Module 4 notebook](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb)** — pure Python, standard library only, so it runs anywhere with no installs. Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
+!!! tip "Run this yourself — three ways"
+    The Python above is a ready-to-run cell from the **Module 4 notebook**. Pick whichever is easiest:
+
+    1. **Run in your browser, no setup —** open it in Google Colab and press the ▶ button on each cell: [Open Module 4 in Colab ↗](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }
+    2. **Run locally —** [view/download the notebook on GitHub ↗](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }, then open it in Jupyter, JupyterLab, or VS Code (`pip install notebook`, then `jupyter notebook`).
+    3. **Just try the snippet —** copy the code above into any Python 3 prompt; it needs only the standard library.
+
+    Grading and the rubric are in [`src/grading/`](https://github.com/alibulentkoc/parallel-kinematics-hydraulics/blob/main/src/grading).
 
 ## 9. Knowledge Check
 
