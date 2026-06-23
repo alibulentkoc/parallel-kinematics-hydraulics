@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hydraulic Explorer — PKM Testbed</title>
+<style>
+  :root{
+    --bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--rule:#2c3a47;--grid:#22303c;
+    --ink:#cdd6df;--dim:#8a97a3;--faint:#5b6975;
+    --accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;padding:18px;max-width:1040px;margin:0 auto}
+  h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px} h1 b{color:var(--accent)}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:12px}
+  .bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+  .seg button{background:var(--panel);color:var(--dim);border:0;padding:5px 11px;font-family:inherit;font-size:11px;letter-spacing:.06em;cursor:pointer;text-transform:uppercase}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#06222b}
+  .wrap{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  svg{display:block;width:100%;height:auto}
+  aside{display:flex;flex-direction:column;gap:10px}
+  .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .card h2{font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:12px} td{padding:2px 0;font-variant-numeric:tabular-nums}
+  td:first-child{color:var(--dim)} td:last-child{text-align:right}
+  .pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;border:1px solid var(--rule)}
+  .ok{color:var(--ok);border-color:#1e3b30}.warn{color:var(--warn);border-color:#4a3a1a}.fault{color:var(--fault);border-color:#4a1e28}
+  label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0;color:var(--dim);font-size:12px}
+  input[type=range]{width:140px;accent-color:var(--accent)}
+  .step{border-left:2px solid var(--rule);padding:2px 0 2px 10px;margin:8px 0}
+  .step.active{border-color:var(--accent)}
+  .step .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .step .v{font-size:12px;color:var(--ink)}
+  .btn{background:var(--panel2);color:var(--accent);border:1px solid var(--rule);border-radius:5px;padding:6px 10px;font-family:inherit;font-size:11px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase;width:100%;margin-top:6px}
+  .btn:hover{border-color:var(--accent)}
+  .verdict{font-size:12px;margin-top:6px;min-height:16px}
+  .hint{color:var(--faint);font-size:11px;margin-top:8px}
+</style>
+</head>
+<body>
+  <h1><b>Hydraulic</b> Explorer</h1>
+  <div class="sub">Family 2 demo — cylinder, valve, pump/power, sensor · numbers grounded in the engine reference</div>
+
+  <div class="bar">
+    <div class="seg" id="view">
+      <button data-view="cyl" aria-pressed="true">Cylinder</button>
+      <button data-view="valve" aria-pressed="false">Valve</button>
+      <button data-view="pump" aria-pressed="false">Pump / Power</button>
+      <button data-view="sensor" aria-pressed="false">Sensor</button>
+    </div>
+    <div class="seg" id="role">
+      <button data-role="student" aria-pressed="true">Student</button>
+      <button data-role="instructor" aria-pressed="false">Instructor</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stage"><svg id="svg" viewBox="0 0 600 380" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <aside>
+      <div class="card"><h2>Inputs</h2><div id="inputs"></div></div>
+      <div class="card"><h2>Outputs</h2><table id="state"></table>
+        <div style="margin-top:8px"><span class="pill ok" id="status">nominal</span></div></div>
+      <div class="card">
+        <h2>Explore - Challenge - Artifact - Check</h2>
+        <div class="step" id="s-explore"><div class="k">Explore</div><div class="v">Adjust the inputs; watch the hydraulic outputs.</div></div>
+        <div class="step active"><div class="k">Challenge</div><div class="v" id="t-chal">-</div></div>
+        <div class="step"><div class="k">Artifact</div><div class="v" id="t-art">-</div>
+          <button class="btn" id="save">Save artifact</button></div>
+        <div class="step"><div class="k">Check</div>
+          <button class="btn" id="check">Check result</button>
+          <div class="verdict" id="verdict"></div></div>
+      </div>
+      <div class="hint" id="hint"></div>
+    </aside>
+  </div>
+
+<script>
+"use strict";
+/* ---- verified engine constants --------------------------------------- */
+var SUPPLY=16e6, RELIEF=21e6, PUMP_MAX=6e-4, RATED_FLOW=2.5e-4, RATED_DP=3.5e6;
+var PI4=Math.PI/4;
+
+var st={ bore:0.040, rod:0.022, load:15, u:0.7, dpFrac:0.5, targetV:0.20, sensFS:0.6, sensVmax:10, sensRead:0.45 };
+var view="cyl", role="student";
+var svg=document.getElementById("svg");
+
+/* ---- hydraulic model (matches engine) -------------------------------- */
+function areas(){ var ac=PI4*st.bore*st.bore; var ar=ac-PI4*st.rod*st.rod; return {ac:ac,ar:ar,phi:ac/ar}; }
+function forces(){ var a=areas(); return {Fext:SUPPLY*a.ac, Fret:SUPPLY*a.ar}; }
+function orificeQ(u,dp){ return u*RATED_FLOW*Math.sqrt(Math.max(0,dp)/RATED_DP); }
+function reqFlow(){ return st.targetV*areas().ac; }
+function pressForLoad(){ return (st.load*1000)/areas().ac; }
+
+/* ---- challenges ------------------------------------------------------ */
+var CHAL={
+  cyl:{ c:"Size bore/rod so extend force >= load and asymmetry phi <= 1.6.", a:"Cylinder spec (areas, phi, forces).",
+        test:function(){ var f=forces(),a=areas(); return f.Fext>=st.load*1000 && a.phi<=1.6; } },
+  valve:{ c:"Set command and dP to deliver ~7.4 L/min (engine reference at u=0.7, half rated dP).", a:"Valve/flow worksheet.",
+        test:function(){ var q=orificeQ(st.u,st.dpFrac*RATED_DP)*60000; return Math.abs(q-7.4)<=7.4*0.15; } },
+  pump:{ c:"Reach extend speed >= 0.20 m/s without pump saturation.", a:"Hydraulic sizing report (flow, power, relief).",
+        test:function(){ return st.targetV>=0.20 && reqFlow()<=PUMP_MAX; } },
+  sensor:{ c:"Scale the position sensor so full stroke 0.6 m reads 10 V.", a:"Sensor scaling table.",
+        test:function(){ return Math.abs(st.sensFS-0.6)<0.01 && Math.abs(st.sensVmax-10)<0.1; } }
+};
+
+/* ---- inputs per view ------------------------------------------------- */
+function slider(key,label,min,max,step,scale,unit){
+  var val=st[key];
+  return '<label class="f"><span>'+label+'</span><input type="range" data-k="'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><b id="lbl-'+key+'">'+(val*(scale||1)).toFixed(unit==="mm"?0:2)+' '+(unit||'')+'</b></label>';
+}
+function renderInputs(){
+  var h="";
+  if(view==="cyl"){ h+=slider("bore","bore",0.020,0.060,0.001,1000,"mm")+slider("rod","rod",0.010,0.040,0.001,1000,"mm")+slider("load","load",2,25,0.5,1,"kN"); }
+  else if(view==="valve"){ h+=slider("u","valve command u",-1,1,0.01,1,"")+slider("dpFrac","dP / rated",0.05,1.5,0.01,1,"x"); }
+  else if(view==="pump"){ h+=slider("targetV","target speed",0.05,0.50,0.01,1,"m/s")+slider("bore","bore",0.020,0.060,0.001,1000,"mm"); }
+  else { h+=slider("sensFS","sensor full scale",0.2,1.0,0.01,1,"m")+slider("sensVmax","max voltage",5,15,0.5,1,"V")+slider("sensRead","reading",0,0.6,0.01,1,"m"); }
+  document.getElementById("inputs").innerHTML=h;
+  Array.prototype.forEach.call(document.querySelectorAll('#inputs input'),function(inp){
+    inp.addEventListener("input",function(){ st[inp.dataset.k]=+inp.value; render(); });
+  });
+}
+
+/* ---- svg helpers ----------------------------------------------------- */
+function el(t,a){ var e=document.createElementNS("http://www.w3.org/2000/svg",t); for(var k in a)e.setAttribute(k,a[k]); return e; }
+function clear(){ while(svg.firstChild)svg.removeChild(svg.firstChild); }
+function txt(x,y,s,fill,size,anchor){ var e=el("text",{x:x,y:y,fill:fill||"var(--dim)","font-size":size||11,"font-family":"var(--mono)","text-anchor":anchor||"start"}); e.textContent=s; svg.appendChild(e); }
+
+function drawCylinder(){
+  var a=areas(), f=forces();
+  var capH=120*(a.ac/(PI4*0.060*0.060)); var rodH=120*(a.ar/(PI4*0.060*0.060));
+  var bx=120,by=120,bw=300,bh=140;
+  svg.appendChild(el("rect",{x:bx,y:by,width:bw,height:bh,fill:"var(--panel2)",stroke:"var(--rule)","stroke-width":1.5}));
+  // cap chamber (left, full bore)
+  svg.appendChild(el("rect",{x:bx,y:by,width:150,height:bh,fill:"rgba(57,197,224,0.18)"}));
+  // piston
+  svg.appendChild(el("rect",{x:bx+150,y:by,width:14,height:bh,fill:"var(--ink)"}));
+  // rod (right)
+  svg.appendChild(el("rect",{x:bx+164,y:by+bh/2-9,width:bw-164+40,height:18,fill:"var(--dim)"}));
+  txt(bx+75,by+bh+18,"cap side  A="+(a.ac*1e6).toFixed(0)+" mm2","var(--accent)",11,"middle");
+  txt(bx+250,by-8,"rod side  A="+(a.ar*1e6).toFixed(0)+" mm2","var(--dim)",11,"middle");
+  txt(bx,by-30,"phi = A_cap / A_rod = "+a.phi.toFixed(2),"var(--ok)",13);
+  txt(bx,by+bh+44,"F_extend = "+(f.Fext/1000).toFixed(1)+" kN     F_retract = "+(f.Fret/1000).toFixed(1)+" kN","var(--ink)",12);
+  txt(bx,by+bh+62,"load = "+st.load.toFixed(1)+" kN","var(--faint)",11);
+}
+
+function plot(xs,ys,opx,opy,xlab,ylab){
+  var px0=70,px1=560,py0=40,py1=300;
+  var xmax=Math.max.apply(null,xs), ymax=Math.max.apply(null,ys)*1.05||1;
+  function X(v){return px0+v/xmax*(px1-px0);} function Y(v){return py1-v/ymax*(py1-py0);}
+  svg.appendChild(el("line",{x1:px0,y1:py1,x2:px1,y2:py1,stroke:"var(--rule)"}));
+  svg.appendChild(el("line",{x1:px0,y1:py0,x2:px0,y2:py1,stroke:"var(--rule)"}));
+  var d=""; for(var i=0;i<xs.length;i++){ d+=(i?"L":"M")+X(xs[i])+" "+Y(ys[i]); }
+  svg.appendChild(el("path",{d:d,fill:"none",stroke:"var(--accent)","stroke-width":2}));
+  if(opx!=null){ svg.appendChild(el("circle",{cx:X(opx),cy:Y(opy),r:5,fill:"var(--ok)"})); }
+  txt(px1,py1+18,xlab,"var(--faint)",11,"end"); txt(px0,py0-8,ylab,"var(--faint)",11);
+}
+
+function drawValve(){
+  var xs=[],ys=[]; for(var f=0;f<=1.5;f+=0.05){ xs.push(f); ys.push(orificeQ(Math.abs(st.u),f*RATED_DP)*60000); }
+  var q=orificeQ(st.u,st.dpFrac*RATED_DP)*60000;
+  plot(xs,ys,st.dpFrac,Math.abs(q),"dP / rated","Q (L/min)");
+  txt(70,330,"Q = u . Q_rated . sqrt(dP/dP_rated)   |   u="+st.u.toFixed(2)+"  ->  Q="+q.toFixed(1)+" L/min","var(--ink)",12);
+}
+
+function drawPump(){
+  var rq=reqFlow()*60000, pm=PUMP_MAX*60000;
+  var bx=120,bw=360;
+  function bar(y,frac,col,lab){ svg.appendChild(el("rect",{x:bx,y:y,width:bw,height:20,fill:"var(--panel2)",stroke:"var(--rule)"}));
+    svg.appendChild(el("rect",{x:bx,y:y,width:bw*Math.min(1,frac),height:20,fill:col})); txt(bx,y-6,lab,"var(--dim)",11); }
+  bar(70,rq/pm,rq>pm?"var(--fault)":"var(--accent)","required flow "+rq.toFixed(1)+" L/min");
+  bar(120,1,"rgba(63,224,160,0.5)","pump max "+pm.toFixed(1)+" L/min");
+  var Phyd=SUPPLY*Math.min(reqFlow(),PUMP_MAX)/1000;
+  txt(bx,180,"hydraulic power = supply . flow = "+Phyd.toFixed(1)+" kW","var(--ink)",12);
+  var pNeed=pressForLoad()/1e6;
+  txt(bx,210,"pressure to hold load = "+pNeed.toFixed(1)+" MPa   (relief "+(RELIEF/1e6)+" MPa)","var(--faint)",11);
+}
+
+function drawSensor(){
+  var px0=80,px1=540,py0=40,py1=300;
+  function X(v){return px0+v/st.sensFS*(px1-px0);} function Y(v){return py1-v/st.sensVmax*(py1-py0);}
+  svg.appendChild(el("line",{x1:px0,y1:py1,x2:px1,y2:py1,stroke:"var(--rule)"}));
+  svg.appendChild(el("line",{x1:px0,y1:py0,x2:px0,y2:py1,stroke:"var(--rule)"}));
+  svg.appendChild(el("line",{x1:X(0),y1:Y(0),x2:X(st.sensFS),y2:Y(st.sensVmax),stroke:"var(--accent)","stroke-width":2}));
+  var V=st.sensRead/st.sensFS*st.sensVmax;
+  svg.appendChild(el("circle",{cx:X(st.sensRead),cy:Y(V),r:5,fill:"var(--ok)"}));
+  txt(px1,py1+18,"position (m)","var(--faint)",11,"end"); txt(px0,py0-8,"volts","var(--faint)",11);
+  txt(px0,330,"reading "+st.sensRead.toFixed(2)+" m  ->  "+V.toFixed(2)+" V   (scale "+(st.sensVmax/st.sensFS).toFixed(1)+" V/m)","var(--ink)",12);
+}
+
+/* ---- status / failure modes ------------------------------------------ */
+function statusOf(){
+  if(view==="cyl"){ var f=forces(); if(f.Fext<st.load*1000) return ["fault","UNDERSIZED - extend force below load"]; if(pressForLoad()>RELIEF) return ["fault","OVER_PRESSURE - load needs more than relief"]; return ["ok","nominal"]; }
+  if(view==="valve"){ if(Math.abs(st.u)>=0.999) return ["warn","VALVE_SATURATED - command at limit"]; return ["ok","nominal"]; }
+  if(view==="pump"){ if(reqFlow()>PUMP_MAX) return ["fault","PUMP_SATURATED - demand exceeds pump"]; return ["ok","nominal"]; }
+  return ["ok","nominal"];
+}
+
+/* ---- outputs table --------------------------------------------------- */
+function outputs(){
+  var a=areas(),f=forces(),rows=[];
+  if(view==="cyl"){ rows=[["A_cap",(a.ac*1e6).toFixed(0)+" mm2"],["A_rod",(a.ar*1e6).toFixed(0)+" mm2"],["phi",a.phi.toFixed(2)],["F_ext",(f.Fext/1000).toFixed(1)+" kN"],["F_ret",(f.Fret/1000).toFixed(1)+" kN"]]; }
+  else if(view==="valve"){ var q=orificeQ(st.u,st.dpFrac*RATED_DP); rows=[["u",st.u.toFixed(2)],["dP",(st.dpFrac*RATED_DP/1e6).toFixed(2)+" MPa"],["Q",(q*60000).toFixed(2)+" L/min"]]; }
+  else if(view==="pump"){ rows=[["req flow",(reqFlow()*60000).toFixed(1)+" L/min"],["pump max",(PUMP_MAX*60000).toFixed(1)+" L/min"],["power",(SUPPLY*Math.min(reqFlow(),PUMP_MAX)/1000).toFixed(1)+" kW"],["v_ext",st.targetV.toFixed(2)+" m/s"]]; }
+  else { var V=st.sensRead/st.sensFS*st.sensVmax; rows=[["full scale",st.sensFS.toFixed(2)+" m"],["max V",st.sensVmax.toFixed(1)+" V"],["scale",(st.sensVmax/st.sensFS).toFixed(1)+" V/m"],["reading",V.toFixed(2)+" V"]]; }
+  document.getElementById("state").innerHTML=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+}
+
+/* ---- render ---------------------------------------------------------- */
+function render(){
+  clear();
+  if(view==="cyl")drawCylinder(); else if(view==="valve")drawValve(); else if(view==="pump")drawPump(); else drawSensor();
+  outputs();
+  var s=statusOf(); var stEl=document.getElementById("status"); stEl.className="pill "+s[0]; stEl.textContent=s[1];
+  document.getElementById("t-chal").textContent=CHAL[view].c;
+  document.getElementById("t-art").textContent=CHAL[view].a;
+  document.getElementById("verdict").textContent="";
+  document.getElementById("hint").innerHTML = role==="instructor"
+    ? "Instructor mode: push inputs into failure - undersize the cylinder, over-speed the pump, drive the valve to saturation - to demonstrate each fault."
+    : "Student mode: keep the system nominal and complete the challenge within +/-15%.";
+}
+
+function wireSeg(id,fn){ var g=document.getElementById(id); g.addEventListener("click",function(e){ var b=e.target.closest("button"); if(!b)return; Array.prototype.forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===b);}); fn(b.dataset); }); }
+wireSeg("view",function(d){ view=d.view; renderInputs(); render(); });
+wireSeg("role",function(d){ role=d.role; render(); });
+
+document.getElementById("save").addEventListener("click",function(){
+  var a=areas(),f=forces();
+  var art={ family:"hydraulic-explorer", view:view, inputs:JSON.parse(JSON.stringify(st)),
+    derived:{A_cap_mm2:a.ac*1e6,A_rod_mm2:a.ar*1e6,phi:a.phi,F_ext_kN:f.Fext/1000,F_ret_kN:f.Fret/1000,
+      Q_Lmin:orificeQ(st.u,st.dpFrac*RATED_DP)*60000,reqFlow_Lmin:reqFlow()*60000,power_kW:SUPPLY*Math.min(reqFlow(),PUMP_MAX)/1000},
+    challenge:CHAL[view].c, generated:new Date().toISOString() };
+  var blob=new Blob([JSON.stringify(art,null,2)],{type:"application/json"});
+  var el2=document.createElement("a"); el2.href=URL.createObjectURL(blob); el2.download="hydraulic-"+view+".json"; el2.click();
+  document.getElementById("verdict").innerHTML='<span class="ok">artifact saved.</span>';
+});
+document.getElementById("check").addEventListener("click",function(){
+  var pass=CHAL[view].test();
+  document.getElementById("verdict").innerHTML = pass ? '<span class="ok">PASS - meets the acceptance test.</span>' : '<span class="warn">Needs work - target not yet met.</span>';
+});
+
+renderInputs(); render();
+</script>
+</body>
+</html>

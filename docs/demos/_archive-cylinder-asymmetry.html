@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cylinder Asymmetry — PKM Testbed</title>
+<style>
+  :root{--bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--rule:#2c3a47;--ink:#cdd6df;--dim:#8a97a3;--faint:#5b6975;
+    --accent:#39c5e0;--cap:#39c5e0;--rod:#ffb454;--ok:#3fe0a0;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;padding:18px;max-width:1000px;margin:0 auto}
+  h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px} h1 b{color:var(--accent)}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:14px}
+  .wrap{display:grid;grid-template-columns:1fr 290px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  svg{display:block;width:100%;height:auto}
+  aside{display:flex;flex-direction:column;gap:10px}
+  .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .card h2{font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:12px}td{padding:2px 0;font-variant-numeric:tabular-nums}td:first-child{color:var(--dim)}td:last-child{text-align:right}
+  label.f{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:6px 0;color:var(--dim);font-size:12px}
+  input[type=range]{width:120px;accent-color:var(--accent)}
+  .phi{font-size:30px;font-weight:700;color:var(--ok);text-align:center;margin:2px 0}
+  .barwrap{margin:7px 0}.barlbl{display:flex;justify-content:space-between;font-size:11px;color:var(--dim)}
+  .bar{height:10px;background:var(--panel2);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2px}
+  .bar i{display:block;height:100%}
+  button{background:var(--panel2);color:var(--ink);border:1px solid var(--rule);border-radius:3px;font-family:var(--mono);font-size:12px;padding:6px 12px;cursor:pointer;margin-right:6px}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  .hint{color:var(--faint);font-size:11px;margin-top:8px}a{color:var(--accent)}
+  .cap{color:var(--cap)}.rod{color:var(--rod)}
+</style>
+</head>
+<body>
+  <h1><b>Cylinder</b> Asymmetry</h1>
+  <div class="sub">Why a hydraulic cylinder extends and retracts at different speeds and forces — the area ratio φ</div>
+
+  <div class="wrap">
+    <div class="stage"><svg id="svg" viewBox="0 0 640 320" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <aside>
+      <div class="card">
+        <h2>Areas &amp; ratio</h2>
+        <table>
+          <tr><td><span class="cap">cap area A_cap</span></td><td id="acap">—</td></tr>
+          <tr><td><span class="rod">rod area A_rod</span></td><td id="arod">—</td></tr>
+        </table>
+        <div class="phi" id="phi">φ = —</div>
+        <div class="hint">φ = A_cap / A_rod. Always &gt; 1 because the rod steals area from one side.</div>
+      </div>
+      <div class="card">
+        <h2>Force &amp; speed</h2>
+        <div class="barwrap"><div class="barlbl"><span>extend force</span><span id="fext">—</span></div><div class="bar"><i id="fextb" style="background:var(--cap)"></i></div></div>
+        <div class="barwrap"><div class="barlbl"><span>retract force</span><span id="fret">—</span></div><div class="bar"><i id="fretb" style="background:var(--rod)"></i></div></div>
+        <div class="barwrap"><div class="barlbl"><span>extend speed</span><span id="vext">—</span></div><div class="bar"><i id="vextb" style="background:var(--cap)"></i></div></div>
+        <div class="barwrap"><div class="barlbl"><span>retract speed</span><span id="vret">—</span></div><div class="bar"><i id="vretb" style="background:var(--rod)"></i></div></div>
+      </div>
+      <div class="card">
+        <h2>Parameters</h2>
+        <label class="f"><span>bore D (mm)</span><input id="D" type="range" min="25" max="63" step="1" value="40"></label>
+        <label class="f"><span>rod d (mm)</span><input id="d" type="range" min="12" max="45" step="1" value="22"></label>
+        <label class="f"><span>pressure (MPa)</span><input id="p" type="range" min="5" max="21" step="1" value="16"></label>
+        <label class="f"><span>flow (L/min)</span><input id="q" type="range" min="5" max="30" step="1" value="15"></label>
+        <div style="margin-top:8px"><button id="ext">▶ Extend</button><button id="ret">◀ Retract</button></div>
+      </div>
+    </aside>
+  </div>
+
+  <p class="hint">Part of the <a href="../02-hydraulic-design/" target="_top">Hydraulic Design &amp; Calculations</a> chapter ·
+  <a href="index.html" target="_top">all demos</a></p>
+
+<script>
+const SVG="http://www.w3.org/2000/svg",svg=document.getElementById("svg");
+let D=0.040,d=0.022,p=16e6,Q=2.5e-4; // SI
+let piston=0.45, vel=0, dir=0;
+
+function areas(){const Acap=Math.PI*D*D/4, Arod=Math.PI*(D*D-d*d)/4; return {Acap,Arod,phi:Acap/Arod};}
+function elt(t,a){const e=document.createElementNS(SVG,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+function draw(){
+  const {Acap,Arod,phi}=areas();
+  svg.innerHTML="";
+  // ---- cylinder cross-section (top) ----
+  const cx=40, cy=40, cw=480, chh=90, boreScale= (D/0.063); // visual bore height
+  const barH=Math.max(40, 90*boreScale);
+  const by=cy + (90-barH)/2;
+  // barrel
+  svg.appendChild(elt("rect",{x:cx,y:by,width:cw,height:barH,rx:6,fill:"#10161d",stroke:"#2c3a47","stroke-width":"2"}));
+  const pistonX=cx+30+piston*(cw-90);
+  // cap-side oil (left of piston) — blue
+  svg.appendChild(elt("rect",{x:cx+3,y:by+3,width:Math.max(0,pistonX-cx-3),height:barH-6,fill:"#143a47","opacity":"0.9"}));
+  // rod-side oil (right of piston) — orange, minus rod
+  svg.appendChild(elt("rect",{x:pistonX+14,y:by+3,width:Math.max(0,cx+cw-3-(pistonX+14)),height:barH-6,fill:"#3a2e12","opacity":"0.9"}));
+  // piston
+  svg.appendChild(elt("rect",{x:pistonX,y:by,width:14,height:barH,fill:"#5b6975",stroke:"#cdd6df","stroke-width":"1.5"}));
+  // rod (right, thickness ∝ d)
+  const rodH=Math.max(8,barH*(d/D));
+  svg.appendChild(elt("rect",{x:pistonX+14,y:cy+45-rodH/2,width:cw-(pistonX-cx)-14+30,height:rodH,fill:"#6b7884"}));
+  // labels
+  svg.appendChild(Object.assign(elt("text",{x:cx+10,y:by-6,fill:"#39c5e0","font-size":"11","font-family":"var(--mono)"}),{textContent:"cap side (extend →)"}));
+  svg.appendChild(Object.assign(elt("text",{x:cx+cw-10,y:by-6,fill:"#ffb454","font-size":"11","text-anchor":"end"}),{textContent:"rod side (← retract)"}));
+
+  // ---- area circles to scale (bottom) ----
+  const baseY=250, maxR=46;
+  const rcap=maxR, rrod=maxR*Math.sqrt(Arod/Acap);
+  // cap circle
+  svg.appendChild(elt("circle",{cx:170,cy:baseY,r:rcap,fill:"#143a47",stroke:"#39c5e0","stroke-width":"2"}));
+  svg.appendChild(Object.assign(elt("text",{x:170,y:baseY+rcap+18,fill:"#39c5e0","font-size":"11","text-anchor":"middle"}),{textContent:`A_cap = ${(Acap*1e6).toFixed(0)} mm²`}));
+  // rod-side = cap ring (annulus): full cap minus rod hole
+  svg.appendChild(elt("circle",{cx:380,cy:baseY,r:rcap,fill:"#3a2e12",stroke:"#ffb454","stroke-width":"2"}));
+  svg.appendChild(elt("circle",{cx:380,cy:baseY,r:maxR*Math.sqrt((D*D-(D*D-d*d))/(D*D)),fill:"#0e1217",stroke:"#6b7884","stroke-width":"1.5"})); // rod hole
+  svg.appendChild(Object.assign(elt("text",{x:380,y:baseY+rcap+18,fill:"#ffb454","font-size":"11","text-anchor":"middle"}),{textContent:`A_rod = ${(Arod*1e6).toFixed(0)} mm²`}));
+  svg.appendChild(Object.assign(elt("text",{x:520,y:baseY-6,fill:"#3fe0a0","font-size":"18","text-anchor":"middle","font-weight":"700"}),{textContent:`φ = ${phi.toFixed(2)}`}));
+  svg.appendChild(Object.assign(elt("text",{x:520,y:baseY+16,fill:"#8a97a3","font-size":"10","text-anchor":"middle"}),{textContent:"cap ÷ rod area"}));
+
+  // readouts
+  const Fext=p*Acap, Fret=p*Arod, vext=Q/Acap, vret=Q/Arod;
+  document.getElementById("acap").textContent=(Acap*1e6).toFixed(0)+" mm²";
+  document.getElementById("arod").textContent=(Arod*1e6).toFixed(0)+" mm²";
+  document.getElementById("phi").textContent="φ = "+phi.toFixed(2);
+  const setBar=(id,val,ref)=>{document.getElementById(id+"b").style.width=Math.min(100,val/ref*100)+"%";};
+  document.getElementById("fext").textContent=(Fext/1000).toFixed(1)+" kN";
+  document.getElementById("fret").textContent=(Fret/1000).toFixed(1)+" kN";
+  document.getElementById("vext").textContent=vext.toFixed(3)+" m/s";
+  document.getElementById("vret").textContent=vret.toFixed(3)+" m/s";
+  setBar("fext",Fext,30000);setBar("fret",Fret,30000);
+  setBar("vext",vext,0.5);setBar("vret",vret,0.5);
+}
+
+// animation
+let raf=null;
+function animate(){
+  const {Acap,Arod}=areas();
+  const v = dir>0 ? Q/Acap : Q/Arod;      // m/s (real speed)
+  piston += dir * v * 0.10;                // scaled for visual
+  if(piston>0.92){piston=0.92;dir=0;} if(piston<0.05){piston=0.05;dir=0;}
+  draw();
+  if(dir!==0) raf=requestAnimationFrame(animate); else raf=null;
+}
+function go(dr){dir=dr;if(!raf)raf=requestAnimationFrame(animate);}
+document.getElementById("ext").onclick=()=>go(1);
+document.getElementById("ret").onclick=()=>go(-1);
+document.getElementById("D").oninput=e=>{D=+e.target.value/1000; if(d>=D)d=D-0.004; document.getElementById("d").value=Math.round(d*1000); draw();};
+document.getElementById("d").oninput=e=>{d=Math.min(+e.target.value/1000, D-0.002); draw();};
+document.getElementById("p").oninput=e=>{p=+e.target.value*1e6; draw();};
+document.getElementById("q").oninput=e=>{Q=+e.target.value*1.667e-5; draw();};
+draw();
+</script>
+</body>
+</html>
