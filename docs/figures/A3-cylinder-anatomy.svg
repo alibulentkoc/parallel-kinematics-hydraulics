@@ -1,0 +1,45 @@
+<svg viewBox="0 0 540 400" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <rect width="540" height="400" rx="6" fill="#0e1217" stroke="#2c3a47"/>
+  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">HYDRAULIC CYLINDER  ANATOMY</text>
+  <text x="22" y="50" fill="#5b6975" font-size="11">single-rod, double-acting — the area asymmetry that drives unequal extend/retract</text>
+
+  <!-- barrel -->
+  <rect x="80" y="130" width="320" height="120" fill="#1b232c" stroke="#2c3a47" stroke-width="1.5"/>
+  <!-- cap chamber (left) -->
+  <rect x="82" y="132" width="150" height="116" fill="rgba(57,197,224,0.16)"/>
+  <!-- piston -->
+  <rect x="232" y="132" width="16" height="116" fill="#cdd6df"/>
+  <!-- rod chamber (right) -->
+  <rect x="248" y="132" width="150" height="116" fill="rgba(57,197,224,0.06)"/>
+  <!-- rod -->
+  <rect x="248" y="181" width="200" height="18" fill="#8a97a3"/>
+  <line x1="448" y1="181" x2="448" y2="199" stroke="#cdd6df" stroke-width="2"/>
+
+  <!-- ports -->
+  <line x1="120" y1="250" x2="120" y2="280" stroke="#39c5e0" stroke-width="2"/>
+  <line x1="300" y1="250" x2="300" y2="280" stroke="#39c5e0" stroke-width="2"/>
+  <text x="104" y="296" fill="#39c5e0" font-size="11">port A</text>
+  <text x="286" y="296" fill="#39c5e0" font-size="11">port B</text>
+
+  <!-- bore dimension -->
+  <line x1="60" y1="130" x2="60" y2="250" stroke="#ffb454" stroke-width="1"/>
+  <text x="34" y="194" fill="#ffb454" font-size="11">D</text>
+  <text x="20" y="208" fill="#5b6975" font-size="9">bore</text>
+  <!-- rod dimension -->
+  <line x1="470" y1="181" x2="470" y2="199" stroke="#ffb454" stroke-width="1"/>
+  <text x="476" y="194" fill="#ffb454" font-size="11">d</text>
+
+  <!-- labels -->
+  <text x="120" y="120" fill="#cdd6df" font-size="11">cap-side chamber  A_cap</text>
+  <text x="300" y="120" fill="#cdd6df" font-size="11">rod-side  A_rod</text>
+  <text x="214" y="270" fill="#8a97a3" font-size="10">piston</text>
+  <text x="410" y="174" fill="#8a97a3" font-size="10">rod</text>
+
+  <!-- formula strip -->
+  <line x1="22" y1="330" x2="518" y2="330" stroke="#2c3a47" stroke-width="1"/>
+  <text x="22" y="350" fill="#8a97a3" font-size="11">A_cap = π⁄4 · D²    A_rod = A_cap − π⁄4 · d²    φ = A_cap ⁄ A_rod ≈ 1.43   (ref: 1257 / 877 mm²)</text>
+  <text x="22" y="368" fill="#8a97a3" font-size="11">F = P · A    so extend force &gt; retract force ;  v = Q ⁄ A    so retract speed &gt; extend speed</text>
+
+  <!-- metadata footer -->
+  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A3 · CYLINDER ANATOMY · USED IN 2.1 · cyan=pressurised chamber amber=dimension</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg viewBox="0 0 540 400" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <rect width="540" height="400" rx="6" fill="#0e1217" stroke="#2c3a47"/>
+  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">VALIDATION  WORKFLOW</text>
+  <text x="22" y="50" fill="#5b6975" font-size="11">model validation is a loop — measure, compare, diagnose, report, repeat</text>
+
+  <!-- four nodes in a loop -->
+  <rect x="60" y="100" width="150" height="56" fill="#1b232c" stroke="#39c5e0" stroke-width="1.6"/>
+  <text x="135" y="124" fill="#39c5e0" font-size="12" text-anchor="middle">1 · Measure</text>
+  <text x="135" y="142" fill="#5b6975" font-size="10" text-anchor="middle">run twin + rig</text>
+
+  <rect x="330" y="100" width="150" height="56" fill="#1b232c" stroke="#cdd6df" stroke-width="1.6"/>
+  <text x="405" y="124" fill="#cdd6df" font-size="12" text-anchor="middle">2 · Compare</text>
+  <text x="405" y="142" fill="#5b6975" font-size="10" text-anchor="middle">RMSE, pressure err</text>
+
+  <rect x="330" y="210" width="150" height="56" fill="#1b232c" stroke="#ffb454" stroke-width="1.6"/>
+  <text x="405" y="234" fill="#ffb454" font-size="12" text-anchor="middle">3 · Diagnose</text>
+  <text x="405" y="252" fill="#5b6975" font-size="10" text-anchor="middle">identify the cause</text>
+
+  <rect x="60" y="210" width="150" height="56" fill="#1b232c" stroke="#3fe0a0" stroke-width="1.6"/>
+  <text x="135" y="234" fill="#3fe0a0" font-size="12" text-anchor="middle">4 · Report</text>
+  <text x="135" y="252" fill="#5b6975" font-size="10" text-anchor="middle">accuracy + analysis</text>
+
+  <!-- loop arrows -->
+  <line x1="210" y1="128" x2="330" y2="128" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="405" y1="156" x2="405" y2="210" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="330" y1="238" x2="210" y2="238" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="135" y1="210" x2="135" y2="156" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a97a3"/></marker></defs>
+
+  <text x="270" y="300" fill="#8a97a3" font-size="11" text-anchor="middle">measuring RMSE is comparison — explaining WHY is validation</text>
+
+  <!-- formula / note strip -->
+  <line x1="22" y1="330" x2="518" y2="330" stroke="#2c3a47" stroke-width="1"/>
+  <text x="22" y="350" fill="#8a97a3" font-size="11">Pass: pos RMSE ≤ 10 mm and pressure error ≤ 15%.  Fail → diagnose: geometry / sensor /</text>
+  <text x="22" y="368" fill="#8a97a3" font-size="11">deadband / pressure / timing — each leaves a distinct signature (see Fig B11).</text>
+
+  <!-- metadata footer -->
+  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A10 · VALIDATION WORKFLOW · USED IN 4.2, 4.4 · cyan→grey→amber→green loop</text>
+</svg>
