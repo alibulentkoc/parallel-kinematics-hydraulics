@@ -1,0 +1,37 @@
+<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <rect width="600" height="300" rx="6" fill="#0e1217" stroke="#2c3a47"/>
+  <text x="20" y="30" fill="#39c5e0" font-size="13" letter-spacing="2.5">DEMO ↔ TWIN ALIGNMENT</text>
+  <text x="20" y="48" fill="#5b6975" font-size="11">the four demo families are the visible manifestation of the twin maturity model</text>
+
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a97a3"/></marker></defs>
+
+  <!-- column headers -->
+  <text x="150" y="76" fill="#5b6975" font-size="10" text-anchor="middle">TWIN STAGE</text>
+  <text x="450" y="76" fill="#5b6975" font-size="10" text-anchor="middle">DEMO FAMILY</text>
+
+  <!-- rows -->
+  <g font-size="11">
+    <!-- Observe + Kinematic -> Family 1 -->
+    <rect x="40" y="86" width="220" height="34" rx="4" fill="#151b22" stroke="#39c5e0"/><text x="150" y="107" fill="#cdd6df" text-anchor="middle">Observe + Kinematic</text>
+    <rect x="40" y="124" width="220" height="20" rx="4" fill="#11171d" stroke="#2c3a47"/><text x="150" y="138" fill="#8a97a3" font-size="9" text-anchor="middle">read · geometry · IK/FK · workspace · singularities</text>
+    <rect x="340" y="92" width="220" height="40" rx="5" fill="#151b22" stroke="#39c5e0"/><text x="450" y="116" fill="#39c5e0" text-anchor="middle">Family 1 — Kinematics</text>
+    <line x1="260" y1="103" x2="340" y2="112" stroke="#8a97a3" stroke-width="1.4" marker-end="url(#a)"/>
+
+    <!-- Hydraulic -> Family 2 -->
+    <rect x="40" y="158" width="220" height="34" rx="4" fill="#151b22" stroke="#39c5e0"/><text x="150" y="179" fill="#cdd6df" text-anchor="middle">Hydraulic</text>
+    <rect x="340" y="156" width="220" height="38" rx="5" fill="#151b22" stroke="#39c5e0"/><text x="450" y="179" fill="#39c5e0" text-anchor="middle">Family 2 — Hydraulic</text>
+    <line x1="260" y1="175" x2="340" y2="175" stroke="#8a97a3" stroke-width="1.4" marker-end="url(#a)"/>
+
+    <!-- Control -> Family 3 -->
+    <rect x="40" y="204" width="220" height="34" rx="4" fill="#151b22" stroke="#39c5e0"/><text x="150" y="225" fill="#cdd6df" text-anchor="middle">Control</text>
+    <rect x="340" y="202" width="220" height="38" rx="5" fill="#151b22" stroke="#39c5e0"/><text x="450" y="225" fill="#39c5e0" text-anchor="middle">Family 3 — PWM / Control</text>
+    <line x1="260" y1="221" x2="340" y2="221" stroke="#8a97a3" stroke-width="1.4" marker-end="url(#a)"/>
+
+    <!-- Validation -> Family 4 -->
+    <rect x="40" y="250" width="220" height="34" rx="4" fill="#151b22" stroke="#3fe0a0"/><text x="150" y="271" fill="#3fe0a0" text-anchor="middle">Validation</text>
+    <rect x="340" y="248" width="220" height="38" rx="5" fill="#151b22" stroke="#3fe0a0"/><text x="450" y="271" fill="#3fe0a0" text-anchor="middle">Family 4 — Twin Validation</text>
+    <line x1="260" y1="267" x2="340" y2="267" stroke="#8a97a3" stroke-width="1.4" marker-end="url(#a)"/>
+  </g>
+
+  <text x="20" y="298" fill="#3a4753" font-size="9" letter-spacing="1">FIG C6 · DEMO ↔ TWIN ALIGNMENT · USED IN handbook · process diagram</text>
+</svg>

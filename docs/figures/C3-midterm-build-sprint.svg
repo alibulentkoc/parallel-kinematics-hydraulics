@@ -1,0 +1,45 @@
+<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <rect width="600" height="280" rx="6" fill="#0e1217" stroke="#2c3a47"/>
+  <text x="20" y="30" fill="#39c5e0" font-size="13" letter-spacing="2.5">MIDTERM BUILD SPRINT</text>
+  <text x="20" y="48" fill="#5b6975" font-size="11">weeks 5–8 — from sized design to a commissioned 2-DOF prototype with a twin</text>
+
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a97a3"/></marker></defs>
+
+  <!-- 4 week boxes -->
+  <g>
+    <rect x="16" y="86" width="128" height="100" rx="5" fill="#151b22" stroke="#39c5e0" stroke-width="1.3"/>
+    <text x="80" y="106" fill="#5b6975" font-size="10" text-anchor="middle">WEEK 5</text>
+    <text x="80" y="126" fill="#cdd6df" font-size="11" text-anchor="middle">Size &amp; spec</text>
+    <text x="80" y="150" fill="#8a97a3" font-size="9" text-anchor="middle">cylinder, valve,</text>
+    <text x="80" y="162" fill="#8a97a3" font-size="9" text-anchor="middle">pump, sensors</text>
+  </g>
+  <g>
+    <rect x="158" y="86" width="128" height="100" rx="5" fill="#151b22" stroke="#39c5e0" stroke-width="1.3"/>
+    <text x="222" y="106" fill="#5b6975" font-size="10" text-anchor="middle">WEEK 6</text>
+    <text x="222" y="126" fill="#cdd6df" font-size="11" text-anchor="middle">Design review</text>
+    <text x="222" y="150" fill="#8a97a3" font-size="9" text-anchor="middle">standards-compliant</text>
+    <text x="222" y="162" fill="#8a97a3" font-size="9" text-anchor="middle">schematic + safety</text>
+  </g>
+  <g>
+    <rect x="300" y="86" width="128" height="100" rx="5" fill="#151b22" stroke="#39c5e0" stroke-width="1.3"/>
+    <text x="364" y="106" fill="#5b6975" font-size="10" text-anchor="middle">WEEK 7</text>
+    <text x="364" y="126" fill="#cdd6df" font-size="11" text-anchor="middle">Build &amp; wire</text>
+    <text x="364" y="150" fill="#8a97a3" font-size="9" text-anchor="middle">assemble rig,</text>
+    <text x="364" y="162" fill="#8a97a3" font-size="9" text-anchor="middle">on/off control</text>
+  </g>
+  <g>
+    <rect x="442" y="86" width="128" height="100" rx="5" fill="#151b22" stroke="#ffb454" stroke-width="1.6"/>
+    <text x="506" y="106" fill="#5b6975" font-size="10" text-anchor="middle">WEEK 8</text>
+    <text x="506" y="126" fill="#ffb454" font-size="11" text-anchor="middle">Commission</text>
+    <text x="506" y="150" fill="#8a97a3" font-size="9" text-anchor="middle">2-DOF prototype</text>
+    <text x="506" y="162" fill="#8a97a3" font-size="9" text-anchor="middle">+ twin-vs-rig</text>
+  </g>
+
+  <line x1="144" y1="136" x2="158" y2="136" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="286" y1="136" x2="300" y2="136" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="428" y1="136" x2="442" y2="136" stroke="#8a97a3" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <text x="20" y="222" fill="#8a97a3" font-size="11">Gate before build: the Design Review must pass standards + safety. Midterm = the commissioned twin.</text>
+
+  <text x="20" y="262" fill="#3a4753" font-size="9" letter-spacing="1">FIG C3 · MIDTERM BUILD SPRINT · USED IN instructor, M2 · process diagram</text>
+</svg>
