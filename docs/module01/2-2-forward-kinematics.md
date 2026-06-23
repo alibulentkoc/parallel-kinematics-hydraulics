@@ -1,12 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 2 — Solving the Motion** · **Lesson 2.2 — Forward Kinematics**
+!!! abstract "Kinematic Twin · C3 · forward kinematics · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the FK half of the IK/FK Implementation artifact
 
 # Lesson 2.2 — Forward Kinematics — Leg Lengths to Pose
 
-> **Module 1 · Unit 2 · Lesson 2.2**
-> The reverse problem: given the cylinder lengths a sensor reports, where is the
-> platform? For a parallel machine this is the *hard* direction — but for our 2-DOF
-> machine it still has a clean, exact answer.
+!!! note "Why you need this — before the theory"
+    After the cylinders move you must know where the platform actually went — from measured lengths back to pose. Forward kinematics closes the loop and completes the IK/FK Implementation the Workspace map and twin are built on.
 
 ---
 
@@ -53,6 +51,9 @@ Two formulas, exact — no iteration. That clean result is special to the symmet
 \((x, y, \theta)\) with no tidy closed form, so it's solved numerically with
 **Newton's method**, warm-started from the previous pose (which converges in a few
 steps because the pose barely changes between control cycles).
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics, fk) · A1 · Family 1
 
 ## 4. Visual Explanation
 
@@ -106,6 +107,11 @@ the displayed \((x, y)\) matches the worked example. Notice that pushing the
 platform toward the base line makes the two circles meet at a shallow angle — the
 geometric warning sign of a singularity (Lesson 3.2).
 
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Set leg lengths and watch the platform snap to where the two length-circles cross.
+    - **Interpret:** x = (L1²−L2²)/4b falls straight out of subtracting the two circle equations.
+    - **Apply:** Feed your IK output back through FK and confirm the pose returns.
+
 ## 8. Code & Computation
 
 ```python
@@ -121,9 +127,12 @@ print(fk(0.990, 0.860))         # -> (0.100, 0.700)
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**IK→FK round-trip < 1e-6 m**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.2 check](../quizzes/m1-l22.html)
+[Check your understanding — Quiz 1](../quizzes/quiz-1-kinematics.md)
 
 ## 10. Challenge Problem
 
@@ -170,12 +179,3 @@ and L2, find (x, y). Include one case where the circles don't intersect.
 
 *Next lesson: [2.3 — Reachability & the Workspace](2-3-reachability.md), where we map exactly which poses the machine can and cannot reach.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

@@ -1,12 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 1 — The Parallel Machine** · **Lesson 1.1 — What Is a Parallel Kinematics Machine?**
+!!! abstract "Kinematic Twin · C2 · system understanding · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the mental model behind the Geometry config and the IK/FK chain
 
 # Lesson 1.1 — What Is a Parallel Kinematics Machine?
 
-> **Module 1 · Unit 1 · Lesson 1.1** · Pilot lesson
-> This first lesson carries no heavy mathematics. Its job is to build the mental
-> model — a **moving platform held by hydraulic cylinders** — that every later
-> lesson returns to, and to explain *why* the mathematics is coming.
+!!! note "Why you need this — before the theory"
+    You are going to build a machine whose platform position is hidden inside its leg lengths. Before any math you need the model the whole project rests on — a platform held by hydraulic legs — because every later artifact (Geometry config, IK/FK, Workspace map) is built on it.
 
 ---
 
@@ -67,6 +65,9 @@ machine that's a position \((x, y)\); for the 3-DOF machine it also includes an
 orientation angle \(\theta\). You're not expected to compute anything yet — only to
 believe the claim this lesson makes: *moving a parallel machine correctly is, at
 bottom, a geometry problem about distances and circles.*
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics) · A1 · Family 1
 
 ## 4. Visual Explanation
 
@@ -134,6 +135,11 @@ understand the numbers yet — just build the feel: *every platform position
 corresponds to a specific pair of leg lengths, and some regions are "healthier"
 than others.*
 
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Drag the platform; watch both leg lengths change together.
+    - **Interpret:** No leg moves the platform alone (coordination), and it only reaches a limited region (constraint).
+    - **Apply:** Pick a target and predict whether both legs stay within stroke before releasing.
+
 ## 8. Code & Computation
 
 ```python
@@ -147,9 +153,12 @@ print(ik(0.10, 0.70))           # -> (0.990, 0.860)
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**IK→FK round-trip < 1e-6 m**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 1.1 check](../quizzes/m1-l11.html)
+[Check your understanding — Quiz 1](../quizzes/quiz-1-kinematics.md)
 
 *Formative — unlimited attempts, immediate feedback. Not graded. Check your
 understanding, not your score.*
@@ -213,10 +222,3 @@ advantage (stiffness, force, precision) the parallel design buys.
 
 *Next lesson: [1.2 — The 2-RPR Geometry & Pose](1-2-geometry-and-pose.md), where we make this machine precise with coordinates.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)

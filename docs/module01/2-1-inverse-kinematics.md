@@ -1,12 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 2 — Solving the Motion** · **Lesson 2.1 — Inverse Kinematics**
+!!! abstract "Kinematic Twin · C2 · inverse kinematics · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the IK half of the IK/FK Implementation artifact
 
 # Lesson 2.1 — Inverse Kinematics — Pose to Leg Lengths
 
-> **Module 1 · Unit 2 · Lesson 2.1** · interactive
-> The first calculation you can actually run: given where you want the platform,
-> exactly how long must each cylinder be? For a parallel machine this is the *easy*
-> direction — and it's the command the controller sends thousands of times a second.
+!!! note "Why you need this — before the theory"
+    Every move starts as a target pose, but the cylinders only understand lengths. Inverse kinematics is the converter — the easy, exact direction — and the first half of the IK/FK Implementation you will ship.
 
 ---
 
@@ -52,6 +50,9 @@ run every control cycle.
 For the 3-DOF machine the only change is that each leg attaches to a point that
 rotates with the platform: \(P_i = (x, y) + R(\theta)\, p_i\), and then
 \(L_i = \lVert P_i - B_i\rVert\) — still a direct calculation.
+
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics, ik) · A1 · Family 1
 
 ## 4. Visual Explanation
 
@@ -107,6 +108,11 @@ example**: park near \((0, 0.70)\) and confirm \(L_1 = L_2 \approx 0.922\); then
 move to \((0.10, 0.70)\) and watch \(L_1\) grow to ~0.990 while \(L_2\) shrinks to
 ~0.860. The equation panel shows the distance formula with your live numbers.
 
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Drag the platform; watch L1, L2 update as exact distances to the anchors.
+    - **Interpret:** Each leg length is just the distance from its anchor to P — no iteration needed.
+    - **Apply:** Compute L1, L2 by hand for a pose, then confirm against the demo.
+
 ## 8. Code & Computation
 
 ```python
@@ -123,9 +129,12 @@ print(f"d L1 = {1000*(after[0]-before[0]):+.0f} mm,  d L2 = {1000*(after[1]-befo
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**IK→FK round-trip < 1e-6 m**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.1 check](../quizzes/m1-l21.html)
+[Check your understanding — Quiz 1](../quizzes/quiz-1-kinematics.md)
 
 ## 10. Challenge Problem
 
@@ -170,12 +179,3 @@ position, compute L1 and L2 and the strokes. Include answers.
 
 *Next lesson: [2.2 — Forward Kinematics](2-2-forward-kinematics.md), the harder reverse problem: leg lengths back to pose.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

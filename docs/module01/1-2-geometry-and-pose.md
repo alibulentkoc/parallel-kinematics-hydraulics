@@ -1,12 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 1 — The Parallel Machine** · **Lesson 1.2 — The 2-RPR Geometry & Pose**
+!!! abstract "Kinematic Twin · C2 · geometry & pose · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the Geometry config artifact (anchors, attach points, stroke limits)
 
 # Lesson 1.2 — The 2-RPR Geometry & Pose
 
-> **Module 1 · Unit 1 · Lesson 1.2**
-> We turn the picture from Lesson 1.1 into precise coordinates: where the anchors
-> sit, what a leg length means, and exactly what a "pose" is. From here on, every
-> claim can be a calculation.
+!!! note "Why you need this — before the theory"
+    To command the machine you first have to define it: where the anchors sit, how long the legs may be, and what a "pose" is. That definition is the Geometry config artifact every later stage consumes.
 
 ---
 
@@ -68,6 +66,9 @@ and the **stroke** the controller actually commands is \(s_i = L_i -
 L_\text{closed}\). Keep these separate: *length* is geometry, *stroke* is the
 piston travel the hydraulics produce.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics) · A1 · Family 1
+
 ## 4. Visual Explanation
 
 ![2-RPR geometry with anchors B1, B2 at (±b, 0), legs L1, L2, and platform P](../figures/A1-2rpr-geometry.svg)
@@ -120,6 +121,11 @@ region and dexterity field redraw. Then drag the platform and read \(L_1, L_2\) 
 the strokes \(s_1, s_2\) live — confirm the worked example above by dragging near
 \((0.1, 0.7)\).
 
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Move the platform and read the (x, y) pose against the fixed anchors B1, B2.
+    - **Interpret:** Pose is two numbers for the 2-DOF machine; the anchors and stroke bound which poses exist.
+    - **Apply:** Set a pose near the base line and watch the geometry tighten.
+
 ## 8. Code & Computation
 
 ```python
@@ -135,9 +141,12 @@ print(f"L1={L1:.3f} m, L2={L2:.3f} m")   # 0.990, 0.860
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**IK→FK round-trip < 1e-6 m**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 1.2 check](../quizzes/m1-l12.html)
+[Check your understanding — Quiz 1](../quizzes/quiz-1-kinematics.md)
 
 ## 10. Challenge Problem
 
@@ -165,7 +174,7 @@ side-to-side? Use the explorer's \(b\) slider to check your prediction.
   L_\text{closed}\) is bounded by the cylinder's travel.
 - The **half-spacing \(b\)** is a design knob trading stiffness against bulk.
 - The **unit leg directions** \(\hat{u}_i\) are quietly introduced here and become
-  central in Unit 3.
+  central at the Jacobian (Lesson 3.1).
 
 ## AI Learning Companion
 
@@ -184,11 +193,3 @@ b = 0.6 m and various platform positions (x, y). Include worked solutions.
 
 *Next lesson: [2.1 — Inverse Kinematics](2-1-inverse-kinematics.md), where pose → leg lengths becomes a method you can run anywhere in the workspace.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-- **Read:** [2-RPR geometry](../figures/A1-2rpr-geometry.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

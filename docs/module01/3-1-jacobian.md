@@ -1,13 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 3 — Differential Motion** · **Lesson 3.1 — The Jacobian & Manipulability**
+!!! abstract "Kinematic Twin · C11 · manipulability · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the Manipulability map artifact
 
 # Lesson 3.1 — The Jacobian & Manipulability
 
-> **Module 1 · Unit 3 · Lesson 3.1** · interactive
-> Positions tell you *where*; the Jacobian tells you *how things move*. It is the
-> single most important object in robot kinematics — the bridge between platform
-> motion and leg motion, and the source of the "dexterity" number you've seen
-> glowing on the workspace.
+!!! note "Why you need this — before the theory"
+    Some reachable poses are dexterous and some nearly frozen. The Jacobian quantifies that, and its manipulability field is the Manipulability map artifact that later control depends on to stay out of trouble.
 
 ---
 
@@ -68,6 +65,9 @@ has a closed form:
 It's **proportional to the platform height \(y\)**: high up, the machine moves
 freely in every direction; low down, \(\det(J)\to 0\) and it loses one.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics, jacobian) · A6 · B2 · Family 1
+
 ## 4. Visual Explanation
 
 ![Unit leg directions û1 and û2 at the platform become the rows of the Jacobian](../figures/A1-2rpr-geometry.svg)
@@ -113,6 +113,10 @@ A healthy, dexterous pose — close to its best possible value. Drag the platfor
 toward \(y = 0.05\) and the same formula gives \(\det(J) \approx 0.07\): nearly
 singular.
 
+![Manipulability map](../figures/B2-manipulability-map.svg)
+
+*Read this map directly: the simulator exported it at frozen parameters — it is the artifact this lesson produces.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -124,6 +128,11 @@ formula \(2by/(L_1L_2)\) showing your live numbers. Confirm the worked example n
 \((0.10, 0.70)\), then sweep vertically: manipulability tracks the platform height,
 exactly as the formula predicts, and the heatmap is just this number painted across
 the plane.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Move through the workspace; watch the dexterity heatmap brighten and dim.
+    - **Interpret:** High manipulability = round velocity ellipse; low = flattened, one direction lost.
+    - **Apply:** Find the brightest region and read why paths should stay there.
 
 ## 8. Code & Computation
 
@@ -141,9 +150,12 @@ print("det(J) =", round(det(J), 4))      # 0.9864 (also equals 2*b*y/(L1*L2))
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**|det J| ≥ 0.02**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.1 check](../quizzes/m1-l31.html)
+[Check your understanding — Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)
 
 ## 10. Challenge Problem
 
@@ -188,12 +200,3 @@ positions (b = 0.6 m), and interpreting whether the pose is dexterous. With answ
 
 *Next lesson: [3.2 — Singularities](3-2-singularities.md), where det(J) → 0 and the machine loses a degree of freedom.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Manipulability map](../figures/B2-manipulability-map.svg)
-- **Read:** [Manipulability map](../figures/B2-manipulability-map.svg) · [Jacobian / velocity ellipse](../figures/A6-jacobian-manipulability.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)

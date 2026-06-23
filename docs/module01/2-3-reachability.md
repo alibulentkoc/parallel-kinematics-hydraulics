@@ -1,13 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 2 — Solving the Motion** · **Lesson 2.3 — Reachability & the Workspace**
+!!! abstract "Kinematic Twin · C4 · reachability & workspace · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the Workspace map artifact
 
 # Lesson 2.3 — Reachability & the Workspace
 
-> **Module 1 · Unit 2 · Lesson 2.3**
-> Inverse kinematics will hand you a leg length for *any* target — even an
-> impossible one. This lesson is about telling the possible from the impossible:
-> the machine's reachable **workspace**, and how to guard against commands that
-> would break the math.
+!!! note "Why you need this — before the theory"
+    A parallel machine cannot reach everywhere — stroke limits carve out a finite workspace. Mapping that region is the Workspace map artifact, and it tells you which targets are even legal before you command them.
 
 ---
 
@@ -47,6 +44,9 @@ And the forward-kinematics guard from Lesson 2.2 — a negative square-root argu
 catches length pairs whose circles don't intersect at all. Together these keep the
 machine in the land of real, finite numbers.
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics, workspace) · B1 · Family 1
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -83,6 +83,10 @@ must satisfy \(0.4 \le L_i \le 1.0\).
 this is exactly the target the "Workspace limits" assignment commands to show
 graceful handling.
 
+![Workspace map](../figures/B1-workspace-map.svg)
+
+*Read this map directly: the simulator exported it at frozen parameters — it is the artifact this lesson produces.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -93,6 +97,11 @@ Drag the platform slowly toward the top of the view and watch the crosshair turn
 red the moment a leg would exceed 1.0 m — the workspace boundary made visible. Then
 shrink the **stroke** slider and watch the reachable region (and the bright dexterity
 zone) shrink with it.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Sweep the platform to the edges; watch the status flip to UNREACHABLE.
+    - **Interpret:** The reachable set is the lens where both legs stay within [L_min, L_max].
+    - **Apply:** Pick a target and predict reachable/unreachable before the demo confirms.
 
 ## 8. Code & Computation
 
@@ -109,9 +118,12 @@ for p in [(0.0, 0.70), (0.10, 0.70), (0.0, 1.2)]:
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**workspace classified; |det J| ≥ 0.02 in the operating region**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 2.3 check](../quizzes/m1-l23.html)
+[Check your understanding — Quiz 1](../quizzes/quiz-1-kinematics.md)
 
 ## 10. Challenge Problem
 
@@ -157,12 +169,3 @@ b = 0.6 m: a target, decide reachable or not, and name the failure mode if not.
 
 *Next lesson: [3.1 — The Jacobian & Manipulability](3-1-jacobian.md), where we move from positions to motion and dexterity.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Workspace map](../figures/B1-workspace-map.svg)
-- **Read:** [Workspace map](../figures/B1-workspace-map.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 1](../quizzes/quiz-1-kinematics.md)

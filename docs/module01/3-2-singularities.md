@@ -1,12 +1,10 @@
-!!! abstract "You are here"
-    **Module 1 — Kinematics** · **Unit 3 — Differential Motion** · **Lesson 3.2 — Singularities**
+!!! abstract "Kinematic Twin · C12 · singularities · Milestone: kinematic model → midterm 2-DOF build"
+    **Artifact contribution:** the Safe-region map artifact
 
 # Lesson 3.2 — Singularities
 
-> **Module 1 · Unit 3 · Lesson 3.2** · interactive
-> The deepest idea in parallel kinematics: a pose where the machine momentarily
-> *loses a degree of freedom*. Recognizing — and avoiding — singularities is what
-> separates a design that works from one that fights you.
+!!! note "Why you need this — before the theory"
+    At a singularity the machine loses a degree of freedom and control breaks down. Knowing where det(J) → 0 defines the Safe-region map artifact — the no-go zones every path planner must respect.
 
 ---
 
@@ -55,6 +53,9 @@ So the singular locus of the 2-RPR is the **base line** \(y = 0\). As \(y \to 0\
 The simulator flags two bands before disaster: **NEAR\_SINGULAR** (a warning as
 \(w\) drops) and **SINGULAR** (\(w\) essentially zero).
 
+!!! quote "Equation provenance"
+    **Source:** Engine (src/kinematics, det J) · A6 · B3 · Family 1
+
 ## 4. Visual Explanation
 
 ![Manipulability fades to a dark band at the base line — the singular locus](../figures/A1-2rpr-geometry.svg)
@@ -94,6 +95,10 @@ Track manipulability as the platform descends straight down (\(x = 0\)), \(b = 0
 Manipulability collapses smoothly to zero as the platform reaches the base line.
 The machine doesn't fail suddenly; it *warns* (the amber band) before it fails.
 
+![Safe-region map](../figures/B3-safe-region-map.svg)
+
+*Read this map directly: the simulator exported it at frozen parameters — it is the artifact this lesson produces.*
+
 ## 7. Interactive Demonstration
 
 <iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
@@ -104,6 +109,11 @@ Drag the platform slowly straight down and watch the status pill march **OK →
 NEAR SINGULAR → SINGULAR** while \(w\) falls toward zero, matching the table above.
 Then explore sideways: notice the singular band hugs the base line everywhere. This
 is the same warning the instructor and student dashboards raise during a real run.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Push the platform toward the base line; watch det(J) collapse toward zero.
+    - **Interpret:** det(J) = 2by/(L1L2) → 0 as y → 0: the legs go collinear and a DOF vanishes.
+    - **Apply:** Trace a path that stays above the |det J| floor.
 
 ## 8. Code & Computation
 
@@ -120,9 +130,12 @@ for y in [0.7, 0.4, 0.2, 0.05]:
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 1 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module01.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N1 — Kinematics](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**|det J| ≥ 0.02 (floor)**) is owned by the artifact and stated in **[Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 3.2 check](../quizzes/m1-l32.html)
+[Check your understanding — Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)
 
 ## 10. Challenge Problem
 
@@ -171,12 +184,3 @@ their singularities are, and how designers keep the useful workspace away from t
 
 *Module 1 complete. Continue with the [reference handbook](../handbook/03-hydraulic-twin.md) for hydraulics, or see the [roadmap](../roadmap.md) for Modules 2–4.*
 
----
-## Aligned assets
-*This lesson uses existing course assets — it creates none.*
-![Safe-region map](../figures/B3-safe-region-map.svg)
-- **Read:** [Safe-region map](../figures/B3-safe-region-map.svg) · [Jacobian / velocity ellipse](../figures/A6-jacobian-manipulability.svg)
-- **Explore:** [Family 1 — Kinematics demo](../demos/kinematics-explorer.html)
-- **Procedure & acceptance test:** [Handbook Ch 2 — Kinematic Twin](../handbook/02-kinematic-twin.md)
-- **Verify:** [Notebook N1 — Kinematics](../notebooks/index.md) — IK→FK round-trip < 1e-6 m (2-DOF) / < 1e-4 m (3-DOF)
-- **Check yourself:** [Quiz 4](../quizzes/quiz-4-3dof-manipulability.md)
