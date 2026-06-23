@@ -55,8 +55,8 @@ Reference: [Electrical & Control Wiring](handbook/06-wiring-and-io-appendix.md),
 
 - **Unit 1 — Electrical & Control Wiring**
     - [1.1 The Three Domains](module04/1-1-three-domains.md)
-    - [1.2 Sensors & Valve Drivers](module04/1-2-sensors-and-drivers.md)
-    - [1.3 The Closed-Loop Wiring & Safety Chain](module04/1-3-wiring-and-safety.md)
+    - [1.2 Sensors & Valve Drivers](hardware-integration/sensors-and-drivers.md)
+    - [1.3 The Closed-Loop Wiring & Safety Chain](hardware-integration/wiring-and-safety.md)
 - **Unit 2 — The Digital Twin**
     - [2.1 Logging & the Canonical Schema](module04/2-1-logging-and-schema.md)
     - [2.2 Grading Simulator and Hardware Identically](module04/2-2-grading-sim-and-hardware.md)

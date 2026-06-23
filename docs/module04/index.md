@@ -25,8 +25,6 @@ log and one grader make "it works in simulation" mean "it works on the machine."
 **Unit 1 — Electrical & Control Wiring**
 
 - [1.1 The Three Domains](1-1-three-domains.md)
-- [1.2 Sensors & Valve Drivers](1-2-sensors-and-drivers.md)
-- [1.3 The Closed-Loop Wiring & Safety Chain](1-3-wiring-and-safety.md)
 
 **Unit 2 — The Digital Twin**
 

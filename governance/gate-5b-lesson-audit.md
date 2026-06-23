@@ -79,7 +79,7 @@ existence verified · R9 project context before theory · R10 inline integration
 5. **Resolve REVISE (module by module):** apply the compliant template —
    - header `Twin Stage · Competency · Artifact · Milestone` (drop Unit breadcrumb, R10/R1);
    - project-relevance opening (R9);
-   - explicit **Artifact Produced** line;
+   - explicit **Artifact Contribution** line;
    - concept→figure / procedure→demo / verification→notebook used as instructional objects (R6, R10);
    - every equation tagged with provenance (R7);
    - acceptance test **referenced** from the artifact/handbook at the verification step (R5);

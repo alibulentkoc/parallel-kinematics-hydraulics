@@ -155,4 +155,4 @@ to the real-world wire/component and domain that would carry it.
 
 ---
 
-*Next lesson: [1.2 — Sensors & Valve Drivers](1-2-sensors-and-drivers.md), the components at the signal-domain boundary.*
+*Next lesson: [Sensors & Valve Drivers](../hardware-integration/sensors-and-drivers.md), the components at the signal-domain boundary.*

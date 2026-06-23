@@ -203,7 +203,7 @@ The wired system has three domains that meet at the controller:
   normalized command \(u\in[-1,1]\) to each valve driver.
 
 An independent **safety chain** (over-pressure, over-travel, near-singularity) forces a
-safe state regardless of the controller. ([Module 4](../module04/1-3-wiring-and-safety.md))
+safe state regardless of the controller. ([Module 4](../hardware-integration/wiring-and-safety.md))
 
 ---
 
