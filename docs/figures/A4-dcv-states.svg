@@ -1,54 +1,64 @@
 <svg viewBox="0 0 540 400" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
   <rect width="540" height="400" rx="6" fill="#0e1217" stroke="#2c3a47"/>
-  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">SOLENOID DCV  STATES</text>
-  <text x="22" y="50" fill="#5b6975" font-size="11">4/3 directional control valve — three discrete spool positions (on/off, not proportional)</text>
-
-  <!-- EXTEND -->
-  <g>
-    <rect x="40" y="100" width="130" height="100" fill="#1b232c" stroke="#3fe0a0" stroke-width="1.6"/>
-    <text x="105" y="92" fill="#3fe0a0" font-size="11" text-anchor="middle">EXTEND</text>
-    <path d="M 70 180 L 70 120 L 100 120" stroke="#39c5e0" stroke-width="2" fill="none" marker-end="url(#ar)"/>
-    <path d="M 140 180 L 140 120 L 110 120" stroke="#8a97a3" stroke-width="2" fill="none" marker-end="url(#ar2)"/>
-    <text x="58" y="196" fill="#5b6975" font-size="10">P</text>
-    <text x="132" y="196" fill="#5b6975" font-size="10">T</text>
-  </g>
-  <!-- HOLD -->
-  <g>
-    <rect x="205" y="100" width="130" height="100" fill="#1b232c" stroke="#8a97a3" stroke-width="1.6"/>
-    <text x="270" y="92" fill="#cdd6df" font-size="11" text-anchor="middle">HOLD (centre)</text>
-    <line x1="235" y1="180" x2="235" y2="150" stroke="#5b6975" stroke-width="2"/>
-    <line x1="270" y1="180" x2="270" y2="150" stroke="#5b6975" stroke-width="2"/>
-    <line x1="305" y1="180" x2="305" y2="150" stroke="#5b6975" stroke-width="2"/>
-    <text x="250" y="138" fill="#5b6975" font-size="10">all ports blocked</text>
-  </g>
-  <!-- RETRACT -->
-  <g>
-    <rect x="370" y="100" width="130" height="100" fill="#1b232c" stroke="#ffb454" stroke-width="1.6"/>
-    <text x="435" y="92" fill="#ffb454" font-size="11" text-anchor="middle">RETRACT</text>
-    <path d="M 400 180 L 400 120 L 430 120" stroke="#39c5e0" stroke-width="2" fill="none" marker-end="url(#ar)"/>
-    <path d="M 470 180 L 470 120 L 440 120" stroke="#8a97a3" stroke-width="2" fill="none" marker-end="url(#ar2)"/>
-    <text x="388" y="196" fill="#5b6975" font-size="10">P</text>
-    <text x="462" y="196" fill="#5b6975" font-size="10">T</text>
-  </g>
-
-  <!-- solenoids -->
-  <rect x="20" y="130" width="14" height="40" fill="#1b232c" stroke="#39c5e0"/>
-  <text x="6" y="186" fill="#39c5e0" font-size="10">sol a</text>
-  <rect x="506" y="130" width="14" height="40" fill="#1b232c" stroke="#ffb454"/>
-  <text x="498" y="186" fill="#ffb454" font-size="10">sol b</text>
+  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">DIRECTIONAL VALVE — ISO 1219</text>
+  <text x="22" y="50" fill="#5b6975" font-size="11">4/3 closed-centre, solenoid-operated, spring-centred (ISO 1219-1 symbol)</text>
 
   <defs>
-    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#39c5e0"/></marker>
-    <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a97a3"/></marker>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#39c5e0"/></marker>
   </defs>
 
-  <text x="22" y="250" fill="#8a97a3" font-size="11">P = supply   T = tank   A = cap port   B = rod port</text>
+  <!-- three position boxes -->
+  <rect x="176" y="150" width="64" height="74" fill="none" stroke="#cdd6df" stroke-width="1.6"/>
+  <rect x="240" y="150" width="64" height="74" fill="none" stroke="#cdd6df" stroke-width="1.6"/>
+  <rect x="304" y="150" width="64" height="74" fill="none" stroke="#cdd6df" stroke-width="1.6"/>
 
-  <!-- formula / note strip -->
+  <!-- LEFT box: parallel  P->A , B->T -->
+  <line x1="192" y1="214" x2="192" y2="160" stroke="#39c5e0" stroke-width="1.8" marker-end="url(#ah)"/>
+  <line x1="224" y1="160" x2="224" y2="214" stroke="#39c5e0" stroke-width="1.8" marker-end="url(#ah)"/>
+
+  <!-- CENTRE box: closed centre — four blocked stubs -->
+  <line x1="266" y1="150" x2="266" y2="166" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="259" y1="166" x2="273" y2="166" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="286" y1="150" x2="286" y2="166" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="279" y1="166" x2="293" y2="166" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="266" y1="224" x2="266" y2="208" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="259" y1="208" x2="273" y2="208" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="286" y1="224" x2="286" y2="208" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="279" y1="208" x2="293" y2="208" stroke="#cdd6df" stroke-width="1.6"/>
+
+  <!-- RIGHT box: crossed  P->B , A->T -->
+  <line x1="320" y1="214" x2="352" y2="160" stroke="#39c5e0" stroke-width="1.8" marker-end="url(#ah)"/>
+  <line x1="352" y1="214" x2="320" y2="160" stroke="#39c5e0" stroke-width="1.8" marker-end="url(#ah)"/>
+
+  <!-- external ports on the centre (rest) box -->
+  <line x1="266" y1="150" x2="266" y2="120" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="286" y1="150" x2="286" y2="120" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="266" y1="224" x2="266" y2="254" stroke="#cdd6df" stroke-width="1.6"/>
+  <line x1="286" y1="224" x2="286" y2="254" stroke="#cdd6df" stroke-width="1.6"/>
+  <text x="260" y="114" fill="#cdd6df" font-size="11">A</text>
+  <text x="281" y="114" fill="#cdd6df" font-size="11">B</text>
+  <text x="261" y="270" fill="#cdd6df" font-size="11">P</text>
+  <text x="281" y="270" fill="#cdd6df" font-size="11">T</text>
+
+  <!-- left actuator: solenoid (box + diagonal) + centring spring -->
+  <rect x="140" y="167" width="30" height="40" fill="none" stroke="#3fe0a0" stroke-width="1.5"/>
+  <line x1="140" y1="207" x2="170" y2="167" stroke="#3fe0a0" stroke-width="1.5"/>
+  <text x="138" y="226" fill="#3fe0a0" font-size="10">sol a</text>
+  <path d="M170 187 l6 -5 l6 10 l6 -10 l6 10 l4 -5" fill="none" stroke="#8a97a3" stroke-width="1.2"/>
+
+  <!-- right actuator: centring spring + solenoid -->
+  <path d="M368 187 l6 -5 l6 10 l6 -10 l6 10 l4 -5" fill="none" stroke="#8a97a3" stroke-width="1.2"/>
+  <rect x="402" y="167" width="30" height="40" fill="none" stroke="#ffb454" stroke-width="1.5"/>
+  <line x1="402" y1="207" x2="432" y2="167" stroke="#ffb454" stroke-width="1.5"/>
+  <text x="404" y="226" fill="#ffb454" font-size="10">sol b</text>
+
+  <text x="176" y="300" fill="#8a97a3" font-size="11">left box = EXTEND (P→A, B→T)   centre = HOLD (all ports blocked)   right box = RETRACT (P→B, A→T)</text>
+
+  <!-- note strip -->
   <line x1="22" y1="330" x2="518" y2="330" stroke="#2c3a47" stroke-width="1"/>
-  <text x="22" y="350" fill="#8a97a3" font-size="11">On/off valve: the spool snaps between states. Average flow is set by the FRACTION OF TIME</text>
-  <text x="22" y="368" fill="#8a97a3" font-size="11">in EXTEND vs RETRACT — i.e. by PWM duty cycle (see Fig A7), not by a continuous opening.</text>
+  <text x="22" y="350" fill="#8a97a3" font-size="11">On/off valve: the spool snaps between end positions; springs centre it when both solenoids are off.</text>
+  <text x="22" y="368" fill="#8a97a3" font-size="11">Average speed is set by PWM duty (Fig A7), not by throttling the spool. P=supply T=tank A=cap B=rod.</text>
 
   <!-- metadata footer -->
-  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A4 · DCV STATES · USED IN 2.2 · green=extend amber=retract grey=hold</text>
+  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A4 · DCV 4/3 (ISO 1219-1) · USED IN 2.2 · green=solenoid a amber=solenoid b · standard envelope + flow paths</text>
 </svg>

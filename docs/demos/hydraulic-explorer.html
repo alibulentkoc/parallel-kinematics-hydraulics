@@ -132,20 +132,28 @@ function txt(x,y,s,fill,size,anchor){ var e=el("text",{x:x,y:y,fill:fill||"var(-
 
 function drawCylinder(){
   var a=areas(), f=forces();
-  var capH=120*(a.ac/(PI4*0.060*0.060)); var rodH=120*(a.ar/(PI4*0.060*0.060));
-  var bx=120,by=120,bw=300,bh=140;
-  svg.appendChild(el("rect",{x:bx,y:by,width:bw,height:bh,fill:"var(--panel2)",stroke:"var(--rule)","stroke-width":1.5}));
-  // cap chamber (left, full bore)
-  svg.appendChild(el("rect",{x:bx,y:by,width:150,height:bh,fill:"rgba(57,197,224,0.18)"}));
-  // piston
-  svg.appendChild(el("rect",{x:bx+150,y:by,width:14,height:bh,fill:"var(--ink)"}));
-  // rod (right)
-  svg.appendChild(el("rect",{x:bx+164,y:by+bh/2-9,width:bw-164+40,height:18,fill:"var(--dim)"}));
-  txt(bx+75,by+bh+18,"cap side  A="+(a.ac*1e6).toFixed(0)+" mm2","var(--accent)",11,"middle");
-  txt(bx+250,by-8,"rod side  A="+(a.ar*1e6).toFixed(0)+" mm2","var(--dim)",11,"middle");
-  txt(bx,by-30,"phi = A_cap / A_rod = "+a.phi.toFixed(2),"var(--ok)",13);
-  txt(bx,by+bh+44,"F_extend = "+(f.Fext/1000).toFixed(1)+" kN     F_retract = "+(f.Fret/1000).toFixed(1)+" kN","var(--ink)",12);
-  txt(bx,by+bh+62,"load = "+st.load.toFixed(1)+" kN","var(--faint)",11);
+  // ISO 1219-1 double-acting single-rod cylinder symbol (fixed — standards-compliant)
+  var bx=70,by=120,bw=200,bh=82;
+  svg.appendChild(el("rect",{x:bx,y:by,width:bw,height:bh,fill:"none",stroke:"var(--ink)","stroke-width":2}));          // barrel
+  svg.appendChild(el("rect",{x:bx+64,y:by,width:9,height:bh,fill:"var(--ink)"}));                                       // piston
+  svg.appendChild(el("rect",{x:bx+73,y:by+bh/2-6,width:bw-73+64,height:12,fill:"var(--dim)",stroke:"var(--ink)","stroke-width":0.6})); // rod out right end
+  svg.appendChild(el("line",{x1:bx+30,y1:by+bh,x2:bx+30,y2:by+bh+28,stroke:"var(--accent)","stroke-width":2}));         // port A (cap)
+  svg.appendChild(el("line",{x1:bx+150,y1:by+bh,x2:bx+150,y2:by+bh+28,stroke:"var(--accent)","stroke-width":2}));       // port B (rod)
+  txt(bx+25,by+bh+42,"A","var(--accent)",11); txt(bx+16,by+bh+56,"cap","var(--faint)",9);
+  txt(bx+145,by+bh+42,"B","var(--accent)",11); txt(bx+138,by+bh+56,"rod","var(--faint)",9);
+  txt(bx,by-12,"ISO 1219 double-acting single-rod cylinder","var(--faint)",10);
+  // area annotation (to scale — updates with bore/rod sliders; annotation, not a substitute symbol)
+  var sc=850, rc=Math.sqrt(a.ac)*sc, rr=Math.sqrt(a.ar)*sc, cx=400, cy=150;
+  svg.appendChild(el("circle",{cx:cx,cy:cy,r:rc,fill:"rgba(57,197,224,0.16)",stroke:"var(--accent)","stroke-width":1.4}));
+  var cx2=cx+rc+rr+22;
+  svg.appendChild(el("circle",{cx:cx2,cy:cy,r:rr,fill:"rgba(57,197,224,0.06)",stroke:"var(--accent)","stroke-width":1.4,"stroke-dasharray":"3 3"}));
+  txt(cx-34,cy-rc-10,"areas to scale","var(--faint)",10);
+  txt(cx-12,cy+rc+18,"A_cap","var(--accent)",10,"middle"); txt(cx2,cy+rc+18,"A_rod","var(--dim)",10,"middle");
+  txt(330,cy+rc+38,(a.ac*1e6).toFixed(0)+" mm²        "+(a.ar*1e6).toFixed(0)+" mm²","var(--ink)",11);
+  // readouts
+  txt(bx,by+bh+92,"φ = A_cap / A_rod = "+a.phi.toFixed(2),"var(--ok)",13);
+  txt(bx,by+bh+114,"F_extend = "+(f.Fext/1000).toFixed(1)+" kN     F_retract = "+(f.Fret/1000).toFixed(1)+" kN","var(--ink)",12);
+  txt(bx,by+bh+132,"load = "+st.load.toFixed(1)+" kN","var(--faint)",11);
 }
 
 function plot(xs,ys,opx,opy,xlab,ylab){

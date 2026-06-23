@@ -1,51 +1,66 @@
 <svg viewBox="0 0 540 400" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
   <rect width="540" height="400" rx="6" fill="#0e1217" stroke="#2c3a47"/>
-  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">HYDRAULIC POWER UNIT  ARCHITECTURE</text>
-  <text x="22" y="50" fill="#5b6975" font-size="11">reservoir → pump → relief / filter → supply — the source feeding every DCV and cylinder</text>
+  <text x="22" y="32" fill="#39c5e0" font-size="13" letter-spacing="2.5">HYDRAULIC POWER UNIT — ISO 1219</text>
+  <text x="22" y="50" fill="#5b6975" font-size="11">standard symbols — reservoir, pump, relief, filter, gauge (solid = working line, dashed = pilot)</text>
 
-  <!-- reservoir -->
-  <rect x="40" y="250" width="110" height="70" fill="none" stroke="#8a97a3" stroke-width="1.5"/>
-  <text x="62" y="340" fill="#cdd6df" font-size="11">reservoir</text>
-  <!-- motor + pump -->
-  <circle cx="200" cy="220" r="22" fill="#1b232c" stroke="#cdd6df" stroke-width="1.5"/>
-  <text x="200" y="225" fill="#cdd6df" font-size="12" text-anchor="middle">M</text>
-  <circle cx="200" cy="160" r="22" fill="#1b232c" stroke="#39c5e0" stroke-width="1.6"/>
-  <path d="M 200 145 L 213 167 L 187 167 Z" fill="#39c5e0"/>
-  <text x="200" y="120" fill="#39c5e0" font-size="11" text-anchor="middle">pump</text>
-  <line x1="150" y1="285" x2="200" y2="242" stroke="#5b6975" stroke-width="1.5"/>
+  <defs>
+    <marker id="sup" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#39c5e0"/></marker>
+  </defs>
 
-  <!-- relief valve -->
-  <rect x="280" y="138" width="44" height="44" fill="#1b232c" stroke="#ff5470" stroke-width="1.6"/>
-  <path d="M 302 178 L 302 142" stroke="#ff5470" stroke-width="1.5" marker-end="url(#a)"/>
-  <text x="270" y="128" fill="#ff5470" font-size="11">relief 21 MPa</text>
-  <line x1="302" y1="182" x2="302" y2="300" stroke="#5b6975" stroke-width="1.2" stroke-dasharray="3 3"/>
-  <line x1="302" y1="300" x2="150" y2="300" stroke="#5b6975" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <!-- reservoir: open-top (vented) tank -->
+  <path d="M 44 300 L 44 276 M 44 300 L 130 300 M 130 300 L 130 276" fill="none" stroke="#8a97a3" stroke-width="1.8"/>
+  <text x="56" y="318" fill="#cdd6df" font-size="11">reservoir</text>
 
-  <!-- filter -->
-  <rect x="372" y="140" width="40" height="40" fill="#1b232c" stroke="#8a97a3" stroke-width="1.5" transform="rotate(45 392 160)"/>
-  <text x="372" y="128" fill="#8a97a3" font-size="11">filter</text>
+  <!-- electric motor + shaft + fixed-displacement pump -->
+  <circle cx="44" cy="232" r="16" fill="none" stroke="#cdd6df" stroke-width="1.5"/>
+  <text x="44" y="237" fill="#cdd6df" font-size="11" text-anchor="middle">M</text>
+  <line x1="60" y1="229" x2="69" y2="229" stroke="#cdd6df" stroke-width="1.2"/>
+  <line x1="60" y1="235" x2="69" y2="235" stroke="#cdd6df" stroke-width="1.2"/>
+  <circle cx="90" cy="232" r="20" fill="none" stroke="#39c5e0" stroke-width="1.8"/>
+  <path d="M 90 218 L 101 240 L 79 240 Z" fill="#39c5e0"/>
+  <text x="64" y="200" fill="#39c5e0" font-size="11">pump</text>
+  <!-- suction -->
+  <line x1="90" y1="276" x2="90" y2="252" stroke="#8a97a3" stroke-width="1.6"/>
 
-  <!-- supply line -->
-  <line x1="222" y1="160" x2="280" y2="160" stroke="#39c5e0" stroke-width="2"/>
-  <line x1="324" y1="160" x2="372" y2="160" stroke="#39c5e0" stroke-width="2"/>
-  <line x1="412" y1="160" x2="500" y2="160" stroke="#39c5e0" stroke-width="2"/>
-  <path d="M 490 160 L 490 160" />
-  <text x="430" y="150" fill="#39c5e0" font-size="11">supply 16 MPa</text>
-  <text x="430" y="178" fill="#5b6975" font-size="10">→ to DCV / cylinder</text>
+  <!-- pressure riser + rail -->
+  <line x1="90" y1="212" x2="90" y2="150" stroke="#39c5e0" stroke-width="2"/>
+  <line x1="90" y1="150" x2="470" y2="150" stroke="#39c5e0" stroke-width="2" marker-end="url(#sup)"/>
 
-  <!-- gauge -->
-  <circle cx="455" cy="210" r="14" fill="#1b232c" stroke="#8a97a3"/>
-  <line x1="455" y1="210" x2="463" y2="202" stroke="#39c5e0" stroke-width="1.5"/>
-  <line x1="455" y1="196" x2="455" y2="160" stroke="#5b6975" stroke-width="1"/>
-  <text x="438" y="240" fill="#8a97a3" font-size="10">gauge</text>
+  <!-- pressure-relief valve (square + arrow + spring + dashed pilot) -->
+  <line x1="90" y1="182" x2="158" y2="182" stroke="#39c5e0" stroke-width="1.6"/>
+  <rect x="158" y="164" width="40" height="40" fill="none" stroke="#ff5470" stroke-width="1.7"/>
+  <line x1="172" y1="200" x2="184" y2="168" stroke="#ff5470" stroke-width="1.6" marker-end="url(#rl)"/>
+  <path d="M198 172 l7 -4 l0 8 l7 -8 l0 8 l5 -4" fill="none" stroke="#8a97a3" stroke-width="1.2"/>
+  <line x1="124" y1="182" x2="124" y2="214" stroke="#5b6975" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <line x1="124" y1="214" x2="178" y2="214" stroke="#5b6975" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <line x1="178" y1="214" x2="178" y2="204" stroke="#5b6975" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <text x="150" y="158" fill="#ff5470" font-size="11">relief 21 MPa</text>
+  <!-- relief return to tank -->
+  <line x1="198" y1="184" x2="226" y2="184" stroke="#8a97a3" stroke-width="1.4"/>
+  <line x1="226" y1="184" x2="226" y2="300" stroke="#8a97a3" stroke-width="1.4"/>
+  <line x1="226" y1="300" x2="130" y2="300" stroke="#8a97a3" stroke-width="1.4"/>
+  <defs><marker id="rl" markerWidth="8" markerHeight="8" refX="4" refY="2" orient="auto"><path d="M0,6 L4,0 L8,6 Z" fill="#ff5470"/></marker></defs>
 
-  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto"><path d="M0,6 L4,0 L8,6 Z" fill="#ff5470"/></marker></defs>
+  <!-- filter: diamond + dashed element line -->
+  <path d="M 300 132 L 318 150 L 300 168 L 282 150 Z" fill="none" stroke="#8a97a3" stroke-width="1.6"/>
+  <line x1="300" y1="136" x2="300" y2="164" stroke="#8a97a3" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <text x="284" y="124" fill="#8a97a3" font-size="11">filter</text>
 
-  <!-- formula / note strip -->
+  <!-- pressure gauge: circle + pointer -->
+  <line x1="380" y1="150" x2="380" y2="120" stroke="#8a97a3" stroke-width="1.2"/>
+  <circle cx="380" cy="106" r="14" fill="none" stroke="#8a97a3" stroke-width="1.5"/>
+  <line x1="380" y1="106" x2="389" y2="98" stroke="#39c5e0" stroke-width="1.5"/>
+  <text x="396" y="110" fill="#8a97a3" font-size="11">gauge</text>
+
+  <!-- supply label -->
+  <text x="392" y="142" fill="#39c5e0" font-size="11">supply 16 MPa</text>
+  <text x="392" y="168" fill="#5b6975" font-size="10">→ to DCV / cylinder</text>
+
+  <!-- note strip -->
   <line x1="22" y1="330" x2="518" y2="330" stroke="#2c3a47" stroke-width="1"/>
-  <text x="22" y="350" fill="#8a97a3" font-size="11">Pump flow 36 L/min · relief caps pressure at 21 MPa · supply 16 MPa · P_hyd = ΔP · Q ≈ 9.6 kW</text>
-  <text x="22" y="368" fill="#8a97a3" font-size="11">Relief returns excess flow to tank; the filter protects the valve spools and cylinder seals.</text>
+  <text x="22" y="350" fill="#8a97a3" font-size="11">Pump 36 L/min · relief caps at 21 MPa · supply 16 MPa · P_hyd = ΔP·Q ≈ 9.6 kW.</text>
+  <text x="22" y="368" fill="#8a97a3" font-size="11">The relief's dashed pilot line senses upstream pressure; it opens to tank against its spring.</text>
 
   <!-- metadata footer -->
-  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A5 · HPU ARCHITECTURE · USED IN 2.3 · cyan=pressure line red=relief grey=return</text>
+  <text x="22" y="390" fill="#3a4753" font-size="9" letter-spacing="1">FIG A5 · HPU (ISO 1219) · USED IN 2.3 · all components are ISO 1219 standard symbols</text>
 </svg>
