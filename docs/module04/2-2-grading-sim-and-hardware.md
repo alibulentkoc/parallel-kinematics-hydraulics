@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 4 — From Simulator to Hardware** · **Unit 2 — The Digital Twin** · **Lesson 2.2 — Grading Simulator and Hardware Identically**
+!!! abstract "Validation Twin · C16 · twin validation & diagnosis · Milestone: final 3-DOF validation (W15)"
+    **Artifact contribution:** the Twin Accuracy Report + Twin Discrepancy Analysis
 
 # Lesson 2.2 — Grading Simulator and Hardware Identically
 
-> **Module 4 · Unit 2 · Lesson 2.2** · *final lesson*
-> The payoff of everything before it: because sim and hardware emit the same log
-> (Lesson 2.1), one grader scores both. A student's solution that passes in the
-> browser passes on the bench — by construction.
+!!! note "Why you need this — before the theory"
+    Grading sim and hardware identically is validation, not comparison: when they disagree you diagnose the fault from its signature and correct it. This produces the Twin Accuracy Report and the Twin Discrepancy Analysis that gate the final.
+
+!!! danger "Validation, not comparison — Measure → Compare → Diagnose → Correct"
+    Module 4 *validates* the twin. Measuring and comparing is not enough: when twin and rig disagree
+    you must **diagnose** the cause from its signature (geometry · sensor · deadband · pressure ·
+    timing) via the **Twin Discrepancy Analysis** artifact, then **correct** it. The **Diagnose**
+    step is mandatory.
 
 ---
 
@@ -43,6 +47,9 @@ the log format is identical for sim and hardware, the *same* function evaluates 
 \text{grade}(\text{log}_\text{sim}) \equiv \text{grade}(\text{log}_\text{hw}) \quad\text{when the runs match.}
 \]
 
+!!! quote "Equation provenance"
+    **Source:** A10 · B11 · B13 · B14 · Family 4 · N4/N5 · Engine
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -75,15 +82,36 @@ gains run on real hardware, producing a hardware log with overshoot = 13% and se
 the grader judged the *log*, not the venue. (If the hardware run had rung at 20%
 overshoot, it would fail — correctly exposing a sim-to-real gap to investigate.)
 
+![Validation workflow](../figures/A10-validation-workflow.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Twin vs rig overlay](../figures/B11-twin-vs-rig.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Accuracy report](../figures/B13-accuracy-report.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
+![Discrepancy signatures (Diagnose)](../figures/B14-discrepancy-signatures.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/pid-tuning.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/digital-twin-validation.html" title="PID Tuning — interactive demo" loading="lazy" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/pid-tuning.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/digital-twin-validation.html){ target=_blank }
 
 The overshoot and settling-time readouts in this demo are the very metrics the grader
 computes. Tune until you'd pass a "≤ 15% overshoot, ≤ 1.0 s settling" rubric — you're
 doing, by hand, exactly what the automated grader does to a recorded log.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Inject a fault and read its discrepancy signature in the validation demo (Diagnose view).
+    - **Interpret:** Each fault — geometry, sensor, deadband, pressure, timing — leaves a distinct signature you read off B14.
+    - **Apply:** Diagnose an unknown fault from its signature, then correct it and re-grade.
 
 ## 8. Code & Computation
 
@@ -99,9 +127,12 @@ print("ringing hw:", grade(0.20, 1.40))
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N4 & N5 — Validation](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**RMSE ≤ 10 mm; pressure ≤ 15%; discrepancy diagnosed**) is owned by the artifact and stated in **[Handbook Ch 5 — Validation Twin](../handbook/05-validation-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 4.2.2 check](../quizzes/m4-l22.html)
+[Check your understanding — Quiz 6](../quizzes/quiz-6-twin-validation.md)
 
 ## 10. Challenge Problem
 
@@ -148,4 +179,4 @@ and hardware.
 
 ---
 
-*🎓 You've completed the curriculum — from kinematics, through hydraulics and control, to a hardware-ready digital twin. Revisit the [Reference Handbook](../handbook.md) or the [Interactive Demos](../demos/index.html) any time.*
+*🎓 You've completed the curriculum — from kinematics, through hydraulics and control, to a hardware-ready digital twin. Revisit the [Reference Handbook](../handbook.md) or the [Interactive Demos](../demos/digital-twin-validation.html) any time.*

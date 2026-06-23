@@ -1,12 +1,15 @@
-!!! abstract "You are here"
-    **Module 4 — From Simulator to Hardware** · **Unit 1 — Electrical & Control Wiring** · **Lesson 1.2 — Sensors & Valve Drivers**
+!!! abstract "Hardware Integration · signal-domain infrastructure · Milestone: cross-cutting (supports all stages)"
+    **Artifact contribution:** design-review inputs: sensor & driver selection (Appendix A)
 
 # Lesson 1.2 — Sensors & Valve Drivers
 
-> **Module 4 · Unit 1 · Lesson 1.2**
-> The two components that sit on the boundary between numbers and physics: the
-> **sensor** that turns motion into a reading the controller can use, and the
-> **valve driver** that turns a command into enough current to move oil.
+!!! note "Why you need this — before the theory"
+    Sensors and valve drivers are the signal-domain boundary every twin stage depends on. Choosing them correctly is what makes the logged data trustworthy.
+
+!!! info "Cross-cutting infrastructure"
+    This is **Hardware Integration** — shared infrastructure every twin stage relies on, not a twin
+    stage itself. The wiring, I/O, signal↔channel map, and safety chain live in
+    **[Handbook Appendix A — Wiring & I/O](../handbook/06-wiring-and-io-appendix.md)**.
 
 ---
 
@@ -47,9 +50,12 @@ The sign of \(u\) selects spool direction (extend vs retract); its magnitude set
 opening. Resolution, noise, and bandwidth of both devices set the practical limits of
 the loop.
 
+!!! quote "Reference provenance"
+    **Source:** Handbook Appendix A · Engine
+
 ## 4. Visual Explanation
 
-![Signal-domain components: valve driver and position sensor between control and power](../assets/wiring-domains.svg)
+See **[Handbook Appendix A — Wiring & I/O](../handbook/06-wiring-and-io-appendix.md)** for the signal-domain components (tables and signal↔channel map).
 
 The middle (signal) column of the figure is this lesson: the **valve driver**
 carrying the command into the power domain, and the **position sensor** carrying the
@@ -84,9 +90,9 @@ And on the command side, \(u = -0.4\) becomes \(V = 10 \times (-0.4) = -4\ \text
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/cylinder-asymmetry.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/hydraulic-explorer.html" title="Cylinder Asymmetry — interactive demo" loading="lazy" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/cylinder-asymmetry.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/hydraulic-explorer.html){ target=_blank }
 
 The demo's extend/retract animation is what the *driver* commands and the *sensor*
 measures on real hardware: the driver sets the direction and speed of the piston you
@@ -105,9 +111,12 @@ print(f"command u={u} -> {'retract' if u < 0 else 'extend'} at {abs(u)*100:.0f}%
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
+!!! success "Verify at design review"
+    Hardware Integration is **design-review gated**, not notebook-verified: confirm sensor/driver/safety selections against **[Handbook Appendix A](../handbook/06-wiring-and-io-appendix.md)** and the Design Review checklist. (No twin acceptance test applies to infrastructure.)
+
 ## 9. Knowledge Check
 
-[Open the Lesson 4.1.2 check](../quizzes/m4-l12.html)
+[Related check — Quiz 2](../quizzes/quiz-2-hydraulic-sizing.md)
 
 ## 10. Challenge Problem
 

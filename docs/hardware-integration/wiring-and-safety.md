@@ -1,11 +1,15 @@
-!!! abstract "You are here"
-    **Module 4 — From Simulator to Hardware** · **Unit 1 — Electrical & Control Wiring** · **Lesson 1.3 — The Closed-Loop Wiring & Safety Chain**
+!!! abstract "Hardware Integration · safety-chain & I/O infrastructure · Milestone: cross-cutting (supports all stages)"
+    **Artifact contribution:** design-review inputs: wiring, signal↔channel map & safety chain (Appendix A)
 
 # Lesson 1.3 — The Closed-Loop Wiring & Safety Chain
 
-> **Module 4 · Unit 1 · Lesson 1.3**
-> Connecting all three domains into one working loop — and wrapping it in a safety
-> chain so that when something fails (and it will), the machine fails *safe*.
+!!! note "Why you need this — before the theory"
+    The safety chain and the simulator-signal↔channel map are what let a real rig drop into the twin tools. Wiring is cross-cutting infrastructure the whole project leans on.
+
+!!! info "Cross-cutting infrastructure"
+    This is **Hardware Integration** — shared infrastructure every twin stage relies on, not a twin
+    stage itself. The wiring, I/O, signal↔channel map, and safety chain live in
+    **[Handbook Appendix A — Wiring & I/O](../handbook/06-wiring-and-io-appendix.md)**.
 
 ---
 
@@ -49,6 +53,9 @@ triggers a protective action:
 These are exactly the fault detectors the simulator already implements — warn, limit,
 or fault — now read as the hardware's protective interlocks.
 
+!!! quote "Reference provenance"
+    **Source:** Handbook Appendix A · Engine
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -88,9 +95,9 @@ independent layers caught one dangerous condition.*
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/kinematics-explorer.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
+<iframe src="../../demos/digital-twin-validation.html" title="Kinematics Explorer — interactive demo" loading="lazy" style="width:100%;height:780px;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:#0e1217"></iframe>
 
-[Open this demo full-screen in a new tab](../demos/kinematics-explorer.html){ target=_blank }
+[Open this demo full-screen in a new tab](../demos/digital-twin-validation.html){ target=_blank }
 
 Drag toward the base line and watch the status escalate **OK → NEAR SINGULAR →
 SINGULAR**. That escalation is the software half of the safety chain. On hardware, the
@@ -113,9 +120,12 @@ print(guards(10e6, 0.9, 0.02))   # ['NEAR_SINGULAR']
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
+!!! success "Verify at design review"
+    Hardware Integration is **design-review gated**, not notebook-verified: confirm sensor/driver/safety selections against **[Handbook Appendix A](../handbook/06-wiring-and-io-appendix.md)** and the Design Review checklist. (No twin acceptance test applies to infrastructure.)
+
 ## 9. Knowledge Check
 
-[Open the Lesson 4.1.3 check](../quizzes/m4-l13.html)
+[Related check — Quiz 6](../quizzes/quiz-6-twin-validation.md)
 
 ## 10. Challenge Problem
 

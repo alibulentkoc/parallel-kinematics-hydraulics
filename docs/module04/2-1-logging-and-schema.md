@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 4 — From Simulator to Hardware** · **Unit 2 — The Digital Twin** · **Lesson 2.1 — Logging & the Canonical Schema**
+!!! abstract "Validation Twin · C15 · logging & schema (Measure) · Milestone: final 3-DOF validation (W15)"
+    **Artifact contribution:** the logged data behind the Twin Accuracy Report
 
 # Lesson 2.1 — Logging & the Canonical Schema
 
-> **Module 4 · Unit 2 · Lesson 2.1**
-> A machine that doesn't record what it did can't be graded, debugged, or trusted.
-> This lesson is about the single, fixed data format — the canonical schema — that
-> makes the simulator and a real machine produce *identical* logs.
+!!! note "Why you need this — before the theory"
+    You cannot validate what you cannot measure. A canonical log schema — identical for sim and rig — is the Measure step that makes twin-vs-rig comparison and diagnosis possible.
+
+!!! danger "Validation, not comparison — Measure → Compare → Diagnose → Correct"
+    Module 4 *validates* the twin. Measuring and comparing is not enough: when twin and rig disagree
+    you must **diagnose** the cause from its signature (geometry · sensor · deadband · pressure ·
+    timing) via the **Twin Discrepancy Analysis** artifact, then **correct** it. The **Diagnose**
+    step is mandatory.
 
 ---
 
@@ -46,6 +50,9 @@ Because the timestep is fixed (Module 3's fixed-rate loop), the log is uniformly
 sampled, which is what makes metrics like settling time and tracking error
 well-defined and comparable across runs.
 
+!!! quote "Equation provenance"
+    **Source:** A9 · Family 4 · Engine
+
 ## 4. Visual Explanation
 
 ```mermaid
@@ -77,13 +84,22 @@ tracking error is \(\sqrt{0.002^2 + 0.001^2} \approx 0.0022\) m at that instant 
 *without knowing or caring* whether the record came from the simulator or a real
 machine. The schema made the source irrelevant.
 
+![Twin sync & logging workflow](../figures/A9-twin-sync-workflow.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-[Open the demos gallery](../demos/index.html){ target=_blank }
+[Open the demos gallery](../demos/digital-twin-validation.html){ target=_blank }
 
 The demos render live values that, in the full simulator, are exactly the channels
 the logger records each cycle. Picture each number you see being appended to a row in
 the canonical log — that stream of rows is what the next lesson grades.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Log a run and inspect the shared schema in the demo.
+    - **Interpret:** One schema for sim and rig is what lets you subtract them cleanly later.
+    - **Apply:** Predict which columns you need to diagnose a deadband fault.
 
 ## 8. Code & Computation
 
@@ -100,9 +116,12 @@ print(record)
 !!! tip "Run it"
     The code above is self-contained Python (standard library only) — paste it into any Python 3 prompt to run it. To run the whole module interactively with nothing to install, open it in Google Colab (opens in a new browser tab): [Open Module 4 in Colab](https://colab.research.google.com/github/alibulentkoc/parallel-kinematics-hydraulics/blob/main/docs/notebooks/module04.ipynb){ target=_blank }.
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N4 — Validation](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**schema matches engine; RMSE ≤ 10 mm**) is owned by the artifact and stated in **[Handbook Ch 5 — Validation Twin](../handbook/05-validation-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 4.2.1 check](../quizzes/m4-l21.html)
+[Check your understanding — Quiz 6](../quizzes/quiz-6-twin-validation.md)
 
 ## 10. Challenge Problem
 

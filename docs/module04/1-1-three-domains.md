@@ -1,12 +1,16 @@
-!!! abstract "You are here"
-    **Module 4 — From Simulator to Hardware** · **Unit 1 — Electrical & Control Wiring** · **Lesson 1.1 — The Three Domains**
+!!! abstract "Validation Twin · C16 · system integration · Milestone: final 3-DOF validation (W15)"
+    **Artifact contribution:** the integration overview framing the Final Integration Report
 
 # Lesson 1.1 — The Three Domains: Power, Signal, Control
 
-> **Module 4 · Unit 1 · Lesson 1.1**
-> The simulator computes commands and reads sensors as clean numbers. A real machine
-> has to carry those numbers as actual voltages and currents through real wires. This
-> module maps every simulator signal to the hardware that would carry it.
+!!! note "Why you need this — before the theory"
+    The mechanical, hydraulic, and electrical/control domains only become a machine when they agree with the model. This orientation sets up validation — measuring the twin against the rig and diagnosing any gap before the final.
+
+!!! danger "Validation, not comparison — Measure → Compare → Diagnose → Correct"
+    Module 4 *validates* the twin. Measuring and comparing is not enough: when twin and rig disagree
+    you must **diagnose** the cause from its signature (geometry · sensor · deadband · pressure ·
+    timing) via the **Twin Discrepancy Analysis** artifact, then **correct** it. The **Diagnose**
+    step is mandatory.
 
 ---
 
@@ -48,9 +52,12 @@ relationships matter:
 Everything else is wiring discipline: grounding, shielding, separation, and a safety
 chain (Lesson 1.3).
 
+!!! quote "Equation provenance"
+    **Source:** A9 · C6 · Family 4 · Engine
+
 ## 4. Visual Explanation
 
-![The three domains — control, signal, power — and the feedback that crosses them](../assets/wiring-domains.svg)
+![Twin ↔ rig synchronization across the three domains](../figures/A9-twin-sync-workflow.svg)
 
 The figure lays out the three domains left to right, with the command flowing from
 control through signal into power, and the sensor feedback returning the other way.
@@ -87,13 +94,22 @@ The controller commands \(u = 0.7\). Trace it across the domains:
 One command crossed three domains and came back as a measurement — the full
 round-trip a real loop makes thousands of times a second.
 
+![Demo ↔ twin alignment](../figures/C6-demo-twin-alignment.svg)
+
+*Read this directly — exported from the simulator at frozen parameters; it backs the artifact.*
+
 ## 7. Interactive Demonstration
 
-[Open the demos gallery](../demos/index.html){ target=_blank }
+[Open the demos gallery](../demos/digital-twin-validation.html){ target=_blank }
 
 The interactive demos live in the *control* domain (pure numbers, like the
 simulator). This lesson is the reminder that on hardware, each of those numbers is a
 voltage on a wire — the demos show the logic; the wiring carries it.
+
+!!! tip "Use the demo — Observe → Interpret → Apply"
+    - **Observe:** Run sim and rig side by side in the validation demo.
+    - **Interpret:** Agreement across all three domains is what "validated" means — not one matching trace.
+    - **Apply:** Name which domain a given mismatch lives in before diagnosing it.
 
 ## 8. Code & Computation
 
@@ -110,9 +126,12 @@ print(f"sensor 8.2 V -> L = {0.4 + 8.2/k:.3f} m")
 
     The full mapping table is in the handbook chapter [Electrical & Control Wiring](../handbook/06-wiring-and-io-appendix.md).
 
+!!! success "Verify with the notebook"
+    Run **[Notebook N4 — Validation](../notebooks/index.md)** to reproduce these values from the exported CSV. The acceptance test (**RMSE ≤ 10 mm; pressure ≤ 15%**) is owned by the artifact and stated in **[Handbook Ch 5 — Validation Twin](../handbook/05-validation-twin.md)**; this lesson references it, it is not re-defined here.
+
 ## 9. Knowledge Check
 
-[Open the Lesson 4.1.1 check](../quizzes/m4-l11.html)
+[Check your understanding — Quiz 6](../quizzes/quiz-6-twin-validation.md)
 
 ## 10. Challenge Problem
 
