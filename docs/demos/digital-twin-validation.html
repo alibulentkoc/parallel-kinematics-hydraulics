@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Digital Twin Validation Lab — PKM Testbed</title>
+<style>
+  :root{
+    --bg:#0e1217;--panel:#151b22;--panel2:#1b232c;--rule:#2c3a47;--grid:#22303c;
+    --ink:#cdd6df;--dim:#8a97a3;--faint:#5b6975;
+    --accent:#39c5e0;--ok:#3fe0a0;--warn:#ffb454;--fault:#ff5470;--ghost:#43607a;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.5;padding:18px;max-width:1040px;margin:0 auto}
+  h1{font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 2px} h1 b{color:var(--accent)}
+  .sub{color:var(--faint);font-size:12px;margin-bottom:12px}
+  .bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+  .seg button{background:var(--panel);color:var(--dim);border:0;padding:5px 10px;font-family:inherit;font-size:11px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#06222b}
+  .wrap{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+  .stage{background:var(--panel);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  svg{display:block;width:100%;height:auto}
+  aside{display:flex;flex-direction:column;gap:10px}
+  .card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .card h2{font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:12px} td{padding:2px 0;font-variant-numeric:tabular-nums}
+  td:first-child{color:var(--dim)} td:last-child{text-align:right}
+  .pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;border:1px solid var(--rule)}
+  .ok{color:var(--ok);border-color:#1e3b30}.warn{color:var(--warn);border-color:#4a3a1a}.fault{color:var(--fault);border-color:#4a1e28}
+  .btn{background:var(--panel2);color:var(--accent);border:1px solid var(--rule);border-radius:5px;padding:6px 10px;font-family:inherit;font-size:11px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase;width:100%;margin-top:6px}
+  .btn:hover{border-color:var(--accent)}
+  .dx{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .dx button{flex:1 1 46%;background:var(--panel2);color:var(--dim);border:1px solid var(--rule);border-radius:5px;padding:6px 4px;font-family:inherit;font-size:10px;cursor:pointer}
+  .dx button:hover{border-color:var(--accent);color:var(--ink)}
+  .verdict{font-size:12px;margin-top:6px;min-height:16px}
+  .hint{color:var(--faint);font-size:11px;margin-top:8px}
+  .leg{font-size:11px;color:var(--faint);margin-top:4px}
+  .leg b{color:var(--accent)} .leg i{color:var(--warn);font-style:normal}
+</style>
+</head>
+<body>
+  <h1><b>Digital Twin</b> Validation Lab</h1>
+  <div class="sub">Family 4 demo — twin vs rig, synchronization, replay, accuracy, and discrepancy diagnosis</div>
+
+  <div class="bar">
+    <div class="seg" id="view">
+      <button data-view="overlay" aria-pressed="true">Overlay</button>
+      <button data-view="sync" aria-pressed="false">Sync</button>
+      <button data-view="replay" aria-pressed="false">Replay</button>
+      <button data-view="accuracy" aria-pressed="false">Accuracy</button>
+      <button data-view="diagnose" aria-pressed="false">Diagnose</button>
+    </div>
+    <div class="seg" id="role">
+      <button data-role="student" aria-pressed="true">Student</button>
+      <button data-role="instructor" aria-pressed="false">Instructor</button>
+    </div>
+  </div>
+  <div class="bar">
+    <div class="seg" id="scn">
+      <button data-f="none" aria-pressed="true">Good twin</button>
+      <button data-f="geometry" aria-pressed="false">Geometry</button>
+      <button data-f="sensor" aria-pressed="false">Sensor</button>
+      <button data-f="deadband" aria-pressed="false">Deadband</button>
+      <button data-f="pressure" aria-pressed="false">Pressure</button>
+      <button data-f="timing" aria-pressed="false">Timing</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stage"><svg id="svg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <aside>
+      <div class="card"><h2 id="panelTitle">Metrics</h2><table id="state"></table>
+        <div style="margin-top:8px"><span class="pill ok" id="status">nominal</span></div></div>
+      <div class="card" id="diagCard" style="display:none">
+        <h2>Diagnose the discrepancy</h2>
+        <div class="leg" id="cues"></div>
+        <div class="dx" id="causes"></div>
+        <div class="verdict" id="dverdict"></div>
+        <button class="btn" id="newcase">New random case</button>
+      </div>
+      <div class="card">
+        <h2>Explore - Challenge - Artifact - Check</h2>
+        <div class="step"><div class="v" id="t-chal" style="font-size:12px">-</div></div>
+        <button class="btn" id="save">Save artifact</button>
+        <button class="btn" id="check">Check result</button>
+        <div class="verdict" id="verdict"></div>
+      </div>
+      <div class="hint" id="hint"></div>
+    </aside>
+  </div>
+
+<script>
+"use strict";
+var N=400, DT=0.005, TARGET=0.10, TAU=0.25, SHIFT=30;
+var THR_POS=0.010, THR_PRES=15;          // accuracy thresholds (10 mm, 15%)
+var view="overlay", role="student", fault="none", aligned=false, hidden=false, truth=null, guessed=null;
+var svg=document.getElementById("svg");
+
+/* ---- synthetic twin + rig logs (position & pressure) ----------------- */
+function twin(){ var x=[],P=[],t=[]; for(var k=0;k<N;k++){ var tt=k*DT; var v=(TARGET/TAU)*Math.exp(-tt/TAU);
+  x.push(TARGET*(1-Math.exp(-tt/TAU))); P.push(8+8*Math.min(1,v/0.4)); t.push(tt); } return {x:x,P:P,t:t}; }
+function rig(f){ var b=twin(), x=b.x.slice(), P=b.P.slice();
+  if(f==="geometry"){ x=x.map(function(v){return v+0.008;}); }
+  else if(f==="sensor"){ x=x.map(function(v){return v*1.06;}); }
+  else if(f==="deadband"){ x=x.map(function(v,i){ return v+(i>N*0.5?0.006*Math.sign(Math.sin(i*0.8)):0); }); }
+  else if(f==="pressure"){ P=P.map(function(v){return v*1.22;}); }
+  else if(f==="timing"){ x=x.map(function(v,i){return b.x[Math.max(0,i-SHIFT)];}); P=P.map(function(v,i){return b.P[Math.max(0,i-SHIFT)];}); }
+  else { x=x.map(function(v){return v+(Math.random()-0.5)*0.0004;}); }
+  return {x:x,P:P}; }
+
+function rmse(a,b,shift){ shift=shift||0; var s=0,n=0; for(var i=0;i<a.length;i++){ var j=i+shift; if(j<0||j>=b.length)continue; s+=(a[i]-b[j])*(a[i]-b[j]); n++; } return Math.sqrt(s/n); }
+function bestShift(a,b){ var best=0,bv=1e9; for(var sh=-50;sh<=50;sh++){ var r=rmse(a,b,sh); if(r<bv){bv=r;best=sh;} } return best; }
+
+function metrics(f){ var tw=twin(), rg=rig(f);
+  var pos=rmse(tw.x,rg.x), presR=rmse(tw.P,rg.P);
+  var meanP=rg.P.reduce(function(a,b){return a+b;},0)/N; var presErr=100*presR/meanP;
+  var tail=rg.x.slice(Math.floor(N*0.8)); var ripple=Math.max.apply(null,tail)-Math.min.apply(null,tail);
+  var errLo=Math.abs(tw.x[40]-rg.x[40]), errHi=Math.abs(tw.x[200]-rg.x[200]);
+  var bs=bestShift(tw.x,rg.x); var posAligned=rmse(tw.x,rg.x,bs);
+  // settling difference (time to within 2% of target)
+  function settle(arr){ var tol=TARGET*0.02,s=0; for(var i=0;i<arr.length;i++) if(Math.abs(TARGET-arr[i])>tol) s=i*DT; return s; }
+  var duty=0; for(var i=1;i<N;i++) if(Math.abs(rg.x[i]-rg.x[i-1])>1e-5) duty++; duty/=N;
+  return {tw:tw,rg:rg,pos:pos,presR:presR,presErr:presErr,ripple:ripple,errLo:errLo,errHi:errHi,bestShift:bs,posAligned:posAligned,
+    settleDiff:Math.abs(settle(tw.x)-settle(rg.x)),duty:duty};
+}
+
+/* ---- svg ------------------------------------------------------------- */
+function el(t,a){ var e=document.createElementNS("http://www.w3.org/2000/svg",t); for(var k in a)e.setAttribute(k,a[k]); return e; }
+function clear(){ while(svg.firstChild)svg.removeChild(svg.firstChild); }
+function txt(x,y,s,fill,size,anc){ var e=el("text",{x:x,y:y,fill:fill||"var(--dim)","font-size":size||11,"font-family":"var(--mono)","text-anchor":anc||"start"}); e.textContent=s; svg.appendChild(e); }
+var PX0=64,PX1=566,PY0=36,PY1=300;
+function trace(arr,ymax,col,w,shift){ shift=shift||0; function X(i){return PX0+i/(N-1)*(PX1-PX0);} function Y(v){return PY1-v/ymax*(PY1-PY0);}
+  var d=""; for(var i=0;i<arr.length;i++){ var j=i-shift; if(j<0||j>=arr.length)continue; d+=(d?"L":"M")+X(i).toFixed(1)+" "+Y(arr[j]).toFixed(1); } svg.appendChild(el("path",{d:d,fill:"none",stroke:col,"stroke-width":w||2})); }
+function axes(xl,yl){ svg.appendChild(el("line",{x1:PX0,y1:PY1,x2:PX1,y2:PY1,stroke:"var(--rule)"})); svg.appendChild(el("line",{x1:PX0,y1:PY0,x2:PX0,y2:PY1,stroke:"var(--rule)"})); txt(PX1,PY1+18,xl,"var(--faint)",11,"end"); txt(PX0,PY0-8,yl,"var(--faint)",11); }
+
+/* ---- causes / diagnosis ---------------------------------------------- */
+var CAUSES=[["geometry","Wrong geometry"],["sensor","Sensor scaling"],["deadband","Deadband mismatch"],["pressure","Pressure model"],["timing","Timing mismatch"]];
+
+function render(){
+  clear();
+  var f=(view==="diagnose"&&hidden)?truth:fault;
+  var m=metrics(f);
+  var ymaxP=Math.max(TARGET*1.4, Math.max.apply(null,m.rg.x)*1.1);
+  var rows=[], cls="ok", msg="twin matches rig";
+  document.getElementById("diagCard").style.display = view==="diagnose"?"block":"none";
+  document.getElementById("scn").style.opacity = (view==="diagnose"&&hidden&&role==="student")?0.3:1;
+
+  if(view==="overlay"){ axes("time (s)","position (m)"); trace(m.tw.x,ymaxP,"var(--accent)",2); trace(m.rg.x,ymaxP,"var(--warn)",1.8);
+    rows=[["pos RMSE",(m.pos*1000).toFixed(1)+" mm"],["pressure err",m.presErr.toFixed(1)+" %"]]; }
+  else if(view==="sync"){ axes("time (s)","position (m)"); trace(m.tw.x,ymaxP,"var(--accent)",2); trace(m.rg.x,ymaxP, aligned?"var(--ghost)":"var(--warn)",1.5,aligned?0:0);
+    if(aligned) trace(m.rg.x,ymaxP,"var(--ok)",1.8,m.bestShift);
+    rows=[["raw RMSE",(m.pos*1000).toFixed(1)+" mm"],["best shift",(m.bestShift*DT*1000).toFixed(0)+" ms"],["aligned RMSE",(m.posAligned*1000).toFixed(1)+" mm"]];
+    if(Math.abs(m.bestShift)>3){ cls="warn"; msg="time offset detected - align before judging"; } }
+  else if(view==="replay"){ axes("time (s)","twin - rig (mm)"); var res=m.tw.x.map(function(v,i){return (v-m.rg.x[i]);}); var rmax=Math.max(0.001,Math.max.apply(null,res.map(Math.abs))*1.2);
+    function Y(v){return (PY0+PY1)/2 - v/rmax*((PY1-PY0)/2);} svg.appendChild(el("line",{x1:PX0,y1:(PY0+PY1)/2,x2:PX1,y2:(PY0+PY1)/2,stroke:"var(--rule)","stroke-dasharray":"3 3"}));
+    var d=""; for(var i=0;i<N;i++){ d+=(i?"L":"M")+(PX0+i/(N-1)*(PX1-PX0)).toFixed(1)+" "+Y(res[i]).toFixed(1); } svg.appendChild(el("path",{d:d,fill:"none",stroke:"var(--accent)","stroke-width":2}));
+    rows=[["max residual",(Math.max.apply(null,res.map(Math.abs))*1000).toFixed(1)+" mm"],["pos RMSE",(m.pos*1000).toFixed(1)+" mm"]]; }
+  else if(view==="accuracy"){ axes("time (s)","position (m)"); trace(m.tw.x,ymaxP,"var(--accent)",2); trace(m.rg.x,ymaxP,"var(--warn)",1.6);
+    var passPos=m.pos<=THR_POS, passPres=m.presErr<=THR_PRES;
+    rows=[["pos RMSE",(m.pos*1000).toFixed(1)+" mm "+(passPos?"OK":"X")],["settling dif",(m.settleDiff*1000).toFixed(0)+" ms"],["duty cycle",(m.duty*100).toFixed(0)+" %"],["pressure err",m.presErr.toFixed(1)+" % "+(passPres?"OK":"X")]];
+    if(!(passPos&&passPres)){ cls="fault"; msg="twin FAILS validation thresholds"; } else { msg="twin PASSES (<=10mm, <=15%)"; } }
+  else { // diagnose
+    axes("time (s)","position (m)"); trace(m.tw.x,ymaxP,"var(--accent)",2); trace(m.rg.x,ymaxP,"var(--warn)",1.8);
+    rows=[["pos RMSE",(m.pos*1000).toFixed(1)+" mm"],["pressure err",m.presErr.toFixed(1)+" %"]];
+    // cues
+    var pat = m.errHi>m.errLo*1.4 ? "grows with travel" : (m.errLo>0.003 && Math.abs(m.errHi-m.errLo)<0.0015 ? "constant offset" : (m.errLo>m.errHi*1.4?"worst during motion":"small"));
+    document.getElementById("cues").innerHTML =
+      "<b>Evidence</b><br>pos error pattern: <i>"+pat+"</i><br>hold ripple: <i>"+(m.ripple*1000).toFixed(1)+" mm</i><br>"+
+      "pressure error: <i>"+m.presErr.toFixed(1)+"%</i><br>RMSE improves after time-align: <i>"+(m.posAligned<m.pos*0.5?"yes":"no")+"</i>";
+    var ch=document.getElementById("causes"); ch.innerHTML="";
+    CAUSES.forEach(function(c){ var b=document.createElement("button"); b.textContent=c[1]; b.onclick=function(){ guessed=c[0];
+      var correct=(c[0]===(hidden?truth:fault));
+      document.getElementById("dverdict").innerHTML = correct?'<span class="ok">Correct - '+c[1]+'.</span>':'<span class="warn">Not quite - re-read the evidence.</span>';
+      if(hidden && correct){ hidden=false; updateScn(); }
+    }; ch.appendChild(b); });
+  }
+
+  document.getElementById("state").innerHTML=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+  var stEl=document.getElementById("status"); stEl.className="pill "+cls; stEl.textContent=msg;
+  var T={overlay:"Overlay twin and rig; read the position discrepancy.",sync:"Find the time offset and align the logs before judging accuracy.",replay:"Replay: inspect the residual (twin - rig) over time.",accuracy:"Twin Accuracy Report: does the twin meet <=10 mm and <=15%?",diagnose:"Diagnose the discrepancy from the evidence, then name the cause."};
+  document.getElementById("t-chal").textContent=T[view];
+  document.getElementById("verdict").textContent="";
+  document.getElementById("hint").innerHTML = role==="instructor"
+    ? "Instructor mode: pick any scenario to show its signature. Geometry = constant offset; Sensor = grows with travel; Deadband = hold ripple; Pressure = pressure-only; Timing = transient error that aligns away."
+    : (view==="diagnose"? "Read the evidence panel, then choose the cause. Use New random case to self-test." : "Compare twin and rig. In Sync, align before trusting RMSE.");
+}
+
+function updateScn(){ var g=document.getElementById("scn"); Array.prototype.forEach.call(g.children,function(c){ c.setAttribute("aria-pressed", c.dataset.f===fault && !(view==="diagnose"&&hidden)); }); }
+function wireSeg(id,fn){ var g=document.getElementById(id); g.addEventListener("click",function(e){ var b=e.target.closest("button"); if(!b)return; Array.prototype.forEach.call(g.children,function(c){c.setAttribute("aria-pressed",c===b);}); fn(b.dataset); }); }
+wireSeg("view",function(d){ view=d.view; aligned=false; if(view!=="diagnose")hidden=false; render(); });
+wireSeg("role",function(d){ role=d.role; render(); });
+wireSeg("scn",function(d){ fault=d.f; hidden=false; render(); });
+
+document.getElementById("newcase").addEventListener("click",function(){ var opts=["geometry","sensor","deadband","pressure","timing"]; truth=opts[Math.floor(Math.random()*opts.length)]; hidden=true; guessed=null; document.getElementById("dverdict").textContent=""; updateScn(); render(); });
+
+/* sync align toggle: clicking the stage in sync view toggles alignment */
+svg.addEventListener("click",function(){ if(view==="sync"){ aligned=!aligned; render(); } });
+
+document.getElementById("save").addEventListener("click",function(){
+  var f=(view==="diagnose"&&hidden)?truth:fault; var m=metrics(f);
+  var art={ family:"digital-twin-validation", view:view, scenario:(view==="diagnose"&&hidden)?"hidden":f,
+    report:{pos_RMSE_mm:m.pos*1000, pressure_err_pct:m.presErr, settling_diff_ms:m.settleDiff*1000, duty_pct:m.duty*100, best_time_shift_ms:m.bestShift*DT*1000},
+    diagnosis: view==="diagnose"?{guessed:guessed, correct:guessed===f}:undefined, generated:new Date().toISOString() };
+  var blob=new Blob([JSON.stringify(art,null,2)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="twin-validation-"+view+".json"; a.click();
+  document.getElementById("verdict").innerHTML='<span class="ok">artifact saved.</span>';
+});
+document.getElementById("check").addEventListener("click",function(){
+  var f=(view==="diagnose"&&hidden)?truth:fault; var m=metrics(f);
+  if(view==="accuracy"){ var p=m.pos<=THR_POS && m.presErr<=THR_PRES; document.getElementById("verdict").innerHTML=p?'<span class="ok">PASS - twin validated.</span>':'<span class="warn">FAIL - exceeds thresholds (expected for an injected fault).</span>'; }
+  else if(view==="diagnose"){ document.getElementById("verdict").innerHTML = guessed? (guessed===f?'<span class="ok">Diagnosis correct.</span>':'<span class="warn">Diagnosis incorrect.</span>') : '<span class="warn">Pick a cause first.</span>'; }
+  else if(view==="sync"){ document.getElementById("verdict").innerHTML = Math.abs(m.bestShift)>3 ? (aligned?'<span class="ok">Aligned - now judge accuracy.</span>':'<span class="warn">Align first (click the plot).</span>') : '<span class="ok">No significant offset.</span>'; }
+  else { document.getElementById("verdict").innerHTML='<span class="ok">Compared - RMSE '+(m.pos*1000).toFixed(1)+' mm.</span>'; }
+});
+
+render();
+</script>
+</body>
+</html>
