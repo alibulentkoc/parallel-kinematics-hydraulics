@@ -114,12 +114,11 @@ nav:
       - "2-DOF Machine Design": capstone/2dof-design.md
       - "3-DOF Machine Design": capstone/3dof-design.md
   - "Reference Handbook":
-      - "Overview": handbook.md
-      - "Kinematics & the Math of Motion": 01-kinematics-and-motion.md
-      - "Hydraulic Design & Calculations": 02-hydraulic-design.md
-      - "The Control System": 03-control-system.md
-      - "Electrical & Control Wiring": 04-electrical-and-control-wiring.md
-      - "Worked Design Example": 05-design-worked-example.md
+      - "Overview": handbook/index.md
+      - "2 · Kinematic Twin": handbook/02-kinematic-twin.md
+      - "3 · Hydraulic Twin": handbook/03-hydraulic-twin.md
+      - "4 · Control Twin": handbook/04-control-twin.md
+      - "5 · Validation Twin": handbook/05-validation-twin.md
   - "Interactive Demos": demos/index.html
   - "Python & Notebooks": notebooks/index.md
   - "Roadmap": roadmap.md
