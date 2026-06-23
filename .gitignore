@@ -24,3 +24,6 @@ submission_*.json
 
 # MkDocs build output
 /site/
+
+__pycache__/
+*.pyc
