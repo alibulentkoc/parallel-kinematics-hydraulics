@@ -25,7 +25,7 @@ handbook](handbook.md) and [interactive demos](demos/index.html) back them up.
 ## ✅ Module 2 — Hydraulic Actuation *(complete)*
 
 Reference: [Hydraulic Design & Calculations](handbook/03-hydraulic-twin.md) · demos:
-[Cylinder Asymmetry](demos/cylinder-asymmetry.html), [Valve Flow Law](demos/orifice-flow.html)
+[Hydraulic Explorer](demos/hydraulic-explorer.html), [Hydraulic Explorer](demos/hydraulic-explorer.html)
 
 - **Unit 1 — Cylinders & Asymmetry**
     - [1.1 The Hydraulic Cylinder](module02/1-1-the-hydraulic-cylinder.md)
@@ -38,7 +38,7 @@ Reference: [Hydraulic Design & Calculations](handbook/03-hydraulic-twin.md) · d
 
 ## ✅ Module 3 — Closed-Loop Control *(complete)*
 
-Reference: [The Control System](handbook/04-control-twin.md) · demo: [PID Tuning](demos/pid-tuning.html)
+Reference: [The Control System](handbook/04-control-twin.md) · demo: [PWM Control Lab](demos/pwm-control-lab.html)
 
 - **Unit 1 — The Feedback Loop**
     - [1.1 Why Feedback](module03/1-1-why-feedback.md)

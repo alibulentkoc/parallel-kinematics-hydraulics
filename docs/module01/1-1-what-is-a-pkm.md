@@ -49,7 +49,7 @@ Two defining traits fall out of this picture:
 ## 3. Mathematical Foundations
 
 *(Light by design — this lesson motivates the mathematics rather than deriving it.
-The tools named here are built in full across Units 2–3.)*
+The tools named here are built in full across the kinematics lessons that follow.)*
 
 The machine's core questions are two, and they're inverses of each other:
 
@@ -193,7 +193,7 @@ system.
   **forward kinematics** (leg lengths → pose, hard).
 - A platform's **pose** is \((x, y)\) for 2-DOF, \((x, y, \theta)\) for 3-DOF.
 - You don't need the math yet — you need the **map**: pose ↔ leg lengths, with
-  geometry as the translator. Units 2–3 fill it in.
+  geometry as the translator. The remaining kinematics lessons fill it in.
 
 ## AI Learning Companion
 

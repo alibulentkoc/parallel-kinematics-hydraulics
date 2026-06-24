@@ -27,7 +27,7 @@ DEMOTITLE = {
 APPROVED_QUIZ = re.compile(r"quizzes/quiz-[1-6]-")
 LEGACY = re.compile(
     r"assets/|_archive-|quizzes/m[0-9]-l|handbook\.md|"
-    r"pid-tuning|cylinder-asymmetry|orifice-flow|Unit [0-9]|## Aligned assets"
+    r"pid-tuning|cylinder-asymmetry|orifice-flow|Units? [0-9]|## Aligned assets"
 )
 MATH = re.compile(r"\\\(|\$\$")
 GRADING_LESSON = "2-2-grading-sim-and-hardware.md"
@@ -135,6 +135,36 @@ def check_lesson(path):
     return fails, broken
 
 
+
+def check_site_structure():
+    """Gate the nav + homepage too (mkdocs.yml, docs/index.md). Returns list of failures."""
+    fails = []
+    try:
+        cfg = open("mkdocs.yml", encoding="utf-8").read()
+    except OSError:
+        return ["mkdocs.yml-missing"]
+    # inspect only the nav: block (not extra_javascript/css/theme asset paths)
+    m = re.search(r"^nav:.*?(?=^[A-Za-z_]+:)", cfg, re.S | re.M)
+    nav = m.group(0) if m else cfg
+    if re.search(r"Units? [0-9]", nav):
+        fails.append("nav:unit-framing")
+    if "Reference Handbook" in nav:
+        fails.append("nav:reference-handbook-label")
+    if re.search(r"/archive/|_archive-|handbook\.md|quizzes/m[0-9]-l", nav):
+        fails.append("nav:legacy-page-link")
+    try:
+        home = open(os.path.join(DOCS, "index.md"), encoding="utf-8").read()
+        if re.search(r"code pointer|tested source \(`src/`\)", home):
+            fails.append("home:src-code-pointer")
+        if re.search(r"reference handbook", home, re.I):
+            fails.append("home:reference-handbook")
+        if re.search(r"Units? [0-9]", home):
+            fails.append("home:unit-framing")
+    except OSError:
+        fails.append("index.md-missing")
+    return fails
+
+
 def main(argv):
     args = [a for a in argv if not a.startswith("--")]
     flags = {a for a in argv if a.startswith("--")}
@@ -163,6 +193,12 @@ def main(argv):
         results.append({"lesson": os.path.basename(f), "status": status,
                         "failed_checks": fails, "broken_assets": broken})
 
+    site_fails = check_site_structure() if (not args and "--changed-only" not in flags) else []
+    for sf in site_fails:
+        print("  REVISE  mkdocs.yml/index.md -> " + sf)
+    if site_fails:
+        n_rev += 1
+
     if "--json" in flags:
         print(json.dumps({"results": results, "pass": n_pass, "revise": n_rev,
                           "links_checked": links, "links_broken": broken_total}, indent=2))
@@ -178,7 +214,7 @@ def main(argv):
         if n_rev == 0 and not args and "--changed-only" not in flags:
             print("Lesson Consistency Gate: PASS — all lessons conform.")
 
-    return 1 if n_rev else 0
+    return 1 if (n_rev or site_fails) else 0
 
 
 if __name__ == "__main__":

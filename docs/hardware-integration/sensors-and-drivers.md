@@ -157,4 +157,4 @@ driver voltages, given the ranges. Include answers.
 
 ---
 
-*Next lesson: [1.3 — The Closed-Loop Wiring & Safety Chain](1-3-wiring-and-safety.md), where it all connects — safely.*
+*Next lesson: [Wiring & Safety Chain](wiring-and-safety.md), where it all connects — safely.*

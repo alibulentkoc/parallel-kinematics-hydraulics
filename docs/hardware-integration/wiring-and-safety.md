@@ -169,4 +169,4 @@ pump saturation) to the real hardware interlock that would handle each.
 
 ---
 
-*Next lesson: [2.1 — Logging & the Canonical Schema](2-1-logging-and-schema.md), where the machine records what it did.*
+*Next: [Capstone — End-to-End 2-DOF Design](../capstone/2dof-design.md), where every piece comes together.*
