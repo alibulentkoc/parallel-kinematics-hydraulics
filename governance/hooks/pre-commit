@@ -1,0 +1,13 @@
+#!/bin/sh
+# Lesson Consistency Gate — pre-commit hook.
+# Checks only staged lesson files so commits stay fast.
+# Install once:  git config core.hooksPath governance/hooks
+python3 governance/lesson_consistency_check.py --changed-only
+status=$?
+if [ "$status" -ne 0 ]; then
+  echo "" >&2
+  echo "Lesson Consistency Gate blocked this commit — fix the lessons above." >&2
+  echo "(Run: python3 governance/lesson_consistency_check.py  to see the full tree.)" >&2
+  exit 1
+fi
+exit 0

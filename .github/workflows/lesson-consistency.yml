@@ -1,0 +1,19 @@
+name: lesson-consistency
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run Lesson Consistency Gate (full tree)
+        run: python3 governance/lesson_consistency_check.py
